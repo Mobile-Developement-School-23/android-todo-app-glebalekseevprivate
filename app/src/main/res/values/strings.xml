@@ -1,3 +1,14 @@
 <resources>
-    <string name="app_name">ToDoApp</string>
+    <string name="app_name">Мои дела</string>
+    <string name="count_done">Выполнено — %d</string>
+    <string name="important_symbol"> !! %1$s</string>
+    <string name="low_symbol">↓%1$s</string>
+    <string name="new_text">Новое</string>
+    <string name="save_text">СОХРАНИТЬ</string>
+    <string name="delete_text">Удалить</string>
+    <string-array name="importance_array">
+        <item>Нет</item>
+        <item>Низкий</item>
+        <item><font fgcolor="#FF453A">!! Высокий</font></item>
+    </string-array>
 </resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.ToDo" parent="TextAppearance.AppCompat"/>
+
+    <style name="TextAppearance.ToDo.LargeTitle" parent="TextAppearance.ToDo">
+        <item name="font">@font/roboto_medium</item>
+        <item name="android:textColor">?attr/label_primary</item>
+        <item name="android:textSize">32sp</item>
+        <item name="android:lineSpacingMultiplier">1.1875</item>
+    </style>
+
+    <style name="TextAppearance.ToDo.Title" parent="TextAppearance.ToDo">
+        <item name="font">@font/roboto_medium</item>
+        <item name="android:textColor">?attr/label_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.6</item>
+        <item name="android:letterSpacing">0.03</item>
+    </style>
+
+    <style name="TextAppearance.ToDo.Button" parent="TextAppearance.ToDo">
+        <item name="font">@font/roboto_medium</item>
+        <item name="android:textColor">?attr/label_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.7142</item>
+        <item name="android:letterSpacing">0.01</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="TextAppearance.ToDo.Body" parent="TextAppearance.ToDo">
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/label_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:lineSpacingMultiplier">1.25</item>
+    </style>
+
+    <style name="TextAppearance.ToDo.Subhead" parent="TextAppearance.ToDo">
+        <item name="font">@font/roboto_regular</item>
+        <item name="android:textColor">?attr/label_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lineSpacingMultiplier">1.4285</item>
+    </style>
+</resources>

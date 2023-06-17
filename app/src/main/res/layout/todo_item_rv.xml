@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/left_ll"
+        android:layout_width="600dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="?attr/color_green"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout" >
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/set_done_ib"
+            android:layout_width="@dimen/swipe_backlash"
+            android:layout_height="match_parent"
+            android:src="@drawable/check"
+            android:background="?attr/color_green"
+            android:tint="@color/white"
+            />
+    </LinearLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/back_secondary"
+        android:paddingHorizontal="19dp"
+        android:paddingVertical="15dp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <CheckBox
+            android:id="@+id/is_done_cb"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/important_checkbox_selector"
+            android:button="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_tv"
+            style="@style/TextAppearance.ToDo.Body"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:layout_constraintEnd_toStartOf="@+id/info_ib"
+            app:layout_constraintStart_toEndOf="@+id/is_done_cb"
+            app:layout_constraintTop_toTopOf="@+id/is_done_cb"
+            tools:text="text" />
+
+
+        <ImageButton
+            android:id="@+id/info_ib"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="TODO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_tv"
+            app:srcCompat="@drawable/info_outline"
+            app:tint="?attr/label_tertiary" />
+
+        <TextView
+            android:id="@+id/deadline_tv"
+            style="@style/TextAppearance.ToDo.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:textColor="?attr/label_tertiary"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@+id/text_tv"
+            app:layout_constraintTop_toBottomOf="@+id/text_tv"
+            tools:text="12 мая 2023" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="600dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:background="?attr/color_red"
+        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/delete_ib"
+            android:layout_width="@dimen/swipe_backlash"
+            android:layout_height="match_parent"
+            android:background="?attr/color_red"
+            android:src="@drawable/delete"
+            android:tint="@color/white"
+            />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

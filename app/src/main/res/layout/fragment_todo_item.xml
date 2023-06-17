@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/back_primary">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/back_primary"
+        app:elevation="@dimen/elevation"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="@style/Style.ToDo.Toolbar.Todo"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            android:theme="@style/Theme.ToDoApp.Save"
+            app:navigationIcon="@drawable/close"
+            app:navigationIconTint="?attr/label_primary"
+            android:clickable="true"
+            app:menu="@menu/todo_fragment_menu"
+            tools:menu="@menu/todo_fragment_menu"
+            android:focusable="true" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+            android:paddingBottom="64dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:background="?attr/back_secondary"
+                android:elevation="@dimen/elevation"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/text_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:autofillHints="name"
+                    android:background="@android:color/transparent"
+                    android:hint="Купить что-то"
+                    android:textColorHint="?attr/label_tertiary"
+                    android:textColor="?attr/label_primary"
+                    android:inputType="textMultiLine"
+                    android:textCursorDrawable="@drawable/cursor"
+                    android:textAppearance="@style/TextAppearance.ToDo.Body"
+                    android:minHeight="104dp"
+                    android:padding="16dp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/important_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Важность"
+                android:layout_marginTop="28dp"
+                android:textColor="?attr/label_primary"
+                android:textAppearance="@style/TextAppearance.ToDo.Body"
+                app:layout_constraintStart_toStartOf="@+id/materialCardView"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:entries="@array/importance_array"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="@+id/important_tv"
+                app:layout_constraintTop_toBottomOf="@+id/important_tv"
+                />
+
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider2"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="16dp"
+                app:dividerColor="?attr/support_separator"
+                app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+                app:layout_constraintStart_toStartOf="@+id/materialCardView"
+                app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Сделать до"
+                android:textColor="?attr/label_primary"
+                android:textAppearance="@style/TextAppearance.ToDo.Body"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/materialCardView"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
+
+            <TextView
+                android:id="@+id/deadline_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/color_blue"
+                android:textAppearance="@style/TextAppearance.ToDo.Subhead"
+                android:layout_marginTop="4dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintStart_toStartOf="@+id/materialCardView"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:text="2 января 2022" />
+
+<!--            <androidx.appcompat.widget.SwitchCompat-->
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/deadline_sw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/deadline_date_tv"
+                app:layout_constraintEnd_toEndOf="@+id/materialCardView"
+                app:layout_constraintTop_toTopOf="@+id/textView"
+                tools:checked="true" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/materialDivider"
+                android:layout_width="0dp"
+                android:layout_height="0.5dp"
+                app:dividerColor="?attr/support_separator"
+                android:layout_marginTop="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/deadline_date_tv" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/delete_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/delete"
+                android:drawablePadding="12dp"
+                android:drawableTint="?attr/color_red"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingVertical="23dp"
+                android:paddingHorizontal="16dp"
+                android:text="@string/delete_text"
+                android:textAppearance="@style/TextAppearance.ToDo.Body"
+                android:textColor="?attr/color_red"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

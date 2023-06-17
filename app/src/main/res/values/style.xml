@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Style.ToDo.RoundedFloatingActionButton" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/RoundedShapeAppearanceOverlay</item>
+    </style>
+
+    <style name="RoundedShapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="Style.ToDo.Toolbar.Todo" parent="">
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <style name="Style.ToDo.SpinnerItem" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.ToDo.Subhead</item>
+        <item name="android:textColor">?attr/label_tertiary</item>
+        <item name="android:paddingEnd">96dp</item>
+    </style>
+
+    <style name="Style.ToDo.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@color/switch_thumb_selector</item>
+        <item name="trackTint">@color/switch_track_selector</item>
+    </style>
+
+</resources>
+
+

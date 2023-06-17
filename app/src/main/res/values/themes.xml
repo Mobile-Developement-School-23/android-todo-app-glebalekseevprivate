@@ -1,9 +1,31 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ToDoApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Theme.ToDoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/back_primary</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="support_separator">@color/gray_500</item>
+        <item name="support_overlay">@color/light_700</item>
+        <item name="label_primary">@color/black</item>
+        <item name="label_secondary">@color/dark_400</item>
+        <item name="label_tertiary">@color/gray_600</item>
+        <item name="label_disable">@color/gray_400</item>
+        <item name="color_red">@color/red_600</item>
+        <item name="color_red_20">@color/red_600_20</item>
+        <item name="color_green">@color/green_600</item>
+        <item name="color_blue">@color/blue_600</item>
+        <item name="color_blue_30">@color/blue_600_30</item>
+        <item name="color_gray">@color/gray_800</item>
+        <item name="color_gray_light">@color/gray_300</item>
+        <item name="color_white">@color/white</item>
+        <item name="back_primary">@color/light_500</item>
+        <item name="back_secondary">@color/white</item>
+        <item name="back_elevated">@color/white</item>
+
+        <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
+        <item name="switchStyle">@style/Style.ToDo.Switch</item>
     </style>
 
-    <style name="Theme.ToDoApp" parent="Base.Theme.ToDoApp" />
+    <style name="Theme.ToDoApp.Save">
+        <item name="android:actionMenuTextAppearance">@style/TextAppearance.ToDo.Button</item>
+        <item name="android:textColorPrimary">?attr/color_blue</item>
+    </style>
 </resources>

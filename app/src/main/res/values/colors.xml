@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="light_200">#99FFFFFF</color> <!-- label_dark_secondary -->
+    <color name="light_300">#33FFFFFF</color> <!-- support_dark_separator -->
+    <color name="light_400">#66FFFFFF</color> <!-- label_dark_tertiary -->
+    <color name="light_500">#F7F6F2</color> <!-- back_light_primary -->
+    <color name="light_700">#0F000000</color> <!-- support_light_overlay -->
+
+    <color name="gray_250">#26FFFFFF</color> <!-- label_dark_disable -->
+    <color name="gray_300">#D1D1D6</color> <!-- color_light_gray_light -->
+    <color name="gray_400">#26000000</color> <!-- label_light_disable -->
+    <color name="gray_500">#33000000</color> <!-- support_light_separator -->
+    <color name="gray_600">#4D000000</color> <!-- label_light_tertiary -->
+    <color name="gray_700">#52000000</color> <!-- support_dark_overlay -->
+    <color name="gray_800">#8E8E93</color> <!-- color_light_gray color_dark_gray -->
+
+    <color name="dark_400">#99000000</color> <!-- label_light_secondary -->
+    <color name="dark_500">#48484A</color> <!-- color_dark_gray_light -->
+    <color name="dark_600">#3C3C3F</color> <!-- back_dark_elevated -->
+    <color name="dark_700">#161618</color> <!-- back_dark_primary -->
+    <color name="dark_800">#252528</color> <!-- back_dark_secondary -->
+
+    <color name="black">#000000</color> <!-- label_light_primary -->
+    <color name="white">#FFFFFF</color> <!-- color_light_white label_dark_primary back_light_secondary back_light_elevated color_dark_white -->
+    <color name="blue_400">#0A84FF</color> <!-- color_dark_blue -->
+    <color name="blue_400_30">#500A84FF</color> <!-- color_dark_blue -->
+    <color name="blue_600">#007AFF</color> <!-- color_light_blue -->
+    <color name="blue_600_30">#50007AFF</color> <!-- color_light_blue -->
+    <color name="red_400">#FF453A</color> <!-- color_dark_red -->
+    <color name="red_400_20">#33FF453A</color> <!-- color_dark_red -->
+    <color name="red_600">#FF3B30</color> <!-- color_light_red -->
+    <color name="red_600_20">#33FF3B30</color> <!-- color_light_red -->
+    <color name="green_400">#32D74B</color> <!-- color_dark_green -->
+    <color name="green_600">#34C759</color> <!-- color_light_green -->
 </resources>

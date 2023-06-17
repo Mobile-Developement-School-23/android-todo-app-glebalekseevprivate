@@ -1,7 +1,23 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.ToDoApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+    <style name="Theme.ToDoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/back_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="support_separator">@color/light_300</item>
+        <item name="support_overlay">@color/gray_700</item>
+        <item name="label_primary">@color/white</item>
+        <item name="label_secondary">@color/light_200</item>
+        <item name="label_tertiary">@color/light_400</item>
+        <item name="label_disable">@color/gray_400</item>
+        <item name="color_red">@color/red_400</item>
+        <item name="color_red_20">@color/red_400_20</item>
+        <item name="color_green">@color/green_400</item>
+        <item name="color_blue">@color/blue_400</item>
+        <item name="color_blue_30">@color/blue_400_30</item>
+        <item name="color_gray">@color/gray_800</item>
+        <item name="color_gray_light">@color/dark_500</item>
+        <item name="color_white">@color/white</item>
+        <item name="back_primary">@color/dark_700</item>
+        <item name="back_secondary">@color/dark_800</item>
+        <item name="back_elevated">@color/dark_600</item>
     </style>
 </resources>
