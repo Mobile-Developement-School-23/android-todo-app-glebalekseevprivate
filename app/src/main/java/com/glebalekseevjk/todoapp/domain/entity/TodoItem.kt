@@ -18,6 +18,7 @@ data class TodoItem(
             NORMAL,
             IMPORTANT
         }
+
         val testTodoItems: MutableList<TodoItem> = mutableListOf(
             TodoItem(
                 id = "1",

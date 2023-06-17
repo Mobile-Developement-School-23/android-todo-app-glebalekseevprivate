@@ -85,20 +85,20 @@ class TodoItemsViewModel : ViewModel() {
         }
     }
 
-    private fun changeDoneStatus(todoId: String, context: Context){
+    private fun changeDoneStatus(todoId: String, context: Context) {
         viewModelScope.launch {
             todoItemsUseCase.changeDoneStatus(todoId).printFailure(context)
         }
     }
 
-    private fun deleteTodoItem(todoId: String, context: Context){
+    private fun deleteTodoItem(todoId: String, context: Context) {
         viewModelScope.launch {
             todoItemsUseCase.deleteTodoItem(todoId).printFailure(context)
         }
     }
 
 
-    private fun setDoneStatus(todoId: String, context: Context){
+    private fun setDoneStatus(todoId: String, context: Context) {
         viewModelScope.launch {
             todoItemsUseCase.setDoneStatus(todoId).printFailure(context)
         }

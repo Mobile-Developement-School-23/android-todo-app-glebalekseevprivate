@@ -21,7 +21,6 @@ import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsState
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsViewModel
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.pow
 
@@ -131,7 +130,8 @@ class TodoItemsFragment : Fragment() {
                         todoItemsAdapter.submitList(todoItemsState.todoItemsDisplay)
                         binding.countDoneTodoTv.text = String.format(
                             resources.getString(R.string.count_done),
-                            todoItemsState.todoItems.filter { it.isDone }.size)
+                            todoItemsState.todoItems.filter { it.isDone }.size
+                        )
                         checkVisibilityButton(todoItemsState.visibility)
                     }
 
@@ -149,7 +149,8 @@ class TodoItemsFragment : Fragment() {
     }
 
     private fun checkVisibilityButton(visibility: Boolean) {
-        binding.isShowDone.backgroundTintList = ColorStateList.valueOf(requireContext().getColorFromTheme(R.attr.color_blue))
+        binding.isShowDone.backgroundTintList =
+            ColorStateList.valueOf(requireContext().getColorFromTheme(R.attr.color_blue))
         if (visibility) {
             binding.isShowDone.background =
                 AppCompatResources.getDrawable(requireContext(), R.drawable.visibility)

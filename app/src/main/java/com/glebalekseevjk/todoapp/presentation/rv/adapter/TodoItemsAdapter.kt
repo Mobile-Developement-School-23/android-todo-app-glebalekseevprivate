@@ -18,7 +18,6 @@ import com.glebalekseevjk.todoapp.domain.entity.TodoItem
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.IMPORTANT
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.LOW
 import com.glebalekseevjk.todoapp.presentation.rv.callback.TodoItemDiffCallBack
-import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsAction
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
 import com.glebalekseevjk.todoapp.utils.getMarginSpan
 import java.text.SimpleDateFormat
@@ -27,11 +26,11 @@ import java.util.Locale
 
 class TodoItemsAdapter :
     ListAdapter<TodoItem, ViewHolder>(TodoItemDiffCallBack()) {
-    var editClickListener: ((todoId: String)->Unit)? = null
-    var changeDoneStatusClickListener: ((todoId: String)->Unit)? = null
-    var setDoneStatusClickListener: ((todoId: String, viewHolder: ViewHolder)->Unit)? = null
-    var addTodoItemClickListener: (()->Unit)? = null
-    var deleteTodoItemClickListener: ((todoId: String, viewHolder: ViewHolder)->Unit)? = null
+    var editClickListener: ((todoId: String) -> Unit)? = null
+    var changeDoneStatusClickListener: ((todoId: String) -> Unit)? = null
+    var setDoneStatusClickListener: ((todoId: String, viewHolder: ViewHolder) -> Unit)? = null
+    var addTodoItemClickListener: (() -> Unit)? = null
+    var deleteTodoItemClickListener: ((todoId: String, viewHolder: ViewHolder) -> Unit)? = null
 
     inner class TaskItemViewHolder(val binding: TodoItemRvBinding) :
         ViewHolder(binding.root)
@@ -52,9 +51,7 @@ class TodoItemsAdapter :
                 val binding = TodoItemRvBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-                TaskItemViewHolder(binding).also {
-                    println("============= onCreateViewHolder viewolder = $it")
-                }
+                TaskItemViewHolder(binding)
             }
 
             VIEW_TYPE_FOOTER -> {
@@ -68,10 +65,8 @@ class TodoItemsAdapter :
         }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        println("============= onBindViewHolder holder=$holder position+$position")
-
-        when(holder){
-            is TaskItemViewHolder ->{
+        when (holder) {
+            is TaskItemViewHolder -> {
                 val todoItem = getItem(position)
                 val binding = holder.binding
                 val context = binding.textTv.context
@@ -93,9 +88,10 @@ class TodoItemsAdapter :
                     setDoneStatusClickListener?.invoke(todoItem.id, holder)
                 }
             }
-            is FooterItemViewHolder ->{
+
+            is FooterItemViewHolder -> {
                 val binding = holder.binding
-                binding.newTodoTv.setOnClickListener{
+                binding.newTodoTv.setOnClickListener {
                     addTodoItemClickListener?.invoke()
                 }
             }

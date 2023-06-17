@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.databinding.FragmentTodoItemBinding
-import com.glebalekseevjk.todoapp.domain.entity.TodoItem
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.*
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemState
@@ -168,7 +167,7 @@ class TodoItemFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.save_todo -> {
-                        when (val todoItemState = todoViewModel.todoItemState.value) {
+                        when (todoViewModel.todoItemState.value) {
                             is TodoItemState.Init -> {}
                             is TodoItemState.Loaded -> {
                                 todoViewModel.dispatch(TodoItemAction.SaveTodoItem)
@@ -196,11 +195,13 @@ class TodoItemFragment : Fragment() {
                         if (todoItemState.todoItem.deadline != null) View.VISIBLE else View.INVISIBLE
                     binding.deadlineDateTv.text =
                         todoItemState.todoItem.deadline?.let { formatter.format(it) }
-                    binding.spinner.setSelection(when(todoItemState.todoItem.importance){
-                        LOW -> 1
-                        NORMAL -> 0
-                        IMPORTANT -> 2
-                    })
+                    binding.spinner.setSelection(
+                        when (todoItemState.todoItem.importance) {
+                            LOW -> 1
+                            NORMAL -> 0
+                            IMPORTANT -> 2
+                        }
+                    )
                     when (todoItemState) {
                         is TodoItemState.Init -> {}
                         is TodoItemState.Loaded -> {

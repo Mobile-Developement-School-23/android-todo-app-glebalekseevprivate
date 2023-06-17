@@ -3,16 +3,13 @@ package com.glebalekseevjk.todoapp.presentation.rv.callback
 import android.animation.ValueAnimator
 import android.graphics.Canvas
 import android.view.View
-import android.widget.LinearLayout
 import androidx.core.math.MathUtils
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_SWIPE
 import androidx.recyclerview.widget.ItemTouchHelper.Callback
 import androidx.recyclerview.widget.ItemTouchHelper.LEFT
 import androidx.recyclerview.widget.ItemTouchHelper.RIGHT
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.presentation.rv.adapter.TodoItemsAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -122,7 +119,6 @@ class SwipeCallback constructor(private val scrollConstraintOffset: Float) : Cal
                 }
                 if (scroll > scrollConstraintOffset.toInt()) {
                     val scrollOffset = getScrollOffsetWithConstraint(startScrollX, dX)
-//                    viewHolder.itemView.scrollTo(scrollOffset, 0)
                     valueAnimator =
                         ValueAnimator.ofFloat(boundaryScrollX.toFloat(), scrollOffset.toFloat())
                     CoroutineScope(Dispatchers.Main).launch {
