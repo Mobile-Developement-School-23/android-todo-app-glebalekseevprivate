@@ -40,12 +40,13 @@ class TodoItemFragment : Fragment() {
     private val args: TodoItemFragmentArgs by navArgs()
     private lateinit var todoViewModel: TodoItemViewModel
     private lateinit var navController: NavController
-    private val formatter = SimpleDateFormat(resources.getString(R.string.date_pattern), Locale("ru"))
+    private lateinit var formatter: SimpleDateFormat
     private lateinit var datePickerDialog: DatePickerDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         todoViewModel = ViewModelProvider(this)[TodoItemViewModel::class.java]
+        formatter = SimpleDateFormat(resources.getString(R.string.date_pattern), Locale("ru"))
         if (savedInstanceState == null) {
             parseParams()
         }
