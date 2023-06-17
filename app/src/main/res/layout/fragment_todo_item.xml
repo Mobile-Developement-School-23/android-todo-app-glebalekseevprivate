@@ -20,13 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/transparent"
+            android:clickable="true"
+            android:focusable="true"
             android:theme="@style/Theme.ToDoApp.Save"
+            app:menu="@menu/todo_fragment_menu"
             app:navigationIcon="@drawable/close"
             app:navigationIconTint="?attr/label_primary"
-            android:clickable="true"
-            app:menu="@menu/todo_fragment_menu"
-            tools:menu="@menu/todo_fragment_menu"
-            android:focusable="true" />
+            tools:menu="@menu/todo_fragment_menu" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -36,8 +36,8 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
             android:paddingBottom="64dp">
 
             <com.google.android.material.card.MaterialCardView
@@ -56,27 +56,27 @@
                     android:id="@+id/text_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start|top"
                     android:autofillHints="name"
                     android:background="@android:color/transparent"
-                    android:hint="Купить что-то"
-                    android:textColorHint="?attr/label_tertiary"
-                    android:textColor="?attr/label_primary"
+                    android:gravity="start|top"
+                    android:hint="@string/example_todo_hint"
                     android:inputType="textMultiLine"
-                    android:textCursorDrawable="@drawable/cursor"
-                    android:textAppearance="@style/TextAppearance.ToDo.Body"
                     android:minHeight="104dp"
-                    android:padding="16dp" />
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.ToDo.Body"
+                    android:textColor="?attr/label_primary"
+                    android:textColorHint="?attr/label_tertiary"
+                    android:textCursorDrawable="@drawable/cursor" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/important_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Важность"
                 android:layout_marginTop="28dp"
-                android:textColor="?attr/label_primary"
+                android:text="@string/importance"
                 android:textAppearance="@style/TextAppearance.ToDo.Body"
+                android:textColor="?attr/label_primary"
                 app:layout_constraintStart_toStartOf="@+id/materialCardView"
                 app:layout_constraintTop_toBottomOf="@+id/materialCardView" />
 
@@ -84,12 +84,11 @@
                 android:id="@+id/spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:background="@android:color/transparent"
                 android:entries="@array/importance_array"
-                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="@+id/important_tv"
-                app:layout_constraintTop_toBottomOf="@+id/important_tv"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/important_tv" />
 
 
             <com.google.android.material.divider.MaterialDivider
@@ -107,10 +106,10 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Сделать до"
-                android:textColor="?attr/label_primary"
-                android:textAppearance="@style/TextAppearance.ToDo.Body"
                 android:layout_marginTop="16dp"
+                android:text="@string/deadline"
+                android:textAppearance="@style/TextAppearance.ToDo.Body"
+                android:textColor="?attr/label_primary"
                 app:layout_constraintStart_toStartOf="@+id/materialCardView"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
 
@@ -118,17 +117,17 @@
                 android:id="@+id/deadline_date_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="?attr/color_blue"
-                android:textAppearance="@style/TextAppearance.ToDo.Subhead"
                 android:layout_marginTop="4dp"
-                android:foreground="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:textAppearance="@style/TextAppearance.ToDo.Subhead"
+                android:textColor="?attr/color_blue"
                 app:layout_constraintStart_toStartOf="@+id/materialCardView"
                 app:layout_constraintTop_toBottomOf="@+id/textView"
                 tools:text="2 января 2022" />
 
-<!--            <androidx.appcompat.widget.SwitchCompat-->
+            <!--            <androidx.appcompat.widget.SwitchCompat-->
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/deadline_sw"
                 android:layout_width="wrap_content"
@@ -142,8 +141,8 @@
                 android:id="@+id/materialDivider"
                 android:layout_width="0dp"
                 android:layout_height="0.5dp"
-                app:dividerColor="?attr/support_separator"
                 android:layout_marginTop="40dp"
+                app:dividerColor="?attr/support_separator"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/deadline_date_tv" />
@@ -157,8 +156,8 @@
                 android:drawablePadding="12dp"
                 android:drawableTint="?attr/color_red"
                 android:foreground="?attr/selectableItemBackground"
-                android:paddingVertical="23dp"
                 android:paddingHorizontal="16dp"
+                android:paddingVertical="23dp"
                 android:text="@string/delete_text"
                 android:textAppearance="@style/TextAppearance.ToDo.Body"
                 android:textColor="?attr/color_red"

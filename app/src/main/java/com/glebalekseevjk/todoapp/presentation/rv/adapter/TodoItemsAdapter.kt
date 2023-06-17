@@ -174,7 +174,7 @@ class TodoItemsAdapter :
         if (todoItem.deadline == null) {
             binding.deadlineTv.visibility = View.GONE
         } else {
-            val formatter = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
+            val formatter = SimpleDateFormat(binding.root.context.resources.getString(R.string.date_pattern), Locale("ru"))
             binding.deadlineTv.text = formatter.format(todoItem.deadline)
             binding.deadlineTv.visibility = View.VISIBLE
         }

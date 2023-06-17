@@ -40,7 +40,7 @@ class TodoItemFragment : Fragment() {
     private val args: TodoItemFragmentArgs by navArgs()
     private lateinit var todoViewModel: TodoItemViewModel
     private lateinit var navController: NavController
-    private val formatter = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
+    private val formatter = SimpleDateFormat(resources.getString(R.string.date_pattern), Locale("ru"))
     private lateinit var datePickerDialog: DatePickerDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,8 +66,6 @@ class TodoItemFragment : Fragment() {
         initListeners()
         setupToolbar()
         observeTodoItemState()
-
-
     }
 
     override fun onDestroyView() {
@@ -86,7 +84,7 @@ class TodoItemFragment : Fragment() {
     private fun initDatePicker() {
         datePickerDialog = DatePickerDialog(requireActivity())
         datePickerDialog.setButton(
-            DatePickerDialog.BUTTON_POSITIVE, "готово",
+            DatePickerDialog.BUTTON_POSITIVE, resources.getString(R.string.ready),
             datePickerDialog
         )
         datePickerDialog.setOnDateSetListener { datePicker, _, _, _ ->

@@ -23,7 +23,6 @@
         <item name="thumbTint">@color/switch_thumb_selector</item>
         <item name="trackTint">@color/switch_track_selector</item>
     </style>
-
 </resources>
 
 
