@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.databinding.FragmentTodoItemBinding
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem
+import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.*
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemViewModel
@@ -120,9 +121,9 @@ class TodoItemFragment : Fragment() {
                 todoViewModel.dispatch(
                     TodoItemAction.SetImportance(
                         when (selectedItemPosition) {
-                            0 -> TodoItem.Companion.Importance.LOW
-                            1 -> TodoItem.Companion.Importance.NORMAL
-                            2 -> TodoItem.Companion.Importance.IMPORTANT
+                            1 -> LOW
+                            0 -> NORMAL
+                            2 -> IMPORTANT
                             else -> throw RuntimeException("Unknown importance")
                         }
                     )
@@ -147,7 +148,6 @@ class TodoItemFragment : Fragment() {
                             binding.deadlineDateTv.text =
                                 todoItemState.todoItem.deadline?.let { formatter.format(it) }
                         }
-                        datePickerDialog.show()
                     } else {
                         binding.deadlineDateTv.visibility = View.INVISIBLE
                         todoViewModel.dispatch(TodoItemAction.SetDeadline(null))
@@ -196,6 +196,11 @@ class TodoItemFragment : Fragment() {
                         if (todoItemState.todoItem.deadline != null) View.VISIBLE else View.INVISIBLE
                     binding.deadlineDateTv.text =
                         todoItemState.todoItem.deadline?.let { formatter.format(it) }
+                    binding.spinner.setSelection(when(todoItemState.todoItem.importance){
+                        LOW -> 1
+                        NORMAL -> 0
+                        IMPORTANT -> 2
+                    })
                     when (todoItemState) {
                         is TodoItemState.Init -> {}
                         is TodoItemState.Loaded -> {

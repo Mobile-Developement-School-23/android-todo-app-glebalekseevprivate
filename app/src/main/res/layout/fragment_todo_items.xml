@@ -64,7 +64,6 @@
                 android:layout_marginBottom="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="TODO"
-                app:srcCompat="@drawable/visibility"
                 app:tint="?attr/color_blue" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
