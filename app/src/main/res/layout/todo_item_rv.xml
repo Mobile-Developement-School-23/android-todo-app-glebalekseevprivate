@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,20 +9,20 @@
         android:id="@+id/left_ll"
         android:layout_width="600dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:background="?attr/color_green"
         android:gravity="end"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout" >
+        app:layout_constraintTop_toTopOf="@+id/constraintLayout">
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/set_done_ib"
             android:layout_width="@dimen/swipe_backlash"
             android:layout_height="match_parent"
-            android:src="@drawable/check"
             android:background="?attr/color_green"
-            android:tint="@color/white"
-            />
+            android:src="@drawable/check"
+            android:tint="@color/white" />
     </LinearLayout>
 
 
@@ -67,7 +66,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="TODO"
+            android:contentDescription="@string/edit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_tv"
             app:srcCompat="@drawable/info_outline"
@@ -91,20 +90,20 @@
     <LinearLayout
         android:layout_width="600dp"
         android:layout_height="0dp"
-        android:orientation="horizontal"
         android:background="?attr/color_red"
         android:gravity="start"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/constraintLayout">
+
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/delete_ib"
             android:layout_width="@dimen/swipe_backlash"
             android:layout_height="match_parent"
             android:background="?attr/color_red"
             android:src="@drawable/delete"
-            android:tint="@color/white"
-            />
+            android:tint="@color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

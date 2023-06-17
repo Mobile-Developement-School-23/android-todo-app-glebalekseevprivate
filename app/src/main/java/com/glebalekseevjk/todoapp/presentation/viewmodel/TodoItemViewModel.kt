@@ -43,22 +43,23 @@ class TodoItemViewModel : ViewModel() {
     private fun init(todoId: String) {
         viewModelScope.launch {
             val todoItem = todoItemsUseCase.getTodoItemOrNull(todoId).checkFailure()
-            when(val todoItemState = todoItemState.value){
+            when (val todoItemState = todoItemState.value) {
                 is TodoItemState.Init -> {
-                    if (todoItem != null){
+                    if (todoItem != null) {
                         _todoItemState.emit(TodoItemState.Loaded(todoItem, true))
-                    }else {
+                    } else {
                         _todoItemState.emit(TodoItemState.Loaded(todoItemState.todoItem, false))
 
                     }
                 }
+
                 else -> throw RuntimeException("init when loaded")
             }
         }
     }
 
-    private fun deleteTodoItem(){
-        when(val todoItemState = todoItemState.value){
+    private fun deleteTodoItem() {
+        when (val todoItemState = todoItemState.value) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 if (!todoItemState.isEdit) return
@@ -69,15 +70,15 @@ class TodoItemViewModel : ViewModel() {
         }
     }
 
-    private fun saveTodoItem(){
+    private fun saveTodoItem() {
         val todoItemState = todoItemState.value
-        when(todoItemState){
+        when (todoItemState) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
-                viewModelScope.launch{
-                    if (todoItemState.isEdit){
+                viewModelScope.launch {
+                    if (todoItemState.isEdit) {
                         todoItemsUseCase.update(todoItemState.todoItem)
-                    }else {
+                    } else {
                         todoItemsUseCase.add(todoItemState.todoItem)
                     }
                 }
@@ -85,8 +86,8 @@ class TodoItemViewModel : ViewModel() {
         }
     }
 
-    private fun setDeadLine(deadline: Date?){
-        when(val todoItemState = todoItemState.value){
+    private fun setDeadLine(deadline: Date?) {
+        when (val todoItemState = todoItemState.value) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {
@@ -101,8 +102,8 @@ class TodoItemViewModel : ViewModel() {
         }
     }
 
-    private fun setImportance(importance: TodoItem.Companion.Importance){
-        when(val todoItemState = todoItemState.value){
+    private fun setImportance(importance: TodoItem.Companion.Importance) {
+        when (val todoItemState = todoItemState.value) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {
@@ -118,7 +119,7 @@ class TodoItemViewModel : ViewModel() {
     }
 
     private fun setText(text: String) {
-        when(val todoItemState = todoItemState.value){
+        when (val todoItemState = todoItemState.value) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {

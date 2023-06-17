@@ -11,4 +11,12 @@
         <item>Низкий</item>
         <item><font fgcolor="#FF453A">!! Высокий</font></item>
     </string-array>
+    <string name="date_pattern">dd MMMM yyyy</string>
+    <string name="ready">готово</string>
+    <string name="edit">Редактирование</string>
+    <string name="add_new_todo">Добавить новую задачу</string>
+    <string name="show_all_hide_done">Отобразить все/Скрыть выполненные</string>
+    <string name="example_todo_hint">Купить что-то</string>
+    <string name="importance">Важность</string>
+    <string name="deadline">Сделать до</string>
 </resources>

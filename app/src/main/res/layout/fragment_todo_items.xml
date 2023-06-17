@@ -63,8 +63,7 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="TODO"
-                app:srcCompat="@drawable/visibility"
+                android:contentDescription="@string/show_all_hide_done"
                 app:tint="?attr/color_blue" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -117,7 +116,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
         android:clickable="true"
-        android:contentDescription="Add new task"
+        android:contentDescription="@string/add_new_todo"
         android:elevation="16dp"
         android:focusable="true"
         android:src="@drawable/add"

@@ -19,5 +19,15 @@
         <item name="back_primary">@color/dark_700</item>
         <item name="back_secondary">@color/dark_800</item>
         <item name="back_elevated">@color/dark_600</item>
+
+        <item name="colorAccent">?attr/color_blue</item>
+        <item name="colorPrimary">?attr/color_blue</item>
+        <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
+        <item name="switchStyle">@style/Style.ToDo.Switch</item>
+    </style>
+
+    <style name="Theme.ToDoApp.Save">
+        <item name="android:actionMenuTextAppearance">@style/TextAppearance.ToDo.Button</item>
+        <item name="android:textColorPrimary">?attr/color_blue</item>
     </style>
 </resources>

@@ -16,7 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.databinding.FragmentTodoItemBinding
-import com.glebalekseevjk.todoapp.domain.entity.TodoItem
+import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.*
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemViewModel
@@ -40,12 +40,13 @@ class TodoItemFragment : Fragment() {
     private val args: TodoItemFragmentArgs by navArgs()
     private lateinit var todoViewModel: TodoItemViewModel
     private lateinit var navController: NavController
-    private val formatter = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
+    private lateinit var formatter: SimpleDateFormat
     private lateinit var datePickerDialog: DatePickerDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         todoViewModel = ViewModelProvider(this)[TodoItemViewModel::class.java]
+        formatter = SimpleDateFormat(resources.getString(R.string.date_pattern), Locale("ru"))
         if (savedInstanceState == null) {
             parseParams()
         }
@@ -66,8 +67,6 @@ class TodoItemFragment : Fragment() {
         initListeners()
         setupToolbar()
         observeTodoItemState()
-
-
     }
 
     override fun onDestroyView() {
@@ -86,7 +85,7 @@ class TodoItemFragment : Fragment() {
     private fun initDatePicker() {
         datePickerDialog = DatePickerDialog(requireActivity())
         datePickerDialog.setButton(
-            DatePickerDialog.BUTTON_POSITIVE, "готово",
+            DatePickerDialog.BUTTON_POSITIVE, resources.getString(R.string.ready),
             datePickerDialog
         )
         datePickerDialog.setOnDateSetListener { datePicker, _, _, _ ->
@@ -120,9 +119,9 @@ class TodoItemFragment : Fragment() {
                 todoViewModel.dispatch(
                     TodoItemAction.SetImportance(
                         when (selectedItemPosition) {
-                            0 -> TodoItem.Companion.Importance.LOW
-                            1 -> TodoItem.Companion.Importance.NORMAL
-                            2 -> TodoItem.Companion.Importance.IMPORTANT
+                            1 -> LOW
+                            0 -> NORMAL
+                            2 -> IMPORTANT
                             else -> throw RuntimeException("Unknown importance")
                         }
                     )
@@ -147,7 +146,6 @@ class TodoItemFragment : Fragment() {
                             binding.deadlineDateTv.text =
                                 todoItemState.todoItem.deadline?.let { formatter.format(it) }
                         }
-                        datePickerDialog.show()
                     } else {
                         binding.deadlineDateTv.visibility = View.INVISIBLE
                         todoViewModel.dispatch(TodoItemAction.SetDeadline(null))
@@ -168,7 +166,7 @@ class TodoItemFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.save_todo -> {
-                        when (val todoItemState = todoViewModel.todoItemState.value) {
+                        when (todoViewModel.todoItemState.value) {
                             is TodoItemState.Init -> {}
                             is TodoItemState.Loaded -> {
                                 todoViewModel.dispatch(TodoItemAction.SaveTodoItem)
@@ -196,6 +194,13 @@ class TodoItemFragment : Fragment() {
                         if (todoItemState.todoItem.deadline != null) View.VISIBLE else View.INVISIBLE
                     binding.deadlineDateTv.text =
                         todoItemState.todoItem.deadline?.let { formatter.format(it) }
+                    binding.spinner.setSelection(
+                        when (todoItemState.todoItem.importance) {
+                            LOW -> 1
+                            NORMAL -> 0
+                            IMPORTANT -> 2
+                        }
+                    )
                     when (todoItemState) {
                         is TodoItemState.Init -> {}
                         is TodoItemState.Loaded -> {
