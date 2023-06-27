@@ -111,10 +111,13 @@ class TodoItemFragment : Fragment() {
             todoViewModel.dispatch(TodoItemAction.DeleteTodoItem)
             navController.popBackStack()
         }
+        binding.importantTv.setOnClickListener {
+            binding.spinner.performClick()
+        }
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+                itemSelected: View?, selectedItemPosition: Int, selectedId: Long
             ) {
                 todoViewModel.dispatch(
                     TodoItemAction.SetImportance(
@@ -155,6 +158,14 @@ class TodoItemFragment : Fragment() {
         }
         binding.deadlineDateTv.setOnClickListener {
             datePickerDialog.show()
+            todoViewModel.todoItemState.value.todoItem.deadline?.let {
+                val calendar = Calendar.getInstance()
+                calendar.time = it
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                datePickerDialog.updateDate(year, month, day)
+            }
         }
     }
 

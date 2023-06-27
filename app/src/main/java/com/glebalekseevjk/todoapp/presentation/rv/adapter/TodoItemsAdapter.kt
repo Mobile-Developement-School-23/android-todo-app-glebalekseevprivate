@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.glebalekseevjk.todoapp.R
@@ -20,6 +21,8 @@ import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.LO
 import com.glebalekseevjk.todoapp.presentation.rv.callback.TodoItemDiffCallBack
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
 import com.glebalekseevjk.todoapp.utils.getMarginSpan
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.shape.CornerFamily
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -70,7 +73,6 @@ class TodoItemsAdapter :
                 val todoItem = getItem(position)
                 val binding = holder.binding
                 val context = binding.textTv.context
-
                 binding.textTv.text = getTextWithImportancePrefix(context, todoItem)
                 checkIsDoneText(context, todoItem, binding)
                 checkIsDoneCheckBox(context, todoItem, binding)

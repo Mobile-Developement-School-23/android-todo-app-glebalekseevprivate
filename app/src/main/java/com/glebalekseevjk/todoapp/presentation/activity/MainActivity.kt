@@ -2,7 +2,6 @@ package com.glebalekseevjk.todoapp.presentation.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.data.TodoItemsRepositoryImpl
 

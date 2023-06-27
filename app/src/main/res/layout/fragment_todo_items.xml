@@ -2,35 +2,32 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?attr/back_primary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="?attr/back_primary">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        app:elevation="20dp"
-        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
         android:background="?attr/back_primary"
-        app:liftOnScroll="true"
-        >
+        app:elevation="20dp"
+        app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
+            android:background="?attr/back_primary"
+            android:elevation="20dp"
             app:collapsedTitleTextAppearance="@style/TextAppearance.ToDo.Title"
+            app:contentScrim="?attr/back_primary"
             app:expandedTitleGravity="top"
             app:expandedTitleMarginStart="60dp"
             app:expandedTitleMarginTop="82dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.ToDo.LargeTitle"
-            app:titleCollapseMode="scale"
-            app:contentScrim="?attr/back_primary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            android:background="?attr/back_primary"
-            android:elevation="20dp"
-            >
+            app:titleCollapseMode="scale">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -64,55 +61,43 @@
                 android:layout_marginBottom="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/show_all_hide_done"
+                android:padding="4dp"
                 app:tint="?attr/color_blue" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <androidx.core.widget.NestedScrollView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:animateLayoutChanges="true"
+        app:cardBackgroundColor="?attr/back_secondary"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:animateLayoutChanges="true"
-            android:id="@+id/linear_layout"
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/todo_list_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="16dp">
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/todo_item_rv" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:animateLayoutChanges="true"
-                android:id="@+id/material_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="?attr/back_secondary"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="2dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/todo_list_rv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/todo_item_rv" />
+    </com.google.android.material.card.MaterialCardView>
 
 
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_todo_btn"
         style="@style/Style.ToDo.RoundedFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|right|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="48dp"
         android:clickable="true"

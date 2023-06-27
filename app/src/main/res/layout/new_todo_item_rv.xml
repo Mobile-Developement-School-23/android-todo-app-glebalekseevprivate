@@ -12,6 +12,7 @@
         android:background="?attr/back_secondary"
         android:paddingHorizontal="39dp"
         android:paddingVertical="15dp"
+        android:layout_marginBottom="200dp"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

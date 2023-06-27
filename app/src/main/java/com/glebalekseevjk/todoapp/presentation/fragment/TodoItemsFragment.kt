@@ -21,6 +21,7 @@ import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsState
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsViewModel
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
+import com.google.android.material.shape.CornerFamily
 import kotlinx.coroutines.launch
 import kotlin.math.pow
 
@@ -71,9 +72,6 @@ class TodoItemsFragment : Fragment() {
     }
 
     private fun initUI() {
-        binding.linearLayout.layoutTransition = LayoutTransition().apply {
-            enableTransitionType(LayoutTransition.CHANGING)
-        }
         binding.materialCardView.layoutTransition = LayoutTransition().apply {
             enableTransitionType(LayoutTransition.CHANGING)
         }
