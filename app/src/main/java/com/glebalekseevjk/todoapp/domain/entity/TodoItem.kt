@@ -19,11 +19,11 @@ data class TodoItem(
             IMPORTANT
         }
 
-        val testTodoItems: MutableList<TodoItem> = mutableListOf(
+        val exampleTodoItems: List<TodoItem> = mutableListOf(
             TodoItem(
                 id = "1",
                 text = "Покупки: молоко, хлеб, яйца, сахар, соль, мука, овощи, фрукты, мясо, рыба, масло, кофе, чай, сок, йогурт, сыр, мороженое, консервы, шоколад, печенье.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 2) }.time,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -32,7 +32,7 @@ data class TodoItem(
             TodoItem(
                 id = "2",
                 text = "Встреча в 14:00 у кафе \"Солнечный\" на улице Пушкина. Обсудим проект, обновим планы и рассмотрим возможные стратегии. Прошу подготовить отчеты и идеи для обсуждения. Встреча займет около 2 часов. Буду ждать вас!",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -41,7 +41,7 @@ data class TodoItem(
             TodoItem(
                 id = "3",
                 text = "Посетить выставку современного искусства в музее.",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = Date(),
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -51,7 +51,7 @@ data class TodoItem(
             TodoItem(
                 id = "4",
                 text = "Записаться на курс английского языка для начинающих. Необходимо улучшить навыки грамматики и разговорной речи. Курс состоит из 10 занятий и начнется через неделю. Стоимость обучения - 5000 рублей. Запись производится по предварительной записи.",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 5) }.time,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -60,7 +60,7 @@ data class TodoItem(
             TodoItem(
                 id = "5",
                 text = "Начать писать свой собственный блог.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -69,7 +69,7 @@ data class TodoItem(
             TodoItem(
                 id = "6",
                 text = "Исследовать новые методы маркетинга для увеличения продаж. Изучить тенденции рынка, провести анализ конкурентов и определить оптимальные стратегии. Необходимо подготовить презентацию с результатами и рекомендациями для руководства компании.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -78,7 +78,7 @@ data class TodoItem(
             TodoItem(
                 id = "7",
                 text = "Найти время для отдыха и расслабления.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -87,7 +87,7 @@ data class TodoItem(
             TodoItem(
                 id = "8",
                 text = "Почистить весь дом и устроить генеральную уборку.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = null,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -96,7 +96,7 @@ data class TodoItem(
             TodoItem(
                 id = "9",
                 text = "Собрать команду для проекта.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 13) }.time,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -105,7 +105,7 @@ data class TodoItem(
             TodoItem(
                 id = "10",
                 text = "Сделать список целей на следующий год, определить приоритеты и способы их достижения. Разделить список на краткосрочные, среднесрочные и долгосрочные цели. Разработать план действий и контрольные точки для отслеживания прогресса.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -114,7 +114,7 @@ data class TodoItem(
             TodoItem(
                 id = "11",
                 text = "Встреча в 14:00 у кафе \"Солнечный\".",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -123,7 +123,7 @@ data class TodoItem(
             TodoItem(
                 id = "12",
                 text = "Покупки: молоко, хлеб, яйца, сахар.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -132,7 +132,7 @@ data class TodoItem(
             TodoItem(
                 id = "13",
                 text = "Начать заниматься йогой каждое утро.",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -141,7 +141,7 @@ data class TodoItem(
             TodoItem(
                 id = "14",
                 text = "айти время для отдыха и расслабления. Определить активности, которые приносят удовольствие и помогают расслабиться: чтение книги, прогулки на свежем воздухе, слушание музыки или просто отдых в тишине. Планировать время для себя и отключения от повседневных дел.",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -150,7 +150,7 @@ data class TodoItem(
             TodoItem(
                 id = "15",
                 text = "Встреча в 14:00.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 32) }.time,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -159,7 +159,7 @@ data class TodoItem(
             TodoItem(
                 id = "16",
                 text = "Забронировать билеты на концерт.",
-                importance = Importance.IMPORTANT,
+                importance = TodoItem.Companion.Importance.IMPORTANT,
                 deadline = null,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
@@ -168,7 +168,7 @@ data class TodoItem(
             TodoItem(
                 id = "17",
                 text = "Почистить дом.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -177,7 +177,7 @@ data class TodoItem(
             TodoItem(
                 id = "18",
                 text = "Пойти в спортзал.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -186,7 +186,7 @@ data class TodoItem(
             TodoItem(
                 id = "19",
                 text = "Посетить выставку искусства.",
-                importance = Importance.LOW,
+                importance = TodoItem.Companion.Importance.LOW,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
@@ -195,7 +195,7 @@ data class TodoItem(
             TodoItem(
                 id = "20",
                 text = "Поставить цветы на окне.",
-                importance = Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.NORMAL,
                 deadline = Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 42) }.time,
                 isDone = true,
                 createdAt = Calendar.getInstance().time,
