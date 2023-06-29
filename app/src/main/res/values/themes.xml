@@ -19,6 +19,8 @@
         <item name="back_primary">@color/light_500</item>
         <item name="back_secondary">@color/white</item>
         <item name="back_elevated">@color/white</item>
+        <item name="yandex_auth_button">@color/black</item>
+        <item name="yandex_auth_button_text">@color/white</item>
 
         <item name="colorAccent">?attr/color_blue</item>
         <item name="colorPrimary">?attr/color_blue</item>

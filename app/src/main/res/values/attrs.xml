@@ -17,4 +17,6 @@
     <attr name="back_primary" format="color|reference"/>
     <attr name="back_secondary" format="color|reference"/>
     <attr name="back_elevated" format="color|reference"/>
+    <attr name="yandex_auth_button" format="color|reference"/>
+    <attr name="yandex_auth_button_text" format="color|reference"/>
 </resources>
