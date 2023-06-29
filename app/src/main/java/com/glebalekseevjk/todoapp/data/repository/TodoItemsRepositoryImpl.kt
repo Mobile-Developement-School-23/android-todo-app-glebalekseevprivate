@@ -1,4 +1,4 @@
-package com.glebalekseevjk.todoapp.data
+package com.glebalekseevjk.todoapp.data.repository
 
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem
 import com.glebalekseevjk.todoapp.domain.repository.TodoItemsRepository
@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 
+private val todoItems = MutableStateFlow(TodoItem.exampleTodoItems)
+
+@Deprecated("Old class no longer in use")
 class TodoItemsRepositoryImpl : TodoItemsRepository {
     override fun getTodoItems(): Flow<Resource<List<TodoItem>>> =
         todoItems.transform { emit(Resource.Success(it)) }
@@ -67,5 +70,3 @@ class TodoItemsRepositoryImpl : TodoItemsRepository {
             return@withContext Resource.Success(Unit)
         }
 }
-
-private val todoItems = MutableStateFlow(TodoItem.testTodoItems)
