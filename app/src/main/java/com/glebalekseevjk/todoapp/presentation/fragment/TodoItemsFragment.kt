@@ -72,6 +72,7 @@ class TodoItemsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
         super.onViewCreated(view, savedInstanceState)
         initNavigationUI()
         initListeners()
@@ -81,6 +82,7 @@ class TodoItemsFragment : Fragment() {
         observeTodoItemsState()
         initTodoItemsState()
         observeNotifications()
+        startPostponedEnterTransition()
     }
 
 

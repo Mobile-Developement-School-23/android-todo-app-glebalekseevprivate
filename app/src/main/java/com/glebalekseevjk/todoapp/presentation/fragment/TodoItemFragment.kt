@@ -73,12 +73,14 @@ class TodoItemFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
         super.onViewCreated(view, savedInstanceState)
         initNavigationUI()
         initDatePicker()
         observeTodoItemState()
         initListeners()
         setupToolbar()
+        startPostponedEnterTransition()
     }
 
     override fun onDestroyView() {

@@ -11,6 +11,10 @@
         <action
             android:id="@+id/action_todoItemsFragment_to_todoItemFragment"
             app:destination="@id/todoItemFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_in_right"
             app:popUpTo="@id/todoItemsFragment" />
     </fragment>
     <fragment
