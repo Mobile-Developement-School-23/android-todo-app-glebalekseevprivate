@@ -74,7 +74,7 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.glebalekseevjk.todoapp.presentation.widget.OnlyVerticalSwipeRefreshLayout
         android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
 
         </FrameLayout>
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.glebalekseevjk.todoapp.presentation.widget.OnlyVerticalSwipeRefreshLayout>
 
     <TextView
         android:id="@+id/items_not_found_tv"
