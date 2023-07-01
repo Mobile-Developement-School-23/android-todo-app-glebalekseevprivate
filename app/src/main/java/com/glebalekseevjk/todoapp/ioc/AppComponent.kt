@@ -6,8 +6,10 @@ import com.glebalekseevjk.todoapp.ioc.module.LocalDataSourceModule
 import com.glebalekseevjk.todoapp.ioc.module.RemoteDataSourceModule
 import com.glebalekseevjk.todoapp.ioc.module.ViewModelModule
 import com.glebalekseevjk.todoapp.ioc.scope.AppComponentScope
-import com.glebalekseevjk.todoapp.presentation.activity.AuthActivity
 import com.glebalekseevjk.todoapp.presentation.activity.MainActivity
+import com.glebalekseevjk.todoapp.presentation.fragment.TodoItemFragment
+import com.glebalekseevjk.todoapp.presentation.fragment.TodoItemsFragment
+import com.glebalekseevjk.todoapp.worker.SynchronizeWorker
 import dagger.BindsInstance
 import dagger.Component
 
@@ -17,6 +19,9 @@ interface AppComponent {
     fun createAuthActivitySubcomponent(): AuthActivitySubcomponent
     fun injectApp(application: App)
     fun injectMainActivity(mainActivity: MainActivity)
+    fun injectTodoItemsFragment(todoItemsFragment: TodoItemsFragment)
+    fun injectTodoItemFragment(todoItemFragment: TodoItemFragment)
+    fun injectSynchronizeWorker(synchronizeWorker: SynchronizeWorker)
 
     @Component.Factory
     interface Builder {

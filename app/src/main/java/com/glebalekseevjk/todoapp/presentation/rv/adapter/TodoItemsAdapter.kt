@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.glebalekseevjk.todoapp.R
@@ -21,8 +20,6 @@ import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.LO
 import com.glebalekseevjk.todoapp.presentation.rv.callback.TodoItemDiffCallBack
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
 import com.glebalekseevjk.todoapp.utils.getMarginSpan
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.shape.CornerFamily
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -176,7 +173,10 @@ class TodoItemsAdapter :
         if (todoItem.deadline == null) {
             binding.deadlineTv.visibility = View.GONE
         } else {
-            val formatter = SimpleDateFormat(binding.root.context.resources.getString(R.string.date_pattern), Locale("ru"))
+            val formatter = SimpleDateFormat(
+                binding.root.context.resources.getString(R.string.date_pattern),
+                Locale("ru")
+            )
             binding.deadlineTv.text = formatter.format(todoItem.deadline)
             binding.deadlineTv.visibility = View.VISIBLE
         }

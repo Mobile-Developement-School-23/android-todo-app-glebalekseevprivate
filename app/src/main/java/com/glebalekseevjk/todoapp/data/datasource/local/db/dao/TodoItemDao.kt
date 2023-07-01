@@ -20,7 +20,10 @@ interface TodoItemDao {
     fun deleteById(id: String)
 
     @Query("SELECT * FROM TodoItemDbModel ORDER BY created_at ASC")
-    fun getAll(): Flow<List<TodoItemDbModel>>
+    fun getAllAsFlow(): Flow<List<TodoItemDbModel>>
+
+    @Query("SELECT * FROM TodoItemDbModel ORDER BY created_at ASC")
+    fun getAll(): List<TodoItemDbModel>
 
     @Query("DELETE FROM TodoItemDbModel")
     fun deleteAll()

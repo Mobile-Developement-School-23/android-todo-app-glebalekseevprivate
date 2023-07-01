@@ -20,4 +20,10 @@
     <string name="example_todo_hint">Купить что-то</string>
     <string name="importance">Важность</string>
     <string name="deadline">Сделать до</string>
+    <string name="items_not_found">ПУСТО</string>
+    <string name="unknown_exception">Неизвестная ошибка</string>
+    <string name="client_exception">Ошибка клиента</string>
+    <string name="server_exception">Ошибка сервера</string>
+    <string name="connection_exception">Нет интернета</string>
+    <string name="unauthorized_exception">Не авторизован</string>
 </resources>

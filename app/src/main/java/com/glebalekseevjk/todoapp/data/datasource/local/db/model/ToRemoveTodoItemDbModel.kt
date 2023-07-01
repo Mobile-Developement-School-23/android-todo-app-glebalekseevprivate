@@ -7,6 +7,6 @@ import java.util.Date
 
 @Entity
 data class ToRemoveTodoItemDbModel(
-    @PrimaryKey @ColumnInfo(name = "todoId") val todoId: String,
+    @PrimaryKey @ColumnInfo(name = "id") val id: String,
     @ColumnInfo(name = "created_at") val createdAt: Date,
 )

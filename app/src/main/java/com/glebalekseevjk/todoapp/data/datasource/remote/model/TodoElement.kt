@@ -9,7 +9,7 @@ data class TodoElement(
     @SerializedName("done") val done: Boolean?,
     @SerializedName("deadline") val deadline: Int?,
     @SerializedName("color") val color: String?,
-    @SerializedName("last_updated_by") val last_updated_by: String?,
+    @SerializedName("last_updated_by") val lastUpdatedBy: String?,
     @SerializedName("changed_at") val changedAt: Int?,
     @SerializedName("created_at") val createdAt: Int?,
 )

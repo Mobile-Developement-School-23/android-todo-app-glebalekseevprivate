@@ -2,28 +2,30 @@ package com.glebalekseevjk.todoapp.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.glebalekseevjk.todoapp.data.repository.TodoItemRepository
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem
-import com.glebalekseevjk.todoapp.domain.interactor.TodoItemUseCase
-import com.glebalekseevjk.todoapp.presentation.activity.todoItemsRepositoryImpl
-import com.glebalekseevjk.todoapp.utils.checkFailure
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
+import javax.inject.Inject
 
-class TodoItemViewModel : ViewModel() {
-    private val todoItemsUseCase = TodoItemUseCase(todoItemsRepositoryImpl)
+class TodoItemViewModel @Inject constructor(
+    private val todoItemRepository: TodoItemRepository
+) : ViewModel() {
     private val _todoItemState = MutableStateFlow<TodoItemState>(
         TodoItemState.Init(
             TodoItem(
                 id = "0",
                 text = "",
-                importance = TodoItem.Companion.Importance.NORMAL,
+                importance = TodoItem.Companion.Importance.BASIC,
                 deadline = null,
                 isDone = false,
                 createdAt = Calendar.getInstance().time,
-                changedAt = null
+                changedAt = Calendar.getInstance().time
             )
         )
     )
@@ -40,16 +42,16 @@ class TodoItemViewModel : ViewModel() {
         }
     }
 
+
     private fun init(todoId: String) {
         viewModelScope.launch {
-            val todoItem = todoItemsUseCase.getTodoItemOrNull(todoId).checkFailure()
+            val todoItem = todoItemRepository.getTodoItemByIdOrNull(todoId)
             when (val todoItemState = todoItemState.value) {
                 is TodoItemState.Init -> {
                     if (todoItem != null) {
                         _todoItemState.emit(TodoItemState.Loaded(todoItem, true))
                     } else {
                         _todoItemState.emit(TodoItemState.Loaded(todoItemState.todoItem, false))
-
                     }
                 }
 
@@ -63,23 +65,22 @@ class TodoItemViewModel : ViewModel() {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 if (!todoItemState.isEdit) return
-                viewModelScope.launch {
-                    todoItemsUseCase.deleteTodoItem(todoItemState.todoItem.id)
+                CoroutineScope(Dispatchers.IO).launch {
+                    todoItemRepository.deleteTodoItem(todoItemState.todoItem.id)
                 }
             }
         }
     }
 
     private fun saveTodoItem() {
-        val todoItemState = todoItemState.value
-        when (todoItemState) {
+        when (val todoItemState = todoItemState.value) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
-                viewModelScope.launch {
+                CoroutineScope(Dispatchers.IO).launch {
                     if (todoItemState.isEdit) {
-                        todoItemsUseCase.update(todoItemState.todoItem)
+                        todoItemRepository.updateTodoItem(todoItemState.todoItem)
                     } else {
-                        todoItemsUseCase.add(todoItemState.todoItem)
+                        todoItemRepository.addTodoItem(todoItemState.todoItem)
                     }
                 }
             }
@@ -129,7 +130,6 @@ class TodoItemViewModel : ViewModel() {
                         )
                     )
                 }
-
             }
         }
     }

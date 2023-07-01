@@ -1,7 +1,8 @@
 package com.glebalekseevjk.todoapp.data.datasource.remote
 
-import com.glebalekseevjk.todoapp.data.datasource.remote.model.TodoElement
+import com.glebalekseevjk.todoapp.data.datasource.remote.model.TodoElementRequest
 import com.glebalekseevjk.todoapp.data.datasource.remote.model.TodoElementResponse
+import com.glebalekseevjk.todoapp.data.datasource.remote.model.TodoListRequest
 import com.glebalekseevjk.todoapp.data.datasource.remote.model.TodoListResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -17,8 +18,8 @@ interface TodoItemService {
     suspend fun getAll(): Response<TodoListResponse>
 
     @PATCH("list")
-    fun updateAll(
-        @Body list: List<TodoElement>
+    suspend fun updateAll(
+        @Body list: TodoListRequest
     ): Response<TodoListResponse>
 
     @GET("list/{id}")
@@ -28,17 +29,17 @@ interface TodoItemService {
 
     @POST("list")
     suspend fun insert(
-        @Body element: TodoElement
+        @Body element: TodoElementRequest
     ): Response<TodoElementResponse>
 
     @PUT("list/{id}")
     suspend fun updateById(
         @Path("id") id: String,
-        @Body element: TodoElement
+        @Body element: TodoElementRequest
     ): Response<TodoElementResponse>
 
     @DELETE("list/{id}")
-    fun deleteById(
+    suspend fun deleteById(
         @Path("id") id: String,
     ): Response<TodoElementResponse>
 }

@@ -14,7 +14,10 @@ import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthSdk
 import com.yandex.authsdk.internal.AuthSdkActivity
 import dagger.Lazy
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
 class AuthActivity : AppCompatActivity() {
@@ -31,19 +34,27 @@ class AuthActivity : AppCompatActivity() {
     @Inject
     lateinit var authRepository: Lazy<AuthRepository>
 
+    private val yandexAuthMutex = Mutex()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.createAuthActivitySubcomponent().inject(this)
         super.onCreate(savedInstanceState)
         _binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.yandexAuthBtn.setOnClickListener {
-            val intent = yandexAuthSdk.get().createLoginIntent(yandexAuthLoginOptions.get())
-            ActivityCompat.startActivityForResult(
-                this,
-                intent,
-                AuthSdkActivity.LOGIN_REQUEST_CODE,
-                null
-            )
+            lifecycleScope.launch {
+                if (yandexAuthMutex.isLocked) return@launch
+                yandexAuthMutex.withLock {
+                    val intent = yandexAuthSdk.get().createLoginIntent(yandexAuthLoginOptions.get())
+                    ActivityCompat.startActivityForResult(
+                        this@AuthActivity,
+                        intent,
+                        AuthSdkActivity.LOGIN_REQUEST_CODE,
+                        null
+                    )
+                    delay(1000)
+                }
+            }
         }
     }
 

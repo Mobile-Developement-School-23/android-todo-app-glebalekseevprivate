@@ -6,14 +6,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.glebalekseevjk.todoapp.R
-import com.glebalekseevjk.todoapp.data.repository.TodoItemsRepositoryImpl
 import com.glebalekseevjk.todoapp.data.repository.AuthRepository
 import com.glebalekseevjk.todoapp.utils.appComponent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
-val todoItemsRepositoryImpl = TodoItemsRepositoryImpl()
 
 class MainActivity : AppCompatActivity() {
     @Inject
@@ -26,9 +23,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    private fun observeIsAuth(){
+    private fun observeIsAuth() {
         lifecycleScope.launch {
-            authRepository.isAuth.collect{
+            authRepository.isAuth.collect {
                 if (!it) {
                     val intent = AuthActivity.createIntent(this@MainActivity)
                     startActivity(intent)
@@ -38,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
+    companion object {
         fun createIntent(context: Context): Intent {
             return Intent(context, MainActivity::class.java)
         }

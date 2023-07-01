@@ -2,7 +2,6 @@ package com.glebalekseevjk.todoapp.data.datasource.local.db.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance
 import java.util.Date
@@ -15,5 +14,5 @@ data class TodoItemDbModel(
     @ColumnInfo(name = "deadline") val deadline: Date?,
     @ColumnInfo(name = "is_done") val isDone: Boolean,
     @ColumnInfo(name = "created_at") val createdAt: Date,
-    @ColumnInfo(name = "changed_at") val changedAt: Date?,
+    @ColumnInfo(name = "changed_at") val changedAt: Date,
 )

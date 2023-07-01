@@ -5,11 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import com.glebalekseevjk.todoapp.data.datasource.local.db.model.ToRemoveTodoItemDbModel
-import com.glebalekseevjk.todoapp.data.datasource.local.db.model.TodoItemDbModel
-import kotlinx.coroutines.flow.Flow
-import java.sql.Timestamp
 
 @Dao
 interface ToRemoveTodoItemDao {
@@ -21,4 +17,8 @@ interface ToRemoveTodoItemDao {
 
     @Query("DELETE FROM ToRemoveTodoItemDbModel")
     fun deleteAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrReplace(toRemoveTodoItemDbModel: ToRemoveTodoItemDbModel)
+
 }

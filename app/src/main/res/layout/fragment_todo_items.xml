@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/back_primary">
@@ -12,10 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:background="?attr/back_primary"
+        android:clipChildren="false"
+        android:clipToOutline="false"
+        android:clipToPadding="false"
         app:elevation="20dp"
         app:liftOnScroll="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="?attr/back_primary"
@@ -36,6 +42,8 @@
                 android:background="?attr/back_primary"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:navigationIcon="@drawable/arrow_back"
+                app:navigationIconTint="?attr/label_primary"
                 app:title="@string/app_name" />
 
 
@@ -59,7 +67,6 @@
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="20dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/show_all_hide_done"
                 android:padding="4dp"
                 app:tint="?attr/color_blue" />
@@ -67,30 +74,54 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/material_card_view"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:animateLayoutChanges="true"
-        app:cardBackgroundColor="?attr/back_secondary"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="2dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/todo_list_rv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/todo_item_rv" />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="invisible"
+                android:id="@+id/material_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:animateLayoutChanges="true"
+                android:paddingBottom="48dp"
+                app:cardBackgroundColor="?attr/back_secondary"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todo_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/todo_item_rv" />
 
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </FrameLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/items_not_found_tv"
+        android:textAppearance="@style/TextAppearance.ToDo.LargeTitle"
+        android:textSize="64dp"
+        android:textColor="?attr/label_tertiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="200dp"
+        android:text="@string/items_not_found" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_todo_btn"
@@ -108,6 +139,7 @@
         app:backgroundTint="?attr/color_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_behavior=".presentation.behavior.FloatingActionButtonBehavior"
         app:tint="?attr/color_white" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

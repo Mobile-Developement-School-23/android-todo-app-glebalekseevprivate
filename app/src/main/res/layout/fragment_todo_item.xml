@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/back_primary">
@@ -36,6 +37,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="64dp">
@@ -154,13 +156,13 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/delete"
                 android:drawablePadding="12dp"
-                android:drawableTint="?attr/color_red"
+                android:drawableTint="?attr/label_disable"
                 android:foreground="?attr/selectableItemBackground"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="23dp"
                 android:text="@string/delete_text"
                 android:textAppearance="@style/TextAppearance.ToDo.Body"
-                android:textColor="?attr/color_red"
+                android:textColor="?attr/label_disable"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
 
