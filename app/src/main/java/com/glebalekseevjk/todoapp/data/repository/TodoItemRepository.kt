@@ -32,6 +32,7 @@ class TodoItemRepository @Inject constructor(
     val todoItems: Flow<List<TodoItem>> = todoItemDao
         .getAllAsFlow()
         .map { it.map { mapperTodoItemDbModel.mapAnotherItemToItem(it) } }
+        .map { it.sortedBy { it.createdAt.time } }
         .flowOn(Dispatchers.Default)
 
     suspend fun addTodoItem(todoItem: TodoItem) {

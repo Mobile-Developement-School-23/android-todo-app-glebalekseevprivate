@@ -13,6 +13,7 @@ import com.glebalekseevjk.todoapp.domain.entity.exception.ClientException
 import com.glebalekseevjk.todoapp.domain.entity.exception.ConnectionException
 import com.glebalekseevjk.todoapp.domain.entity.exception.ServerException
 import com.glebalekseevjk.todoapp.domain.entity.exception.UnknownException
+import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemsState.Init
 import com.glebalekseevjk.todoapp.worker.SchedulerManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +35,7 @@ class TodoItemsViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository,
     private val schedulerManager: SchedulerManager
 ) : ViewModel() {
-    private val _todoItemsState = MutableStateFlow<TodoItemsState>(TodoItemsState.Init)
+    private val _todoItemsState = MutableStateFlow<TodoItemsState>(Init(synchronizationRepository.lastSyncDate))
     val todoItemsState get(): StateFlow<TodoItemsState> = _todoItemsState
 
     val notificationChannel = Channel<NotificationType>()
@@ -75,9 +76,10 @@ class TodoItemsViewModel @Inject constructor(
                 _todoItemsState.emit(
                     TodoItemsState.Loaded(
                         state.visibility,
+                        synchronizationRepository.lastSyncDate,
                         state.todoItemsDisplay,
                         state.todoItems,
-                        state.countDone
+                        state.countDone,
                     )
                 )
             }
@@ -120,9 +122,9 @@ class TodoItemsViewModel @Inject constructor(
     }
 
     private fun init() {
-        if (_todoItemsState.value != TodoItemsState.Init) return
+        if (_todoItemsState.value !is Init) return
         viewModelScope.launch {
-            _todoItemsState.emit(TodoItemsState.Loading(true, emptyList(), emptyList(), 0))
+            _todoItemsState.emit(TodoItemsState.Loading(true, _todoItemsState.value.lastSyncDate, emptyList(), emptyList(), 0))
             withExceptionHandler()
                 .withDefaultDispatcher()
                 .withSupervisorJob()
@@ -147,6 +149,7 @@ class TodoItemsViewModel @Inject constructor(
                         _todoItemsState.emit(
                             TodoItemsState.Loaded(
                                 visibility = state.visibility,
+                                lastSyncDate = synchronizationRepository.lastSyncDate,
                                 todoItems = todoItems,
                                 todoItemsDisplay = if (state.visibility) todoItems else todoItems.filter { !it.isDone },
                                 countDone = todoItems.filter { it.isDone }.size,
@@ -158,26 +161,28 @@ class TodoItemsViewModel @Inject constructor(
                         _todoItemsState.emit(
                             state.copy(
                                 todoItems = todoItems,
+                                lastSyncDate = synchronizationRepository.lastSyncDate,
                                 todoItemsDisplay = if (state.visibility) todoItems else todoItems.filter { !it.isDone },
                                 countDone = todoItems.filter { it.isDone }.size,
                             )
                         )
                     }
 
-                    is TodoItemsState.Init -> {}
+                    is Init -> {}
                 }
             }
         }
     }
 
     private fun changeVisibility() {
-        if (todoItemsState.value is TodoItemsState.Init) return
+        if (todoItemsState.value is Init) return
         when (val state = todoItemsState.value) {
-            is TodoItemsState.Init -> return
+            is Init -> return
             is TodoItemsState.Loading -> {
                 viewModelScope.launch {
                     _todoItemsState.emit(
                         state.copy(
+                            lastSyncDate = synchronizationRepository.lastSyncDate,
                             visibility = !state.visibility,
                         )
                     )
@@ -189,6 +194,7 @@ class TodoItemsViewModel @Inject constructor(
                     _todoItemsState.emit(
                         state.copy(
                             visibility = !state.visibility,
+                            lastSyncDate = synchronizationRepository.lastSyncDate,
                             todoItemsDisplay = if (!state.visibility) state.todoItems else state.todoItems.filter { !it.isDone }
                         )
                     )
@@ -229,8 +235,9 @@ class TodoItemsViewModel @Inject constructor(
             .withDefaultDispatcher()
             .launch {
                 val newState = when (val state = _todoItemsState.value) {
-                    TodoItemsState.Init -> TodoItemsState.Loading(
-                        false,
+                    is Init -> TodoItemsState.Loading(
+                        state.visibility,
+                        state.lastSyncDate,
                         emptyList(),
                         emptyList(),
                         0
@@ -238,6 +245,7 @@ class TodoItemsViewModel @Inject constructor(
 
                     is TodoItemsState.Loaded -> TodoItemsState.Loading(
                         state.visibility,
+                        state.lastSyncDate,
                         state.todoItemsDisplay,
                         state.todoItems,
                         state.countDone
@@ -245,6 +253,7 @@ class TodoItemsViewModel @Inject constructor(
 
                     is TodoItemsState.Loading -> TodoItemsState.Loading(
                         state.visibility,
+                        state.lastSyncDate,
                         state.todoItemsDisplay,
                         state.todoItems,
                         state.countDone
@@ -280,22 +289,25 @@ class TodoItemsViewModel @Inject constructor(
 }
 
 sealed class TodoItemsState(
-    open val visibility: Boolean
+    open val visibility: Boolean,
+    open val lastSyncDate: String,
 ) {
-    object Init : TodoItemsState(false)
+    class Init(lastSyncDate: String) : TodoItemsState(false, lastSyncDate)
     data class Loading(
         override val visibility: Boolean,
+        override val lastSyncDate: String,
         val todoItemsDisplay: List<TodoItem>,
         val todoItems: List<TodoItem>,
         val countDone: Int,
-    ) : TodoItemsState(visibility)
+    ) : TodoItemsState(visibility, lastSyncDate)
 
     data class Loaded(
         override val visibility: Boolean,
+        override val lastSyncDate: String,
         val todoItemsDisplay: List<TodoItem>,
         val todoItems: List<TodoItem>,
         val countDone: Int,
-    ) : TodoItemsState(visibility)
+    ) : TodoItemsState(visibility, lastSyncDate)
 }
 
 sealed class TodoItemsAction {

@@ -179,6 +179,7 @@ class TodoItemsFragment : Fragment() {
     private fun observeTodoItemsState() {
         lifecycleScope.launch {
             todoItemsViewModel.todoItemsState.collect { todoItemsState ->
+                binding.lastSyncDateTv.text = todoItemsState.lastSyncDate
                 when (todoItemsState) {
                     is TodoItemsState.Loaded -> {
                         if (todoItemsState.todoItemsDisplay.isEmpty()) {

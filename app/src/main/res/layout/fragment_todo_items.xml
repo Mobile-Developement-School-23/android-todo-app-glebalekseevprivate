@@ -60,6 +60,18 @@
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="-0.075" />
 
+            <TextView
+                android:id="@+id/last_sync_date_tv"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="65dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Subhead"
+                android:textColor="?attr/label_tertiary"
+                tools:text="1 июля, 22:31"
+                />
+
             <ImageButton
                 android:id="@+id/is_show_done"
                 android:layout_width="wrap_content"
@@ -81,6 +93,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

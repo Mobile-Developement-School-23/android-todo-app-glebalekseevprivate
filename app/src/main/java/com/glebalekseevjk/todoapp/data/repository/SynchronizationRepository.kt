@@ -2,6 +2,7 @@ package com.glebalekseevjk.todoapp.data.repository
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.glebalekseevjk.todoapp.R
 import com.glebalekseevjk.todoapp.data.datasource.local.db.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.todoapp.data.datasource.local.db.dao.TodoItemDao
 import com.glebalekseevjk.todoapp.data.datasource.local.db.model.ToRemoveTodoItemDbModel
@@ -21,7 +22,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @AppComponentScope
@@ -41,6 +44,10 @@ class SynchronizationRepository @Inject constructor(
     private val pullMutex = Mutex()
 
     private val synchronizeMutex = Mutex()
+
+    private val formatter = SimpleDateFormat(context.getString(R.string.date_pattern_2), Locale("ru"))
+
+    val lastSyncDate: String get() = personalSharedPreferences.lastSynchronizationDate.let { formatter.format(it) }
 
     suspend fun pull() {
         withContext(Dispatchers.Default) {
