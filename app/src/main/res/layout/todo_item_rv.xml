@@ -30,20 +30,21 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/back_secondary"
         android:paddingHorizontal="19dp"
         android:paddingVertical="15dp"
+        android:background="?attr/back_secondary"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
             android:id="@+id/is_done_cb"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:background="@drawable/important_checkbox_selector"
             android:button="@null"
             android:foreground="?android:attr/selectableItemBackground"
+            android:padding="4dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -107,5 +108,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
 

@@ -2,6 +2,7 @@ package com.glebalekseevjk.todoapp.presentation.fragment
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.AdapterView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +22,7 @@ import com.glebalekseevjk.todoapp.domain.entity.TodoItem.Companion.Importance.*
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.todoapp.presentation.viewmodel.TodoItemViewModel
+import com.glebalekseevjk.todoapp.utils.appComponent
 import com.glebalekseevjk.todoapp.utils.getColorFromTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +33,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.Locale
+import javax.inject.Inject
 
 
 class TodoItemFragment : Fragment() {
@@ -37,15 +41,23 @@ class TodoItemFragment : Fragment() {
     private val binding: FragmentTodoItemBinding
         get() = _binding ?: throw RuntimeException("FragmentTodoItemBinding is null")
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private val args: TodoItemFragmentArgs by navArgs()
     private lateinit var todoViewModel: TodoItemViewModel
     private lateinit var navController: NavController
     private lateinit var formatter: SimpleDateFormat
     private lateinit var datePickerDialog: DatePickerDialog
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.injectTodoItemFragment(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        todoViewModel = ViewModelProvider(this)[TodoItemViewModel::class.java]
+        todoViewModel = ViewModelProvider(this, viewModelFactory)[TodoItemViewModel::class.java]
         formatter = SimpleDateFormat(resources.getString(R.string.date_pattern), Locale("ru"))
         if (savedInstanceState == null) {
             parseParams()
@@ -61,12 +73,14 @@ class TodoItemFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        postponeEnterTransition()
         super.onViewCreated(view, savedInstanceState)
         initNavigationUI()
         initDatePicker()
+        observeTodoItemState()
         initListeners()
         setupToolbar()
-        observeTodoItemState()
+        startPostponedEnterTransition()
     }
 
     override fun onDestroyView() {
@@ -75,7 +89,9 @@ class TodoItemFragment : Fragment() {
     }
 
     private fun parseParams() {
-        todoViewModel.dispatch(TodoItemAction.Init(args.todoId))
+        lifecycleScope.launch {
+            todoViewModel.dispatch(TodoItemAction.Init(args.todoId))
+        }
     }
 
     private fun initNavigationUI() {
@@ -94,38 +110,44 @@ class TodoItemFragment : Fragment() {
                 datePicker.month,
                 datePicker.dayOfMonth
             ).time
-            todoViewModel.dispatch(
-                TodoItemAction.SetDeadline(
-                    deadline
+            lifecycleScope.launch {
+                todoViewModel.dispatch(
+                    TodoItemAction.SetDeadline(
+                        deadline
+                    )
                 )
-            )
-            binding.deadlineDateTv.text = formatter.format(deadline)
+                binding.deadlineDateTv.text = formatter.format(deadline)
+            }
         }
     }
 
     private fun initListeners() {
-        binding.textEt.addTextChangedListener {
-            todoViewModel.dispatch(TodoItemAction.SetText(it.toString()))
-        }
         binding.deleteBtn.setOnClickListener {
-            todoViewModel.dispatch(TodoItemAction.DeleteTodoItem)
-            navController.popBackStack()
+            lifecycleScope.launch {
+                todoViewModel.dispatch(TodoItemAction.DeleteTodoItem)
+                navController.popBackStack()
+            }
+        }
+        binding.importantTv.setOnClickListener {
+            binding.spinner.performClick()
         }
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
-                itemSelected: View, selectedItemPosition: Int, selectedId: Long
+                itemSelected: View?, selectedItemPosition: Int, selectedId: Long
             ) {
-                todoViewModel.dispatch(
-                    TodoItemAction.SetImportance(
-                        when (selectedItemPosition) {
-                            1 -> LOW
-                            0 -> NORMAL
-                            2 -> IMPORTANT
-                            else -> throw RuntimeException("Unknown importance")
-                        }
+                lifecycleScope.launch {
+                    todoViewModel.dispatch(
+                        TodoItemAction.SetImportance(
+                            when (selectedItemPosition) {
+                                1 -> LOW
+                                0 -> BASIC
+                                2 -> IMPORTANT
+                                else -> throw RuntimeException("Unknown importance")
+                            }
+                        )
                     )
-                )
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -135,26 +157,36 @@ class TodoItemFragment : Fragment() {
             when (val todoItemState = todoViewModel.todoItemState.value) {
                 is TodoItemState.Init -> {}
                 is TodoItemState.Loaded -> {
-                    if (isChecked) {
-                        binding.deadlineDateTv.visibility = View.VISIBLE
-                        if (todoItemState.todoItem.deadline == null) {
-                            val newDeadline =
-                                Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 2) }.time
-                            todoViewModel.dispatch(TodoItemAction.SetDeadline(newDeadline))
-                            binding.deadlineDateTv.text = formatter.format(newDeadline)
+                    lifecycleScope.launch {
+                        if (isChecked) {
+                            binding.deadlineDateTv.visibility = View.VISIBLE
+                            if (todoItemState.todoItem.deadline == null) {
+                                val newDeadline =
+                                    Calendar.getInstance().apply { add(Calendar.WEEK_OF_YEAR, 2) }.time
+                                todoViewModel.dispatch(TodoItemAction.SetDeadline(newDeadline))
+                                binding.deadlineDateTv.text = formatter.format(newDeadline)
+                            } else {
+                                binding.deadlineDateTv.text =
+                                    todoItemState.todoItem.deadline?.let { formatter.format(it) }
+                            }
                         } else {
-                            binding.deadlineDateTv.text =
-                                todoItemState.todoItem.deadline?.let { formatter.format(it) }
+                            binding.deadlineDateTv.visibility = View.INVISIBLE
+                            todoViewModel.dispatch(TodoItemAction.SetDeadline(null))
                         }
-                    } else {
-                        binding.deadlineDateTv.visibility = View.INVISIBLE
-                        todoViewModel.dispatch(TodoItemAction.SetDeadline(null))
                     }
                 }
             }
         }
         binding.deadlineDateTv.setOnClickListener {
             datePickerDialog.show()
+            todoViewModel.todoItemState.value.todoItem.deadline?.let {
+                val calendar = Calendar.getInstance()
+                calendar.time = it
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH)
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                datePickerDialog.updateDate(year, month, day)
+            }
         }
     }
 
@@ -166,13 +198,15 @@ class TodoItemFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.save_todo -> {
-                        when (todoViewModel.todoItemState.value) {
-                            is TodoItemState.Init -> {}
-                            is TodoItemState.Loaded -> {
-                                todoViewModel.dispatch(TodoItemAction.SaveTodoItem)
+                        lifecycleScope.launch {
+                            when (todoViewModel.todoItemState.value) {
+                                is TodoItemState.Init -> {}
+                                is TodoItemState.Loaded -> {
+                                    todoViewModel.dispatch(TodoItemAction.SaveTodoItem)
+                                }
                             }
+                            navController.popBackStack()
                         }
-                        navController.popBackStack()
                         true
                     }
 
@@ -189,6 +223,11 @@ class TodoItemFragment : Fragment() {
             todoViewModel.todoItemState.collect { todoItemState ->
                 withContext(Dispatchers.Main) {
                     binding.textEt.setText(todoItemState.todoItem.text)
+                    if (todoItemState !is TodoItemState.Init) {
+                        binding.textEt.addTextChangedListener {
+                            todoViewModel.dispatch(TodoItemAction.SetText(it.toString()))
+                        }
+                    }
                     binding.deadlineSw.isChecked = todoItemState.todoItem.deadline != null
                     binding.deadlineDateTv.visibility =
                         if (todoItemState.todoItem.deadline != null) View.VISIBLE else View.INVISIBLE
@@ -197,7 +236,7 @@ class TodoItemFragment : Fragment() {
                     binding.spinner.setSelection(
                         when (todoItemState.todoItem.importance) {
                             LOW -> 1
-                            NORMAL -> 0
+                            BASIC -> 0
                             IMPORTANT -> 2
                         }
                     )
@@ -209,6 +248,11 @@ class TodoItemFragment : Fragment() {
                                 binding.deleteBtn.setTextColor(requireContext().getColorFromTheme(R.attr.label_disable))
                                 binding.deleteBtn.compoundDrawableTintList =
                                     ColorStateList.valueOf(requireContext().getColorFromTheme(R.attr.label_disable))
+                            } else {
+                                binding.deleteBtn.isEnabled = true
+                                binding.deleteBtn.setTextColor(requireContext().getColorFromTheme(R.attr.color_red))
+                                binding.deleteBtn.compoundDrawableTintList =
+                                    ColorStateList.valueOf(requireContext().getColorFromTheme(R.attr.color_red))
                             }
                             scope.cancel()
                         }

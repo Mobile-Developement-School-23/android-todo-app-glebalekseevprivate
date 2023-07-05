@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<shape xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <solid android:color="?attr/yandex_auth_button" />-->
+<!--    <corners android:radius="12dp" />-->
+<!--    <stroke-->
+<!--        android:width="1dp"-->
+<!--        android:color="#000000" />-->
+<!--</shape>-->
+
+<!--<selector xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item android:state_focused="true"  android:state_enabled="false" android:state_pressed="true" android:drawable="@drawable/abc_list_selector_disabled_holo_light" />-->
+<!--    <item android:state_focused="true"  android:state_enabled="false"                              android:drawable="@drawable/abc_list_selector_disabled_holo_light" />-->
+<!--    <item android:state_focused="true"                                android:state_pressed="true" android:drawable="@drawable/abc_list_selector_background_transition_holo_light" />-->
+<!--    <item android:state_focused="false"                               android:state_pressed="true" android:drawable="@drawable/abc_list_selector_background_transition_holo_light" />-->
+<!--    <item android:state_focused="true"                                                             android:drawable="@drawable/abc_list_focused_holo" />-->
+<!--    <item                                                                                          android:drawable="@android:color/transparent" />-->
+<!--</selector>-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="#F1F2F5">
+    <item>
+        <shape>
+            <solid android:color="?attr/yandex_auth_button" />
+            <corners android:radius="12dp" />
+            <stroke
+                android:width="1dp"
+                android:color="@color/black" />
+        </shape>
+    </item>
+</ripple>

@@ -6,12 +6,14 @@
     <string name="new_text">Новое</string>
     <string name="save_text">СОХРАНИТЬ</string>
     <string name="delete_text">Удалить</string>
+    <string name="yandex_auth_slogan">Войти с Яндекс ID</string>
     <string-array name="importance_array">
         <item>Нет</item>
         <item>Низкий</item>
         <item><font fgcolor="#FF453A">!! Высокий</font></item>
     </string-array>
     <string name="date_pattern">dd MMMM yyyy</string>
+    <string name="date_pattern_2">d MMMM, hh:mm</string>
     <string name="ready">готово</string>
     <string name="edit">Редактирование</string>
     <string name="add_new_todo">Добавить новую задачу</string>
@@ -19,4 +21,10 @@
     <string name="example_todo_hint">Купить что-то</string>
     <string name="importance">Важность</string>
     <string name="deadline">Сделать до</string>
+    <string name="items_not_found">ПУСТО</string>
+    <string name="unknown_exception">Неизвестная ошибка</string>
+    <string name="client_exception">Ошибка клиента</string>
+    <string name="server_exception">Ошибка сервера</string>
+    <string name="connection_exception">Нет интернета</string>
+    <string name="unauthorized_exception">Не авторизован</string>
 </resources>

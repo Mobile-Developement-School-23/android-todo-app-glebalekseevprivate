@@ -70,7 +70,6 @@ class TodoItemsAdapter :
                 val todoItem = getItem(position)
                 val binding = holder.binding
                 val context = binding.textTv.context
-
                 binding.textTv.text = getTextWithImportancePrefix(context, todoItem)
                 checkIsDoneText(context, todoItem, binding)
                 checkIsDoneCheckBox(context, todoItem, binding)
@@ -174,7 +173,10 @@ class TodoItemsAdapter :
         if (todoItem.deadline == null) {
             binding.deadlineTv.visibility = View.GONE
         } else {
-            val formatter = SimpleDateFormat(binding.root.context.resources.getString(R.string.date_pattern), Locale("ru"))
+            val formatter = SimpleDateFormat(
+                binding.root.context.resources.getString(R.string.date_pattern),
+                Locale("ru")
+            )
             binding.deadlineTv.text = formatter.format(todoItem.deadline)
             binding.deadlineTv.visibility = View.VISIBLE
         }
