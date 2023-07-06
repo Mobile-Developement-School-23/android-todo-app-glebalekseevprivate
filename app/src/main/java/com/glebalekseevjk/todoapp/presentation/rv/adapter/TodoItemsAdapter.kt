@@ -22,9 +22,10 @@ import com.glebalekseevjk.todoapp.utils.getColorFromTheme
 import com.glebalekseevjk.todoapp.utils.getMarginSpan
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
 
-class TodoItemsAdapter :
+class TodoItemsAdapter @Inject constructor():
     ListAdapter<TodoItem, ViewHolder>(TodoItemDiffCallBack()) {
     var editClickListener: ((todoId: String) -> Unit)? = null
     var changeDoneStatusClickListener: ((todoId: String) -> Unit)? = null

@@ -17,6 +17,8 @@ import dagger.Component
 @Component(modules = [ViewModelModule::class, LocalDataSourceModule::class, RemoteDataSourceModule::class])
 interface AppComponent {
     fun createAuthActivitySubcomponent(): AuthActivitySubcomponent
+    fun createTodoItemsFragmentSubcomponent(): TodoItemsFragmentSubcomponent
+    fun createTodoItemFragmentSubcomponent(): TodoItemFragmentSubcomponent
     fun injectApp(application: App)
     fun injectMainActivity(mainActivity: MainActivity)
     fun injectTodoItemsFragment(todoItemsFragment: TodoItemsFragment)

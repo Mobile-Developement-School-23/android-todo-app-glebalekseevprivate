@@ -12,16 +12,13 @@ class App: Application() {
         DaggerAppComponent.factory().create(this)
     }
 
-    @Inject
-    lateinit var schedulerManager: SchedulerManager
-
     override fun onCreate() {
         super.onCreate()
         appComponent.injectApp(this)
-        setupWorkers()
     }
 
-    private fun setupWorkers(){
+    @Inject
+    fun setupWorkers(schedulerManager: SchedulerManager){
         schedulerManager.setupPeriodicSynchronize()
     }
 
