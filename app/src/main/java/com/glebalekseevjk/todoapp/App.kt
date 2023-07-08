@@ -1,28 +1,29 @@
 package com.glebalekseevjk.todoapp
 
 import android.app.Application
-import android.content.Context
-import com.glebalekseevjk.todoapp.ioc.AppComponent
-import com.glebalekseevjk.todoapp.ioc.DaggerAppComponent
-import com.glebalekseevjk.todoapp.worker.SchedulerManager
+import com.glebalekseevjk.core.utils.di.DepsMap
+import com.glebalekseevjk.core.utils.di.HasDependencies
+import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
+import com.glebalekseevjk.todoapp.di.AppComponent
+import com.glebalekseevjk.todoapp.di.DaggerAppComponent
 import javax.inject.Inject
 
-class App: Application() {
+class App: Application(), HasDependencies {
     val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(this)
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        appComponent.injectApp(this)
+        DaggerAppComponent.factory()
+            .create(this)
     }
 
     @Inject
-    fun setupWorkers(schedulerManager: SchedulerManager){
-        schedulerManager.setupPeriodicSynchronize()
+    override lateinit var depsMap: DepsMap
+
+    override fun onCreate() {
+        super.onCreate()
+        appComponent.inject(this)
     }
 
-    companion object {
-        fun get(context: Context): App = context.applicationContext as App
+    @Inject
+    fun setupWorkers(synchronizationSchedulerManager: SynchronizationSchedulerManager){
+        synchronizationSchedulerManager.setupPeriodicSynchronize()
     }
 }

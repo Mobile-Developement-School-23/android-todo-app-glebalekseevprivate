@@ -1,3 +1,5 @@
+import dependencies.Dependencies
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
@@ -6,17 +8,17 @@ plugins {
 }
 
 android {
-    namespace 'com.glebalekseevjk.todoapp'
-    compileSdk 33
+    namespace Config.APPLICATION_ID
+    compileSdk Config.COMPILE_SDK
 
     defaultConfig {
-        applicationId "com.glebalekseevjk.todoapp"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        applicationId Config.APPLICATION_ID
+        minSdk Config.MIN_SDK
+        targetSdk Config.TARGET_SDK
+        versionCode Build.VERSION_CODE
+        versionName Build.VERSION_NAME
         manifestPlaceholders = [YANDEX_CLIENT_ID: System.getenv("YANDEX_CLIENT_ID")]
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner Config.TEST_INSTRUMENTATION_RUNNER
     }
 
     buildTypes {
@@ -38,27 +40,34 @@ android {
 }
 
 dependencies {
-    implementation "androidx.core:core-ktx:$coreKTX"
-    implementation "androidx.appcompat:appcompat:$appCompat"
-    implementation "com.google.android.material:material:$material"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
-    testImplementation "junit:junit:$junit"
-    androidTestImplementation "androidx.test.ext:junit:$androidJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCore"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.squareup.okhttp3:logging-interceptor:$loggingInterceptorOkhttp"
-    implementation "androidx.room:room-ktx:$room"
-    implementation "androidx.room:room-runtime:$room"
-    kapt "androidx.room:room-compiler:$room"
-    implementation "com.google.dagger:dagger:$dagger"
-    kapt "com.google.dagger:dagger-compiler:$dagger"
-    implementation "com.yandex.android:authsdk:$yandexAuth"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayout"
-    implementation "androidx.work:work-runtime:$work"
-    implementation "androidx.work:work-runtime-ktx:$work"
+    implementation project(':feature:auth')
+    implementation project(':feature:todoitem')
+    implementation project(':domain:auth')
+    implementation project(':domain:sync')
+    implementation project(':domain:todoitem')
+    implementation project(':data:auth')
+    implementation project(':data:sync')
+    implementation project(':core:utils')
+    implementation project(':core:preferences')
+    implementation project(':core:retrofit')
+    implementation project(':core:room')
+    implementation project(':common')
+    implementation project(':design')
+
+    implementation Dependencies.Room.ROOM
+    implementation Dependencies.Room.ROOM_RUNTIME
+    kapt Dependencies.Room.ROOM_COMPILER
+    implementation Dependencies.Retrofit.RETROFIT
+    implementation Dependencies.Retrofit.CONVERTER_GSON
+    implementation Dependencies.LoggingInterceptorOkhttp.LOGGING_INTERCEPTOR_OKHTTP
+    implementation Dependencies.Dagger.DAGGER
+    kapt Dependencies.Dagger.DAGGER_COMPILER
+    implementation Dependencies.AppCompat.APP_COMPAT
+    implementation Dependencies.Lifecycle.LIFECYCLE_RUNTIME
+    implementation Dependencies.Navigation.NAVIGATION_FRAGMENT
+    implementation Dependencies.Navigation.NAVIGATION_UI
+    implementation Dependencies.Work.WORK
+    implementation Dependencies.Work.WORK_KTX
+    testImplementation Dependencies.Test.JUNIT
+    androidTestImplementation Dependencies.AndroidTest.ANDROID_JUNIT
 }
