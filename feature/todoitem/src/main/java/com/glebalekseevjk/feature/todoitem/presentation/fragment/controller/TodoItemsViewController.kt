@@ -57,7 +57,7 @@ class TodoItemsViewController @Inject constructor(
         }
         binding.isShowDone.setOnClickListener {
             if (isShowDoneMutex.isLocked) return@setOnClickListener
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenCreated {
                 isShowDoneMutex.withLock {
                     todoItemsViewModel.dispatch(TodoItemsAction.ChangeVisibility)
                     delay(400)
@@ -65,12 +65,12 @@ class TodoItemsViewController @Inject constructor(
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenCreated {
                 todoItemsViewModel.dispatch(TodoItemsAction.Quit)
             }
         }
         binding.srl.setOnRefreshListener {
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenCreated {
                 todoItemsViewModel.dispatch(TodoItemsAction.PullToRefresh)
             }
         }
@@ -92,7 +92,7 @@ class TodoItemsViewController @Inject constructor(
     }
 
     private fun initTodoItemsState() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenCreated {
             todoItemsViewModel.dispatch(TodoItemsAction.Init)
         }
     }
@@ -118,7 +118,7 @@ class TodoItemsViewController @Inject constructor(
         }
         todoItemsAdapter.setDoneStatusClickListener = { todoId, viewHolder ->
             swipeCallback.resetViewHolder(viewHolder)
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenCreated {
                 todoItemsViewModel.dispatch(TodoItemsAction.SetDoneStatus(todoId, context))
 
             }
@@ -127,7 +127,7 @@ class TodoItemsViewController @Inject constructor(
             navigateToTodoItemFragmentWithAddMode()
         }
         todoItemsAdapter.deleteTodoItemClickListener = { todoId, viewHolder ->
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenResumed {
                 swipeCallback.resetViewHolder(viewHolder)
                 todoItemsViewModel.dispatch(
                     TodoItemsAction.DeleteTodoItem(
@@ -140,7 +140,7 @@ class TodoItemsViewController @Inject constructor(
     }
 
     private fun observeTodoItemsState() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenResumed {
             todoItemsViewModel.todoItemsState.collect { todoItemsState ->
                 binding.lastSyncDateTv.text = todoItemsState.lastSyncDate
                 when (todoItemsState) {

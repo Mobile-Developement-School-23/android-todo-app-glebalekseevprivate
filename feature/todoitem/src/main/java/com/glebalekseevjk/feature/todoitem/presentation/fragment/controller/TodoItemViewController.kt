@@ -59,7 +59,7 @@ class TodoItemViewController @Inject constructor(
                 datePicker.month,
                 datePicker.dayOfMonth
             ).time
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenResumed {
                 todoViewModel.dispatch(
                     TodoItemAction.SetDeadline(
                         deadline
@@ -72,7 +72,7 @@ class TodoItemViewController @Inject constructor(
 
     private fun initListeners() {
         binding.deleteBtn.setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launchWhenResumed {
                 todoViewModel.dispatch(TodoItemAction.DeleteTodoItem)
                 navController.popBackStack()
             }
@@ -85,7 +85,7 @@ class TodoItemViewController @Inject constructor(
                 parent: AdapterView<*>?,
                 itemSelected: View?, selectedItemPosition: Int, selectedId: Long
             ) {
-                lifecycleScope.launch {
+                lifecycleScope.launchWhenResumed {
                     todoViewModel.dispatch(
                         TodoItemAction.SetImportance(
                             when (selectedItemPosition) {
@@ -106,7 +106,7 @@ class TodoItemViewController @Inject constructor(
             when (val todoItemState = todoViewModel.todoItemState.value) {
                 is TodoItemState.Init -> {}
                 is TodoItemState.Loaded -> {
-                    lifecycleScope.launch {
+                    lifecycleScope.launchWhenResumed {
                         if (isChecked) {
                             binding.deadlineDateTv.visibility = View.VISIBLE
                             if (todoItemState.todoItem.deadline == null) {
@@ -148,7 +148,7 @@ class TodoItemViewController @Inject constructor(
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     com.glebalekseevjk.feature.todoitem.R.id.save_todo -> {
-                        lifecycleScope.launch {
+                        lifecycleScope.launchWhenCreated {
                             when (todoViewModel.todoItemState.value) {
                                 is TodoItemState.Init -> {}
                                 is TodoItemState.Loaded -> {

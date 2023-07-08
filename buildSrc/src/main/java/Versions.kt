@@ -3,7 +3,7 @@ object Versions {
         const val CORE_KTX = "1.6.0"
         const val APP_COMPAT = "1.6.1"
         const val CONSTRAINT_LAYOUT = "2.1.1"
-        const val WORK = "2.5.0"
+        const val WORK = "2.7.0"
         const val SWIPE_REFRESH_LAYOUT = "1.1.0"
         const val ROOM = "2.3.0"
         const val NAVIGATION = "2.3.5"
