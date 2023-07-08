@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.glebalekseevjk.core.utils.getColorFromTheme
 import com.glebalekseevjk.core.utils.getMarginSpan
 import com.glebalekseevjk.design.R
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.IMPORTANT
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.LOW
 import com.glebalekseevjk.feature.todoitem.databinding.NewTodoItemRvBinding
 import com.glebalekseevjk.feature.todoitem.databinding.TodoItemRvBinding
 import com.glebalekseevjk.feature.todoitem.presentation.rv.callback.TodoItemDiffCallBack
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem.Companion.Importance.IMPORTANT
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem.Companion.Importance.LOW
 import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject

@@ -5,22 +5,25 @@ import android.net.ConnectivityManager
 import com.glebalekseevjk.common.Mapper
 import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
 import com.glebalekseevjk.core.retrofit.TodoItemService
-import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
-import com.glebalekseevjk.core.room.dao.TodoItemDao
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.retrofit.model.TodoElementRequest
+import com.glebalekseevjk.core.retrofit.model.TodoElementResponse
 import com.glebalekseevjk.core.retrofit.model.TodoListRequest
+import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
+import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.ToRemoveTodoItemDbModel
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
-import com.glebalekseevjk.domain.sync.SynchronizationRepository
 import com.glebalekseevjk.data.sync.utils.handleResponse
 import com.glebalekseevjk.data.sync.utils.isInternetAvailable
 import com.glebalekseevjk.design.R
+import com.glebalekseevjk.domain.sync.SynchronizationRepository
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.domain.todoitem.exception.ClientException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -35,7 +38,9 @@ class SynchronizationRepositoryImpl @Inject constructor(
     private val mapperTodoElement: Mapper<TodoItem, TodoElement>,
     context: Context
 ) : SynchronizationRepository {
-    private val connectivityManager by lazy { context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+    private val connectivityManager by lazy {
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
 
     private val patchMutex = Mutex()
 
@@ -122,7 +127,8 @@ class SynchronizationRepositoryImpl @Inject constructor(
             toAdd = _toAdd
         }
 
-        private fun getToRemoveToUpdateToAdd(): Triple<List<ToRemoveTodoItemDbModel>, List<TodoItemDbModel>, List<TodoItemDbModel>> {
+        private fun getToRemoveToUpdateToAdd():
+                Triple<List<ToRemoveTodoItemDbModel>, List<TodoItemDbModel>, List<TodoItemDbModel>> {
             val lastSyncDate = personalSharedPreferences.lastSynchronizationDate
             val listChangedAfterDate = todoItemDao.getAll().filter { it.changedAt >= lastSyncDate }
             val toRemove = toRemoveTodoItemDao.getAllBeforeDate(lastSyncDate.time)
@@ -141,48 +147,43 @@ class SynchronizationRepositoryImpl @Inject constructor(
 
             withContext(Dispatchers.Default) {
                 synchronizeMutex.withLock {
-                    for (item in toRemove) {
-                        handleResponse(
-                            onRequest = {
-                                todoItemService.deleteById(item.id)
-                            },
-                            onBadRequest = { patch() },
-                            isInternetAvailable = { connectivityManager.isInternetAvailable() },
-                            onNotFound = {
-
-                            }
-                        )
-                    }
-                    for (item in toUpdate.map(::toElement)) {
-                        handleResponse(
-                            onRequest = {
-                                todoItemService.updateById(
-                                    item.id!!,
-                                    TodoElementRequest(item)
+                    for (item in toRemove) actionRemote(
+                        onRequested = { todoItemService.deleteById(item.id) },
+                    )
+                    for (item in toUpdate.map(::toElement)) actionRemote(
+                        onRequested = {
+                            todoItemService.updateById(
+                                item.id!!,
+                                TodoElementRequest(item)
+                            )
+                        },
+                    )
+                    for (item in toAdd.map(::toElement)) actionRemote(
+                        onRequested = {
+                            todoItemService.insert(
+                                TodoElementRequest(
+                                    item
                                 )
-                            },
-                            onBadRequest = { patch() },
-                            isInternetAvailable = { connectivityManager.isInternetAvailable() },
-                            onNotFound = {
-
-                            })
-                    }
-                    for (item in toAdd.map(::toElement)) {
-                        handleResponse(
-                            onRequest = {
-                                todoItemService.insert(
-                                    TodoElementRequest(
-                                        item
-                                    )
-                                )
-                            },
-                            onBadRequest = { patch() },
-                            isInternetAvailable = { connectivityManager.isInternetAvailable() })
-                    }
+                            )
+                        },
+                        onNotFound = { throw ClientException() }
+                    )
                     personalSharedPreferences.lastSynchronizationDate = Calendar.getInstance().time
                     toRemoveTodoItemDao.deleteList(*toRemove.toTypedArray())
                 }
             }
+        }
+
+        private suspend fun actionRemote(
+            onRequested: suspend () -> Response<TodoElementResponse>,
+            onNotFound: () -> Unit = {},
+        ) {
+            handleResponse(
+                onRequest = onRequested,
+                onBadRequest = { patch() },
+                isInternetAvailable = { connectivityManager.isInternetAvailable() },
+                onNotFound = onNotFound
+            )
         }
     }
 

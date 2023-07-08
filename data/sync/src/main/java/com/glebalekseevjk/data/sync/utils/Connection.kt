@@ -2,12 +2,13 @@ package com.glebalekseevjk.data.sync.utils
 
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.glebalekseevjk.todoapp.domain.entity.exception.AuthorizationException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ClientException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ConnectionException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ServerException
-import com.glebalekseevjk.todoapp.domain.entity.exception.UnknownException
+import com.glebalekseevjk.domain.todoitem.exception.AuthorizationException
+import com.glebalekseevjk.domain.todoitem.exception.ClientException
+import com.glebalekseevjk.domain.todoitem.exception.ConnectionException
+import com.glebalekseevjk.domain.todoitem.exception.ServerException
+import com.glebalekseevjk.domain.todoitem.exception.UnknownException
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 fun ConnectivityManager.isInternetAvailable(): Boolean {
     val network = this.activeNetwork
@@ -22,21 +23,21 @@ suspend fun <R> handleResponse(
     onSuccessful: (response: Response<R>) -> Unit = {},
     onNotFound: () -> Unit = { throw ClientException() },
     onBadRequest: suspend () -> Unit = { throw ClientException() },
-    isInternetAvailable: ()->Boolean = { true },
+    isInternetAvailable: () -> Boolean = { true },
 ) {
     try {
         val response = onRequest.invoke()
         when (response.code()) {
-            200 -> {
+            HttpURLConnection.HTTP_OK -> {
                 onSuccessful.invoke(response)
             }
 
-            400 -> {
+            HttpURLConnection.HTTP_BAD_REQUEST -> {
                 onBadRequest.invoke()
             }
 
-            401 -> throw AuthorizationException()
-            404 -> {
+            HttpURLConnection.HTTP_UNAUTHORIZED -> throw AuthorizationException()
+            HttpURLConnection.HTTP_NOT_FOUND -> {
                 onNotFound.invoke()
             }
 

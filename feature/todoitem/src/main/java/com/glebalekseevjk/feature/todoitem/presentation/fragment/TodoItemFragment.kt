@@ -33,10 +33,11 @@ class TodoItemFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        fragmentComponent = TodoItemsViewModel.fragmentComponent!!.createTodoItemFragmentSubcomponent()
-            .apply {
-                inject(this@TodoItemFragment)
-            }
+        fragmentComponent =
+            TodoItemsViewModel.fragmentComponent!!.createTodoItemFragmentSubcomponent()
+                .apply {
+                    inject(this@TodoItemFragment)
+                }
         todoItemViewModel = ViewModelProvider(this, viewModelFactory)[TodoItemViewModel::class.java]
     }
 

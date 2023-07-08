@@ -17,17 +17,18 @@ class SynchronizeWorker(private val appContext: Context, params: WorkerParameter
         return try {
             appContext.appComponent.inject(this)
             val synchronizeState = synchronizationRepository.getSynchronizeState()
-            if (synchronizeState.isSynchronized){
+            if (synchronizeState.isSynchronized) {
                 synchronizationRepository.pull()
-            }else {
+            } else {
                 synchronizeState.synchronize()
             }
             Result.success()
-        }catch (e: Exception){
+        } catch (e: Exception) {
             println(e)
             Result.failure()
         }
     }
+
     companion object {
         const val SYNCHRONIZE_ONE_TIME_WORK_NAME = "synchronize_one_time_worker"
         const val SYNCHRONIZE_PERIODIC_WORK_NAME = "synchronize_periodic_worker"

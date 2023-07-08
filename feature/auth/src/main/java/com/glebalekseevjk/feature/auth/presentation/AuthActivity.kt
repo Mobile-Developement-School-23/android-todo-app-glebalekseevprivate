@@ -49,18 +49,22 @@ class AuthActivity : AppCompatActivity() {
         _binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.yandexAuthBtn.setOnClickListener {
-            lifecycleScope.launch {
-                if (yandexAuthMutex.isLocked) return@launch
-                yandexAuthMutex.withLock {
-                    val intent = yandexAuthSdk.get().createLoginIntent(yandexAuthLoginOptions.get())
-                    ActivityCompat.startActivityForResult(
-                        this@AuthActivity,
-                        intent,
-                        AuthSdkActivity.LOGIN_REQUEST_CODE,
-                        null
-                    )
-                    delay(1000)
-                }
+            startYandexAuth()
+        }
+    }
+
+    private fun startYandexAuth() {
+        lifecycleScope.launch {
+            if (yandexAuthMutex.isLocked) return@launch
+            yandexAuthMutex.withLock {
+                val intent = yandexAuthSdk.get().createLoginIntent(yandexAuthLoginOptions.get())
+                ActivityCompat.startActivityForResult(
+                    this@AuthActivity,
+                    intent,
+                    AuthSdkActivity.LOGIN_REQUEST_CODE,
+                    null
+                )
+                delay(1000)
             }
         }
     }
@@ -70,21 +74,29 @@ class AuthActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == AuthSdkActivity.LOGIN_REQUEST_CODE) {
             try {
-                val yandexAuthToken = yandexAuthSdk.get().extractToken(resultCode, data)
-                if (yandexAuthToken != null) {
-                    lifecycleScope.launch {
-                        authRepository.get().authorize(yandexAuthToken.value)
-                        val intent = playIntent.get().intent
-                        startActivity(intent)
-                        finishAffinity()
-                    }
-                }
+                checkToken(resultCode, data)
             } catch (_: YandexAuthException) {
 
             }
             return
         }
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun startMainActivity() {
+        val intent = playIntent.get().intent
+        startActivity(intent)
+        finishAffinity()
+    }
+
+    private fun checkToken(resultCode: Int, data: Intent?) {
+        val yandexAuthToken = yandexAuthSdk.get().extractToken(resultCode, data)
+        if (yandexAuthToken != null) {
+            lifecycleScope.launch {
+                authRepository.get().authorize(yandexAuthToken.value)
+                startMainActivity()
+            }
+        }
     }
 
     companion object {

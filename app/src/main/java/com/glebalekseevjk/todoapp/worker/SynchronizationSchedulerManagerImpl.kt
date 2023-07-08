@@ -8,6 +8,7 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.glebalekseevjk.core.utils.Constants.WORKER_SYNCHRONIZATION_TIMEOUT
 import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import java.util.concurrent.TimeUnit
@@ -24,7 +25,10 @@ class SynchronizationSchedulerManagerImpl @Inject constructor(context: Context) 
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .build()
-        val repeatingRequest = PeriodicWorkRequestBuilder<SynchronizeWorker>(8, TimeUnit.HOURS)
+        val repeatingRequest = PeriodicWorkRequestBuilder<SynchronizeWorker>(
+            WORKER_SYNCHRONIZATION_TIMEOUT,
+            TimeUnit.HOURS
+        )
             .setConstraints(constraints)
             .build()
         workManager.enqueueUniquePeriodicWork(

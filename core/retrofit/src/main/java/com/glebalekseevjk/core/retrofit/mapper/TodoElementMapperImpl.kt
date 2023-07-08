@@ -2,8 +2,8 @@ package com.glebalekseevjk.core.retrofit.mapper
 
 import com.glebalekseevjk.common.Mapper
 import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.core.retrofit.model.TodoElement
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
@@ -17,11 +17,11 @@ class TodoElementMapperImpl @Inject constructor(
             text = item.text,
             importance = item.importance.toString().lowercase(),
             done = item.isDone,
-            deadline = item.deadline?.time?.let { (it / 1000).toInt() },
-            color = "#FFFFFF",
+            deadline = item.deadline?.time?.let { (it / DATE_CORRECT_VALUE).toInt() },
+            color = COLOR_MOCK,
             lastUpdatedBy = personalSharedPreferences.deviceId,
-            changedAt = item.changedAt.time.let { (it / 1000).toInt() },
-            createdAt = item.createdAt.time.let { (it / 1000).toInt() },
+            changedAt = item.changedAt.time.let { (it / DATE_CORRECT_VALUE).toInt() },
+            createdAt = item.createdAt.time.let { (it / DATE_CORRECT_VALUE).toInt() },
         )
     }
 
@@ -32,10 +32,15 @@ class TodoElementMapperImpl @Inject constructor(
             importance = TodoItem.Companion.Importance.valueOf(
                 anotherItem.importance!!.uppercase(Locale.getDefault())
             ),
-            deadline = anotherItem.deadline?.let { Date(it.toLong() * 1000) },
+            deadline = anotherItem.deadline?.let { Date(it.toLong() * DATE_CORRECT_VALUE) },
             isDone = anotherItem.done!!,
-            createdAt = anotherItem.createdAt!!.let { Date(it.toLong() * 1000) },
-            changedAt = anotherItem.changedAt!!.let { Date(it.toLong() * 1000) }
+            createdAt = anotherItem.createdAt!!.let { Date(it.toLong() * DATE_CORRECT_VALUE) },
+            changedAt = anotherItem.changedAt!!.let { Date(it.toLong() * DATE_CORRECT_VALUE) }
         )
+    }
+
+    companion object {
+        private const val DATE_CORRECT_VALUE = 1000
+        private const val COLOR_MOCK = "#FFFFFF"
     }
 }

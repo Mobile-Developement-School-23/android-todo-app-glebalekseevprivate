@@ -2,6 +2,7 @@ package com.glebalekseevjk.core.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.glebalekseevjk.core.preferences.exception.UnknownDeviceIdException
 import java.util.Date
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class PersonalSharedPreferences @Inject constructor(private val context: Context
 
     var deviceId: String
         get() = personalPreferences.getString(PREF_KEY_DEVICE_ID, null)
-            ?: throw RuntimeException("Device id is not set")
+            ?: throw UnknownDeviceIdException()
         set(value) {
             personalPreferences.edit().putString(PREF_KEY_DEVICE_ID, value).apply()
         }

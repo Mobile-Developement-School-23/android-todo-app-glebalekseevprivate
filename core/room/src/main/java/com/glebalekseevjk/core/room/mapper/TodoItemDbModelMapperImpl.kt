@@ -1,8 +1,8 @@
 package com.glebalekseevjk.core.room.mapper
 
 import com.glebalekseevjk.common.Mapper
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import javax.inject.Inject
 
 class TodoItemDbModelMapperImpl @Inject constructor() : Mapper<TodoItem, TodoItemDbModel> {

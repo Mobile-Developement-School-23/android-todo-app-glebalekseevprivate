@@ -2,7 +2,11 @@ package com.glebalekseevjk.core.retrofit.interceptor
 
 import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
 import okhttp3.Interceptor
+import okhttp3.OkHttp
+import okhttp3.OkHttpClient
 import okhttp3.Response
+import retrofit2.http.HTTP
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class SaveRevisionInterceptor @Inject constructor(
@@ -10,8 +14,8 @@ class SaveRevisionInterceptor @Inject constructor(
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
-        if (response.code == 200) {
-            val responseBody = response.peekBody(2048).string()
+        if (response.code == HttpURLConnection.HTTP_OK) {
+            val responseBody = response.peekBody(BYTE_COUNT).string()
             val revision: String? = responseBody.let {
                 regex.find(it)?.groupValues?.get(1)
             }
@@ -22,5 +26,6 @@ class SaveRevisionInterceptor @Inject constructor(
 
     companion object {
         private val regex = Regex("""\s*"revision"\s*:\s*(\d+).*""")
+        private const val BYTE_COUNT = 2048L
     }
 }

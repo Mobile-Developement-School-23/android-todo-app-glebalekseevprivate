@@ -28,13 +28,15 @@ class MainActivity : AppCompatActivity() {
     private fun observeIsAuth() {
         lifecycleScope.launch {
             authRepository.isAuth.collectLatest {
-                if (!it) {
-                    val intent = AuthActivity.createIntent(this@MainActivity)
-                    startActivity(intent)
-                    finishAffinity()
-                }
+                if (!it) startAuthActivity()
             }
         }
+    }
+
+    private fun startAuthActivity() {
+        val intent = AuthActivity.createIntent(this)
+        startActivity(intent)
+        finishAffinity()
     }
 
     companion object {

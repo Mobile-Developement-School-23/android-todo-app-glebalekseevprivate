@@ -2,8 +2,8 @@ package com.glebalekseevjk.feature.todoitem.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -1,6 +1,6 @@
 package com.glebalekseevjk.domain.todoitem
 
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.flow.Flow
 
 interface TodoItemRepository {

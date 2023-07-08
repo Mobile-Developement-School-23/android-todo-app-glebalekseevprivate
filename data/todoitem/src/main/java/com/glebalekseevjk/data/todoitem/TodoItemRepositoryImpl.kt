@@ -4,9 +4,9 @@ import com.glebalekseevjk.common.Mapper
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.ToRemoveTodoItemDbModel
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
 import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn

@@ -3,7 +3,7 @@ package com.glebalekseevjk.core.room.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem.Companion.Importance
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance
 import java.util.Date
 
 @Entity

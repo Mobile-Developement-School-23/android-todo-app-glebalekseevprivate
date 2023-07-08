@@ -1,4 +1,4 @@
-package com.glebalekseevjk.todoapp.domain.entity.entity
+package com.glebalekseevjk.domain.todoitem.entity
 
 import java.util.Date
 

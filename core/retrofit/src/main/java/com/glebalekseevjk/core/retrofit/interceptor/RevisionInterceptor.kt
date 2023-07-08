@@ -4,6 +4,8 @@ import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
+import okhttp3.internal.http.HttpMethod
+import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class RevisionInterceptor @Inject constructor(

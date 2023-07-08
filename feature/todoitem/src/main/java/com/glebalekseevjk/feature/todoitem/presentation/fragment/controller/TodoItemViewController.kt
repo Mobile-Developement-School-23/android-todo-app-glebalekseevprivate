@@ -13,11 +13,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.glebalekseevjk.core.utils.getColorFromTheme
 import com.glebalekseevjk.design.R
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemBinding
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel

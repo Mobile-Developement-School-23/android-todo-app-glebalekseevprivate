@@ -8,7 +8,7 @@ import com.glebalekseevjk.todoapp.di.AppComponent
 import com.glebalekseevjk.todoapp.di.DaggerAppComponent
 import javax.inject.Inject
 
-class App: Application(), HasDependencies {
+class App : Application(), HasDependencies {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()
             .create(this)
@@ -23,7 +23,7 @@ class App: Application(), HasDependencies {
     }
 
     @Inject
-    fun setupWorkers(synchronizationSchedulerManager: SynchronizationSchedulerManager){
+    fun setupWorkers(synchronizationSchedulerManager: SynchronizationSchedulerManager) {
         synchronizationSchedulerManager.setupPeriodicSynchronize()
     }
 }

@@ -8,6 +8,9 @@ import com.glebalekseevjk.core.retrofit.interceptor.GenerateFailsInterceptor
 import com.glebalekseevjk.core.retrofit.interceptor.RevisionInterceptor
 import com.glebalekseevjk.core.retrofit.interceptor.SaveRevisionInterceptor
 import com.glebalekseevjk.core.utils.Constants
+import com.glebalekseevjk.core.utils.Constants.CONNECT_TIMEOUT
+import com.glebalekseevjk.core.utils.Constants.READ_TIMEOUT
+import com.glebalekseevjk.core.utils.Constants.WRITE_TIMEOUT
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Module
 import dagger.Provides
@@ -47,9 +50,9 @@ interface RemoteDataSourceModule {
             loggingInterceptor: HttpLoggingInterceptor,
         ): OkHttpClient {
             return OkHttpClient.Builder()
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
                 .addNetworkInterceptor(authorizationFailedInterceptor)
                 .addNetworkInterceptor(saveRevisionInterceptor)
 //                .addNetworkInterceptor(generateFailsInterceptor)

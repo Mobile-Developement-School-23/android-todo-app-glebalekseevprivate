@@ -10,7 +10,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.lang.Float.min
 
-class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet): CoordinatorLayout.Behavior<FloatingActionButton>() {
+class FloatingActionButtonBehavior(context: Context, attrs: AttributeSet) :
+    CoordinatorLayout.Behavior<FloatingActionButton>() {
     override fun layoutDependsOn(
         parent: CoordinatorLayout,
         child: FloatingActionButton,

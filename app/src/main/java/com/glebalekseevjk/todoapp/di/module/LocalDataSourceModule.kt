@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.glebalekseevjk.common.Mapper
 import com.glebalekseevjk.core.retrofit.mapper.TodoElementMapperImpl
-import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.room.AppDatabase
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.mapper.TodoItemDbModelMapperImpl
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -20,11 +20,15 @@ import dagger.Provides
 interface LocalDataSourceModule {
     @AppComponentScope
     @Binds
-    fun bindTodoElementMapperImpl(todoElementMapperImpl: TodoElementMapperImpl): Mapper<TodoItem, TodoElement>
+    fun bindTodoElementMapperImpl(
+        todoElementMapperImpl: TodoElementMapperImpl
+    ): Mapper<TodoItem, TodoElement>
 
     @AppComponentScope
     @Binds
-    fun bindTodoItemDbModelMapperImpl(todoItemDbModelMapperImpl: TodoItemDbModelMapperImpl): Mapper<TodoItem, TodoItemDbModel>
+    fun bindTodoItemDbModelMapperImpl(
+        todoItemDbModelMapperImpl: TodoItemDbModelMapperImpl
+    ): Mapper<TodoItem, TodoItemDbModel>
 
     companion object {
         @AppComponentScope

@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.glebalekseevjk.core.utils.di.findDependencies
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemsBinding
 import com.glebalekseevjk.feature.todoitem.di.DaggerTodoItemsComponent
-import com.glebalekseevjk.feature.todoitem.di.TodoItemsComponent
 import com.glebalekseevjk.feature.todoitem.di.TodoItemsFragmentViewSubcomponent
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewModel
 import javax.inject.Inject
@@ -33,7 +32,8 @@ class TodoItemsFragment : Fragment() {
             .apply {
                 inject(this@TodoItemsFragment)
             }
-        todoItemsViewModel = ViewModelProvider(this, viewModelFactory)[TodoItemsViewModel::class.java]
+        todoItemsViewModel =
+            ViewModelProvider(this, viewModelFactory)[TodoItemsViewModel::class.java]
     }
 
     override fun onCreateView(

@@ -1,7 +1,7 @@
 package com.glebalekseevjk.core.room.converter
 
 import androidx.room.TypeConverter
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem.Companion.Importance
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance
 
 class ImportanceConverter {
     @TypeConverter

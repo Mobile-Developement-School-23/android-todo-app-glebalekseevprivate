@@ -1,3 +1,3 @@
-package com.glebalekseevjk.todoapp.domain.entity.exception
+package com.glebalekseevjk.domain.todoitem.exception
 
 class AuthorizationException : Exception()

@@ -8,14 +8,14 @@ import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.domain.sync.SynchronizationRepository
 import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
 import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.domain.todoitem.exception.AuthorizationException
+import com.glebalekseevjk.domain.todoitem.exception.ClientException
+import com.glebalekseevjk.domain.todoitem.exception.ConnectionException
+import com.glebalekseevjk.domain.todoitem.exception.ServerException
+import com.glebalekseevjk.domain.todoitem.exception.UnknownException
 import com.glebalekseevjk.feature.todoitem.di.TodoItemsComponent
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsState.Init
-import com.glebalekseevjk.todoapp.domain.entity.entity.TodoItem
-import com.glebalekseevjk.todoapp.domain.entity.exception.AuthorizationException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ClientException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ConnectionException
-import com.glebalekseevjk.todoapp.domain.entity.exception.ServerException
-import com.glebalekseevjk.todoapp.domain.entity.exception.UnknownException
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +41,7 @@ class TodoItemsViewModel @Inject constructor(
     init {
         Companion.fragmentComponent = fragmentComponent
     }
+
     private val _todoItemsState =
         MutableStateFlow<TodoItemsState>(Init(synchronizationRepository.lastSyncDate))
     val todoItemsState get(): StateFlow<TodoItemsState> = _todoItemsState
@@ -152,7 +153,8 @@ class TodoItemsViewModel @Inject constructor(
                 .withDefaultDispatcher()
                 .withSupervisorJob()
                 .launch {
-                    if (synchronizationRepository.getSynchronizeState().isSynchronized && todoItemRepository.todoItems.first()
+                    if (synchronizationRepository.getSynchronizeState().isSynchronized
+                        && todoItemRepository.todoItems.first()
                             .isEmpty()
                     ) {
                         pull()
@@ -211,7 +213,8 @@ class TodoItemsViewModel @Inject constructor(
                         state.copy(
                             visibility = !state.visibility,
                             lastSyncDate = synchronizationRepository.lastSyncDate,
-                            todoItemsDisplay = if (!state.visibility) state.todoItems else state.todoItems.filter { !it.isDone }
+                            todoItemsDisplay = if (!state.visibility) state.todoItems
+                            else state.todoItems.filter { !it.isDone }
                         )
                     )
                 }
@@ -304,7 +307,8 @@ class TodoItemsViewModel @Inject constructor(
         CoroutineScope(this.coroutineContext + SupervisorJob())
 
     companion object {
-        @Volatile var fragmentComponent: TodoItemsComponent? = null
+        @Volatile
+        var fragmentComponent: TodoItemsComponent? = null
     }
 }
 
