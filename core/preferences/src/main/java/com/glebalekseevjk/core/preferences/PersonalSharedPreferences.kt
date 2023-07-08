@@ -3,6 +3,7 @@ package com.glebalekseevjk.core.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import com.glebalekseevjk.core.preferences.exception.UnknownDeviceIdException
+import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -23,7 +24,7 @@ class PersonalSharedPreferences @Inject constructor(private val context: Context
         }
 
     var lastSynchronizationDate: Date
-        get() = Date(personalPreferences.getLong(PREF_KEY_LAST_SYNCHRONIZATION_DATE, 0L))
+        get() = Date(personalPreferences.getLong(PREF_KEY_LAST_SYNCHRONIZATION_DATE, Calendar.getInstance().time.time))
         set(value) {
             personalPreferences.edit().putLong(PREF_KEY_LAST_SYNCHRONIZATION_DATE, value.time)
                 .apply()

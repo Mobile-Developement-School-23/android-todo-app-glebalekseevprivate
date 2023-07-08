@@ -178,7 +178,7 @@ class TodoItemsViewController @Inject constructor(
     }
 
     private fun checkVisibilityButton(visibility: Boolean) {
-
+        context.setTheme(R.style.Theme_ToDoApp)
         val drawable = if (visibility) {
             AppCompatResources.getDrawable(context, R.drawable.visibility)
 

@@ -44,7 +44,6 @@ dependencies {
     implementation(project(":core:utils"))
     implementation(project(":core:room"))
     implementation(project(":common"))
-//    implementation(project(":core:preferences"))
     implementation(project(":core:retrofit"))
     implementation(project(":domain:auth"))
     implementation(project(":data:todoitem"))
@@ -52,7 +51,13 @@ dependencies {
     implementation(project(":domain:todoitem"))
     implementation(project(":design"))
 
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+
     implementation(Dependencies.SwipeRefreshLayout.SWIPE_REFRESH_LAYOUT)
+    implementation(Dependencies.Material.MATERIAL)
+    implementation(Dependencies.AppCompat.APP_COMPAT)
+    implementation(Dependencies.ConstraintLayout.CONSTRAINT_LAYOUT)
+    implementation(Dependencies.Core.CORE_KTX)
     implementation(Dependencies.Dagger.DAGGER)
     kapt(Dependencies.Dagger.DAGGER_COMPILER)
     implementation(Dependencies.Navigation.NAVIGATION_FRAGMENT)

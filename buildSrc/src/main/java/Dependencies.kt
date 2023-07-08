@@ -37,6 +37,7 @@ object Dependencies {
         const val CORE_KTX = "androidx.core:core-ktx:${Versions.AndroidX.CORE_KTX}"
     }
 
+
     object AppCompat {
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.AndroidX.APP_COMPAT}"
     }
