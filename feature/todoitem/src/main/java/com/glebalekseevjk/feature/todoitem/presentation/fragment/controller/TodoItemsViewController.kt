@@ -28,6 +28,15 @@ import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import kotlin.math.pow
 
+/**
+Ответственность класса TodoItemsViewController:
+Управление представлением списка задач и взаимодействие
+с соответствующей моделью представления.
+Он инициализирует и настраивает элементы пользовательского интерфейса,
+обрабатывает события пользователя, отображает состояние списка задач
+и обрабатывает уведомления. Класс отвечает за отображение и обработку данных,
+связанных с задачами, и взаимодействие с навигацией между экранами.
+ */
 
 class TodoItemsViewController @Inject constructor(
     private val context: Context,
@@ -57,7 +66,7 @@ class TodoItemsViewController @Inject constructor(
         }
         binding.isShowDone.setOnClickListener {
             if (isShowDoneMutex.isLocked) return@setOnClickListener
-            lifecycleScope.launchWhenCreated {
+            lifecycleScope.launch {
                 isShowDoneMutex.withLock {
                     todoItemsViewModel.dispatch(TodoItemsAction.ChangeVisibility)
                     delay(400)
@@ -65,12 +74,12 @@ class TodoItemsViewController @Inject constructor(
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            lifecycleScope.launchWhenCreated {
+            lifecycleScope.launch {
                 todoItemsViewModel.dispatch(TodoItemsAction.Quit)
             }
         }
         binding.srl.setOnRefreshListener {
-            lifecycleScope.launchWhenCreated {
+            lifecycleScope.launch {
                 todoItemsViewModel.dispatch(TodoItemsAction.PullToRefresh)
             }
         }
@@ -92,7 +101,7 @@ class TodoItemsViewController @Inject constructor(
     }
 
     private fun initTodoItemsState() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             todoItemsViewModel.dispatch(TodoItemsAction.Init)
         }
     }
@@ -118,7 +127,7 @@ class TodoItemsViewController @Inject constructor(
         }
         todoItemsAdapter.setDoneStatusClickListener = { todoId, viewHolder ->
             swipeCallback.resetViewHolder(viewHolder)
-            lifecycleScope.launchWhenCreated {
+            lifecycleScope.launch {
                 todoItemsViewModel.dispatch(TodoItemsAction.SetDoneStatus(todoId, context))
 
             }
@@ -127,7 +136,7 @@ class TodoItemsViewController @Inject constructor(
             navigateToTodoItemFragmentWithAddMode()
         }
         todoItemsAdapter.deleteTodoItemClickListener = { todoId, viewHolder ->
-            lifecycleScope.launchWhenResumed {
+            lifecycleScope.launch {
                 swipeCallback.resetViewHolder(viewHolder)
                 todoItemsViewModel.dispatch(
                     TodoItemsAction.DeleteTodoItem(
@@ -140,7 +149,7 @@ class TodoItemsViewController @Inject constructor(
     }
 
     private fun observeTodoItemsState() {
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             todoItemsViewModel.todoItemsState.collect { todoItemsState ->
                 binding.lastSyncDateTv.text = todoItemsState.lastSyncDate
                 when (todoItemsState) {

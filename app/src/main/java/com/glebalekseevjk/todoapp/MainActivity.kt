@@ -13,7 +13,14 @@ import com.glebalekseevjk.todoapp.utils.appComponent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+/**
 
+Ответственность класса MainActivity:
+Класс MainActivity отвечает за управление основной активностью приложения.
+Он обрабатывает создание активности, наблюдает за состоянием аутентификации
+и запускает активность аутентификации при необходимости. Также класс предоставляет
+методы для создания намерения (Intent) для запуска MainActivity из других компонентов.
+ */
 class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var authRepository: AuthRepository

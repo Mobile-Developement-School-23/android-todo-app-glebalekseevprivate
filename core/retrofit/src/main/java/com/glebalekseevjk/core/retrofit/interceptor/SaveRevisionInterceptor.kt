@@ -9,6 +9,12 @@ import retrofit2.http.HTTP
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
+/**
+Ответственность класса SaveRevisionInterceptor:
+Класс SaveRevisionInterceptor отвечает за перехват и сохранение ревизии (revision) из HTTP-ответа.
+Он выполняет проверку кода ответа, извлекает ревизию из тела ответа
+и сохраняет ее в локальное хранилище PersonalSharedPreferences.
+ */
 class SaveRevisionInterceptor @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences
 ) : Interceptor {

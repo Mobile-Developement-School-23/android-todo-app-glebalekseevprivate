@@ -8,6 +8,15 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoElementMapperImpl:
+Класс отвечает за преобразование объектов типа TodoItem
+и TodoElement друг в друга. Он содержит два метода:
+mapItemToAnotherItem для преобразования TodoItem в TodoElement
+и mapAnotherItemToItem для преобразования TodoElement в TodoItem.
+Класс также использует PersonalSharedPreferences для получения
+информации о последнем обновлении на устройстве.
+ */
 class TodoElementMapperImpl @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences
 ) : Mapper<TodoItem, TodoElement> {

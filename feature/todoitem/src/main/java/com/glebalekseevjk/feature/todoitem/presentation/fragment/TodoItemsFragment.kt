@@ -16,6 +16,12 @@ import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewM
 import javax.inject.Inject
 
 
+/**
+Ответственность класса TodoItemsFragment:
+Управление фрагментом, отображающим список задач.
+Он обрабатывает создание и настройку представления фрагмента,
+связывает модель представления с фрагментом и обеспечивает взаимодействие с другими компонентами.
+ */
 class TodoItemsFragment : Fragment() {
     private var _binding: FragmentTodoItemsBinding? = null
     private val binding: FragmentTodoItemsBinding get() = _binding!!

@@ -14,6 +14,17 @@ import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+/**
+Ответственность класса SynchronizationSchedulerManagerImpl:
+Управление планированием синхронизации данных.
+Класс SynchronizationSchedulerManagerImpl отвечает за управление
+планированием периодической и одноразовой синхронизации данных.
+Он использует WorkManager для создания и запуска задач синхронизации.
+Класс предоставляет методы для настройки периодической и одноразовой синхронизации,
+которые определяют необходимые ограничения и создают соответствующие запросы работы (work requests).
+В результате класс обеспечивает планирование синхронизации данных
+в соответствии с заданными параметрами и ограничениями.
+ */
 @AppComponentScope
 class SynchronizationSchedulerManagerImpl @Inject constructor(context: Context) :
     SynchronizationSchedulerManager {

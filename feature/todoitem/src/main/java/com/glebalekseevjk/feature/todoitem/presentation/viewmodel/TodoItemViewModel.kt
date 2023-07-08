@@ -13,6 +13,12 @@ import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoItemViewModel:
+Управление состоянием и взаимодействие с репозиторием для работы с элементами списка задач.
+Класс отвечает за обработку действий пользователя,
+изменение состояния элемента списка задач и его сохранение/удаление в репозитории.
+ */
 class TodoItemViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {

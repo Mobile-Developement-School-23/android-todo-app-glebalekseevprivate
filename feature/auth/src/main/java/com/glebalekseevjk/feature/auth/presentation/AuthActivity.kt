@@ -22,6 +22,12 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
+/**
+Ответственность класса AuthActivity:
+Класс AuthActivity отвечает за управление процессом аутентификации пользователя.
+Он содержит логику и методы, связанные с инициализацией и настройкой компонентов аутентификации,
+запуском процесса аутентификации, обработкой результатов и авторизацией пользователя.
+ */
 class AuthActivity : AppCompatActivity() {
     private var _binding: ActivityAuthBinding? = null
     private val binding: ActivityAuthBinding

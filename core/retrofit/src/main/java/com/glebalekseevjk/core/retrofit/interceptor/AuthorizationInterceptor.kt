@@ -6,6 +6,12 @@ import okhttp3.Request
 import okhttp3.Response
 import javax.inject.Inject
 
+/**
+Ответственность класса AuthorizationInterceptor:
+Класс AuthorizationInterceptor отвечает за перехват и обработку
+авторизационных заголовков в запросах. Он предоставляет функциональность добавления
+токена авторизации к заголовкам запроса, используя SharedPreferences для получения токена.
+ */
 class AuthorizationInterceptor @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences,
 ) : Interceptor {

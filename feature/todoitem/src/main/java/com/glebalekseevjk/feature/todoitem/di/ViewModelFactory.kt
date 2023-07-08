@@ -5,6 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
 
+/**
+Ответственность класса ViewModelFactory:
+Создание экземпляров ViewModel на основе их класса.
+ */
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory @Inject constructor(
     private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>

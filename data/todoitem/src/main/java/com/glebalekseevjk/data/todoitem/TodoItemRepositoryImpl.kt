@@ -16,6 +16,14 @@ import java.util.Calendar
 import java.util.UUID
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoItemRepositoryImpl:
+Этот класс является реализацией интерфейса TodoItemRepository
+и отвечает за взаимодействие с базой данных для операций CRUD
+(создание, чтение, обновление и удаление) элементов списка задач.
+Он содержит методы для получения задачи по идентификатору, добавления новой задачи,
+изменения статуса выполнения, удаления задачи и обновления информации о задаче в базе данных.
+ */
 class TodoItemRepositoryImpl @Inject constructor(
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,

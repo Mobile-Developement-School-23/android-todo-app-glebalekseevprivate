@@ -8,6 +8,11 @@ import com.glebalekseevjk.todoapp.di.AppComponent
 import com.glebalekseevjk.todoapp.di.DaggerAppComponent
 import javax.inject.Inject
 
+
+/**
+ * Ответственность класса App: инициализации и настройке графа зависимостей приложения,
+ * а также настройка периодической синхронизации через внедрение зависимостей
+ */
 class App : Application(), HasDependencies {
     val appComponent: AppComponent by lazy {
         DaggerAppComponent.factory()

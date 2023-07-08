@@ -28,6 +28,10 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoItemViewController:
+Управление отображением элемента списка задач.
+ */
 class TodoItemViewController @Inject constructor(
     private val context: Context,
     private val activity: Activity,
@@ -59,7 +63,7 @@ class TodoItemViewController @Inject constructor(
                 datePicker.month,
                 datePicker.dayOfMonth
             ).time
-            lifecycleScope.launchWhenResumed {
+            lifecycleScope.launch {
                 todoViewModel.dispatch(
                     TodoItemAction.SetDeadline(
                         deadline
@@ -72,7 +76,7 @@ class TodoItemViewController @Inject constructor(
 
     private fun initListeners() {
         binding.deleteBtn.setOnClickListener {
-            lifecycleScope.launchWhenResumed {
+            lifecycleScope.launch {
                 todoViewModel.dispatch(TodoItemAction.DeleteTodoItem)
                 navController.popBackStack()
             }
@@ -85,7 +89,7 @@ class TodoItemViewController @Inject constructor(
                 parent: AdapterView<*>?,
                 itemSelected: View?, selectedItemPosition: Int, selectedId: Long
             ) {
-                lifecycleScope.launchWhenResumed {
+                lifecycleScope.launch {
                     todoViewModel.dispatch(
                         TodoItemAction.SetImportance(
                             when (selectedItemPosition) {
@@ -106,7 +110,7 @@ class TodoItemViewController @Inject constructor(
             when (val todoItemState = todoViewModel.todoItemState.value) {
                 is TodoItemState.Init -> {}
                 is TodoItemState.Loaded -> {
-                    lifecycleScope.launchWhenResumed {
+                    lifecycleScope.launch {
                         if (isChecked) {
                             binding.deadlineDateTv.visibility = View.VISIBLE
                             if (todoItemState.todoItem.deadline == null) {
@@ -148,7 +152,7 @@ class TodoItemViewController @Inject constructor(
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     com.glebalekseevjk.feature.todoitem.R.id.save_todo -> {
-                        lifecycleScope.launchWhenCreated {
+                        lifecycleScope.launch {
                             when (todoViewModel.todoItemState.value) {
                                 is TodoItemState.Init -> {}
                                 is TodoItemState.Loaded -> {

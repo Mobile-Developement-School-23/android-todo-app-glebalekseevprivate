@@ -8,6 +8,12 @@ import okhttp3.internal.http.HttpMethod
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
+/**
+Ответственность класса RevisionInterceptor:
+Интерцептор ревизий, который добавляет заголовок с последней известной ревизией к запросам,
+кроме GET-запросов. Если ревизия доступна в PersonalSharedPreferences,
+то заголовок "X-Last-Known-Revision" будет добавлен к запросу.
+ */
 class RevisionInterceptor @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences
 ) : Interceptor {

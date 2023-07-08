@@ -19,7 +19,12 @@ import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewM
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+Ответственность класса TodoItemFragment:
+Отображение и управление фрагментом для отдельного элемента списка задач (TodoItem).
+Класс отвечает за создание и управление пользовательским интерфейсом,
+включая связывание данных с макетом, обработку событий и взаимодействие с ViewModel.
+ */
 class TodoItemFragment : Fragment() {
     private var _binding: FragmentTodoItemBinding? = null
     private val binding: FragmentTodoItemBinding get() = _binding!!

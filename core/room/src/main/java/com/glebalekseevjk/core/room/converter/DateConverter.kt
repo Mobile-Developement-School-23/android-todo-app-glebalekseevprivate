@@ -3,6 +3,11 @@ package com.glebalekseevjk.core.room.converter
 import androidx.room.TypeConverter
 import java.util.Date
 
+/**
+Ответственность класса DateConverter:
+Преобразование значений типа Long в объекты типа Date и обратно.
+Класс отвечает за конвертацию даты и времени между двумя разными типами данных.
+ */
 class DateConverter {
     @TypeConverter
     fun toDate(value: Long): Date? {

@@ -11,6 +11,15 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 import javax.inject.Inject
 
+/**
+Ответственность класса AuthRepositoryImpl:
+Класс AuthRepositoryImpl отвечает за реализацию интерфейса AuthRepository
+и предоставляет функциональность для авторизации и выхода пользователя.
+Он обрабатывает операции с персональными настройками, данными задач
+и управлением состоянием авторизации. Его основная ответственность заключается в сохранении
+и удалении данных пользователя,
+а также в обновлении состояния авторизации в соответствии с выполненными операциями.
+ */
 class AuthRepositoryImpl @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences,
     private val todoItemDao: TodoItemDao,

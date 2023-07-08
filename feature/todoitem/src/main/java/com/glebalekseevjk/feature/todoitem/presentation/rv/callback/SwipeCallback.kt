@@ -17,6 +17,13 @@ import kotlinx.coroutines.launch
 import java.util.LinkedList
 import kotlin.math.abs
 
+/**
+Ответственность класса SwipeCallback:
+Класс SwipeCallback отвечает за обработку свайпов элементов в RecyclerView.
+Он определяет разрешенные направления свайпа и обрабатывает события свайпа.
+Также класс отвечает за анимацию скроллинга элементов при свайпе
+и сброс анимации при сбросе состояния элемента.
+ */
 class SwipeCallback constructor(private val scrollConstraintOffset: Float) : Callback() {
     private var isFirst = false
     private var startScrollX = 0

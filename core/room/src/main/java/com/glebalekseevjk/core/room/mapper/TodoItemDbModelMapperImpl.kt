@@ -5,6 +5,10 @@ import com.glebalekseevjk.core.room.model.TodoItemDbModel
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoItemDbModelMapperImpl:
+Преобразование объектов типа TodoItem в объекты типа TodoItemDbModel и обратно.
+ */
 class TodoItemDbModelMapperImpl @Inject constructor() : Mapper<TodoItem, TodoItemDbModel> {
     override fun mapItemToAnotherItem(item: TodoItem): TodoItemDbModel {
         return TodoItemDbModel(

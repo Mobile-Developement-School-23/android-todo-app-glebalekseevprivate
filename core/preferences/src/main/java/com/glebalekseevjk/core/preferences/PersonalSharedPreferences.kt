@@ -7,6 +7,16 @@ import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
+/**
+Ответственность класса PersonalSharedPreferences:
+Управление персональными настройками и данными пользователей.
+Класс обеспечивает доступ к SharedPreferences и предоставляет методы
+для чтения и записи значений, таких как редакция, токен,
+дата последней синхронизации и идентификатор устройства.
+Он также предоставляет методы для очистки всех значений.
+Класс имеет единственную ответственность, связанную
+с управлением персональными настройками и данными пользователей.
+ */
 class PersonalSharedPreferences @Inject constructor(private val context: Context) {
     private val personalPreferences: SharedPreferences =
         context.getSharedPreferences(PREF_PACKAGE_NAME, Context.MODE_PRIVATE)

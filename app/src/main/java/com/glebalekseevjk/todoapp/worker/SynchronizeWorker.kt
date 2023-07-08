@@ -7,6 +7,15 @@ import com.glebalekseevjk.domain.sync.SynchronizationRepository
 import com.glebalekseevjk.todoapp.utils.appComponent
 import javax.inject.Inject
 
+/**
+Ответственность класса SynchronizeWorker:
+Класс SynchronizeWorker отвечает за выполнение синхронизации данных.
+Он получает контекст приложения и параметры рабочего процесса,
+используя библиотеку CoroutineWorker. Класс инъектирует репозиторий синхронизации
+и выполняет синхронизацию данных в зависимости от состояния синхронизации.
+Если данные уже синхронизированы, выполняется операция извлечения данных.
+В противном случае, выполняется операция синхронизации данных.
+ */
 class SynchronizeWorker(private val appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
 

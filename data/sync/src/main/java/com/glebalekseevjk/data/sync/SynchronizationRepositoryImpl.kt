@@ -29,6 +29,12 @@ import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
 
+/**
+Ответственность класса SynchronizationRepositoryImpl:
+Класс отвечает за синхронизацию данных между локальным хранилищем
+и удаленным сервисом. Он обеспечивает обновление, получение
+и отправку данных, а также контролирует состояние синхронизации.
+ */
 class SynchronizationRepositoryImpl @Inject constructor(
     private val personalSharedPreferences: PersonalSharedPreferences,
     private val todoItemDao: TodoItemDao,
@@ -111,6 +117,16 @@ class SynchronizationRepositoryImpl @Inject constructor(
         }
     }
 
+    /**
+    Ответственность класса SynchronizeStateImpl:
+    Управление синхронизацией состояния элементов.
+    Класс отвечает за определение элементов, требующих удаления,
+    обновления и добавления в базу данных.
+    Также класс выполняет синхронизацию с удаленным сервером,
+    отправляя запросы на удаление, обновление и добавление элементов.
+    Он также отслеживает время последней синхронизации
+    и обновляет его после завершения синхронизации.
+     */
     inner class SynchronizeStateImpl : SynchronizationRepository.SynchronizeState {
         private val toRemove: List<ToRemoveTodoItemDbModel>
         private val toUpdate: List<TodoItemDbModel>

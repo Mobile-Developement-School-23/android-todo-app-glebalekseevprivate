@@ -31,6 +31,13 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
+/**
+Ответственность класса TodoItemsViewModel:
+Управление состоянием списка задач и взаимодействие
+с репозиториями для аутентификации, синхронизации и работы с элементами списка задач.
+Обеспечение обработки действий пользователя
+и обновления представления в соответствии с изменениями состояния.
+ */
 class TodoItemsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val synchronizationRepository: SynchronizationRepository,
