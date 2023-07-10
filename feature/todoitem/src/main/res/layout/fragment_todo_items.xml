@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.ToDoApp"
+    android:id="@+id/coordinator_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/back_primary">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        style="@style/Widget.MaterialComponents.AppBarLayout.Surface"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="?attr/back_primary"
+        android:clipChildren="false"
+        android:clipToOutline="false"
+        android:clipToPadding="false"
+        app:elevation="20dp"
+        app:liftOnScroll="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="?attr/back_primary"
+            android:elevation="20dp"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.ToDo.Title"
+            app:contentScrim="?attr/back_primary"
+            app:expandedTitleGravity="top"
+            app:expandedTitleMarginStart="60dp"
+            app:expandedTitleMarginTop="82dp"
+            app:expandedTitleTextAppearance="@style/TextAppearance.ToDo.LargeTitle"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleCollapseMode="scale">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/back_primary"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:navigationIcon="@drawable/arrow_back"
+                app:navigationIconTint="?attr/label_primary"
+                app:title="@string/app_name" />
+
+
+            <TextView
+                android:id="@+id/count_done_todo_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginStart="60dp"
+                android:layout_marginBottom="18dp"
+                android:text="@string/count_done"
+                android:textAppearance="@style/TextAppearance.ToDo.Body"
+                android:textColor="?attr/label_tertiary"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="-0.075" />
+
+            <TextView
+                android:id="@+id/last_sync_date_tv"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="65dp"
+                android:layout_marginBottom="20dp"
+                android:textAppearance="@style/TextAppearance.ToDo.Subhead"
+                android:textColor="?attr/label_tertiary"
+                tools:text="1 июля, 22:31"
+                />
+
+            <ImageButton
+                android:id="@+id/is_show_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="20dp"
+                android:contentDescription="@string/show_all_hide_done"
+                android:padding="4dp"
+                android:background="@drawable/visibility"
+                app:tint="?attr/color_blue" />
+
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.glebalekseevjk.core.utils.OnlyVerticalSwipeRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <FrameLayout
+            android:animateLayoutChanges="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:visibility="invisible"
+                android:id="@+id/material_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:animateLayoutChanges="true"
+                android:paddingBottom="48dp"
+                app:cardBackgroundColor="?attr/back_secondary"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todo_list_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/todo_item_rv" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </FrameLayout>
+
+    </com.glebalekseevjk.core.utils.OnlyVerticalSwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/items_not_found_tv"
+        android:textAppearance="@style/TextAppearance.ToDo.LargeTitle"
+        android:textSize="64dp"
+        android:textColor="?attr/label_tertiary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:layout_marginTop="200dp"
+        android:text="@string/items_not_found" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_todo_btn"
+        style="@style/Style.ToDo.RoundedFloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="48dp"
+        android:clickable="true"
+        android:contentDescription="@string/add_new_todo"
+        android:elevation="16dp"
+        android:focusable="true"
+        android:src="@drawable/add"
+        app:backgroundTint="?attr/color_blue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_behavior="com.glebalekseevjk.feature.todoitem.presentation.behavior.FloatingActionButtonBehavior"
+        app:tint="?attr/color_white" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,25 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    id 'com.android.application' version '8.0.2' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.20' apply false
-    id 'androidx.navigation.safeargs' version '2.6.0' apply false
-}
 
-ext {
-    coreKTX = '1.10.1'
-    appCompat = '1.6.1'
-    material = '1.9.0'
-    constraintlayout = '2.1.4'
-    junit = '4.13.2'
-    androidJunit = '1.1.5'
-    espressoCore = '3.5.1'
-    lifecycleVersion = '2.6.1'
-    navigation = '2.6.0'
-    retrofit = '2.9.0'
-    room = '2.5.2'
-    dagger = '2.45'
-    yandexAuth = '2.5.1'
-    swipeRefreshLayout = '1.1.0'
-    work = '2.8.1'
-    loggingInterceptorOkhttp = '4.9.3'
+plugins {
+    id("com.android.application") version "8.0.2" apply false
+    id("org.jetbrains.kotlin.android") version "1.8.20" apply false
+    id("androidx.navigation.safeargs") version "2.6.0" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.8.20" apply false
+    id("com.android.library") version "8.0.2" apply false
 }
