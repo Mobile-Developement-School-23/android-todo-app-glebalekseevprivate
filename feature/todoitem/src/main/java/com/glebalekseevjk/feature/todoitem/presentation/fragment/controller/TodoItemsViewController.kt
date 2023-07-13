@@ -193,11 +193,10 @@ class TodoItemsViewController @Inject constructor(
         context.setTheme(R.style.Theme_ToDoApp)
         val drawable = if (visibility) {
             AppCompatResources.getDrawable(context, R.drawable.visibility)
-
         } else {
             AppCompatResources.getDrawable(context, R.drawable.visibility_off)
         }
-        binding.isShowDone.background = drawable
+        binding.isShowDone.setImageDrawable(drawable)
         binding.isShowDone.backgroundTintList =
             ColorStateList.valueOf(context.getColorFromTheme(R.attr.color_blue))
     }

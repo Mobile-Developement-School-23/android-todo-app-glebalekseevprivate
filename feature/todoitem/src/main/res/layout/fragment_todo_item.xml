@@ -152,7 +152,7 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/delete_btn"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/delete"
                 android:drawablePadding="12dp"
@@ -160,6 +160,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="23dp"
+                android:gravity="start"
                 android:text="@string/delete_text"
                 android:textAppearance="@style/TextAppearance.ToDo.Body"
                 android:textColor="?attr/label_disable"

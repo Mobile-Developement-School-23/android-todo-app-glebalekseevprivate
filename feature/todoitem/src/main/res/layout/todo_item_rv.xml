@@ -20,6 +20,7 @@
             android:id="@+id/set_done_ib"
             android:layout_width="@dimen/swipe_backlash"
             android:layout_height="match_parent"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:background="?attr/color_green"
             android:src="@drawable/check"
             android:tint="@color/white" />
@@ -101,6 +102,7 @@
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/delete_ib"
             android:layout_width="@dimen/swipe_backlash"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:layout_height="match_parent"
             android:background="?attr/color_red"
             android:src="@drawable/delete"
