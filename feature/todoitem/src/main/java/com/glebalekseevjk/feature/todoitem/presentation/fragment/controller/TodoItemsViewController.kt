@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.core.utils.getColorFromTheme
 import com.glebalekseevjk.core.utils.showSnackbar
 import com.glebalekseevjk.core.utils.showToast
@@ -39,7 +40,7 @@ import kotlin.math.pow
  */
 
 class TodoItemsViewController @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val rootView: View,
     private val binding: FragmentTodoItemsBinding,
     private val lifecycleOwner: LifecycleOwner,

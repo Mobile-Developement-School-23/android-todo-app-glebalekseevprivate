@@ -13,6 +13,7 @@ import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.ToRemoveTodoItemDbModel
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.data.sync.utils.handleResponse
 import com.glebalekseevjk.data.sync.utils.isInternetAvailable
 import com.glebalekseevjk.design.R
@@ -42,7 +43,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
     private val todoItemService: TodoItemService,
     private val mapperTodoItemDbModel: Mapper<TodoItem, TodoItemDbModel>,
     private val mapperTodoElement: Mapper<TodoItem, TodoElement>,
-    context: Context
+    @ApplicationContext context: Context
 ) : SynchronizationRepository {
     private val connectivityManager by lazy {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

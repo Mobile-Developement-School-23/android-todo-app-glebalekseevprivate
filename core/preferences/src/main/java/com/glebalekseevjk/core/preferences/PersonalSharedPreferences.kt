@@ -3,6 +3,7 @@ package com.glebalekseevjk.core.preferences
 import android.content.Context
 import android.content.SharedPreferences
 import com.glebalekseevjk.core.preferences.exception.UnknownDeviceIdException
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -17,7 +18,7 @@ import javax.inject.Inject
 Класс имеет единственную ответственность, связанную
 с управлением персональными настройками и данными пользователей.
  */
-class PersonalSharedPreferences @Inject constructor(private val context: Context) {
+class PersonalSharedPreferences @Inject constructor(@ApplicationContext private val context: Context) {
     private val personalPreferences: SharedPreferences =
         context.getSharedPreferences(PREF_PACKAGE_NAME, Context.MODE_PRIVATE)
 

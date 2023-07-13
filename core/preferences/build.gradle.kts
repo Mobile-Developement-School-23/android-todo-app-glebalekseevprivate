@@ -35,6 +35,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:utils"))
+
     implementation(Dependencies.Dagger.DAGGER)
     testImplementation(Dependencies.Test.JUNIT)
     androidTestImplementation(Dependencies.AndroidTest.ANDROID_JUNIT)

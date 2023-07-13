@@ -1,6 +1,7 @@
 package com.glebalekseevjk.todoapp.di
 
 import android.content.Context
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.feature.auth.di.AuthDependencies
 import com.glebalekseevjk.feature.todoitem.di.TodoItemDependencies
 //import com.glebalekseevjk.feature.auth.di.AuthDependencies
@@ -38,7 +39,6 @@ interface AppComponent : AuthDependencies, TodoItemDependencies {
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance context: Context): AppComponent
+        fun create(@[ApplicationContext BindsInstance] context: Context): AppComponent
     }
 }
-

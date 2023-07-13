@@ -14,7 +14,9 @@ import dagger.Module
 interface RepositoryModule {
     @AppComponentScope
     @Binds
-    fun bindAuthRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+    fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 
     @AppComponentScope
     @Binds

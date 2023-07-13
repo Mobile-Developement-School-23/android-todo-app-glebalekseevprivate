@@ -9,24 +9,19 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.glebalekseevjk.core.utils.Constants.WORKER_SYNCHRONIZATION_TIMEOUT
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
-Ответственность класса SynchronizationSchedulerManagerImpl:
-Управление планированием синхронизации данных.
-Класс SynchronizationSchedulerManagerImpl отвечает за управление
-планированием периодической и одноразовой синхронизации данных.
-Он использует WorkManager для создания и запуска задач синхронизации.
-Класс предоставляет методы для настройки периодической и одноразовой синхронизации,
-которые определяют необходимые ограничения и создают соответствующие запросы работы (work requests).
-В результате класс обеспечивает планирование синхронизации данных
-в соответствии с заданными параметрами и ограничениями.
+ * Этот класс управляет планированием синхронизации данных.
+ * Позволяет установить периодическую и одноразовую синхронизацию.
+ *
  */
 @AppComponentScope
-class SynchronizationSchedulerManagerImpl @Inject constructor(context: Context) :
+class SynchronizationSchedulerManagerImpl @Inject constructor(@ApplicationContext context: Context) :
     SynchronizationSchedulerManager {
     private val workManager: WorkManager by lazy {
         WorkManager.getInstance(context)

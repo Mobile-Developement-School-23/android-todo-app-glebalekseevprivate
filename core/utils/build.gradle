@@ -40,6 +40,7 @@ dependencies {
     implementation Dependencies.Material.MATERIAL
     implementation Dependencies.ConstraintLayout.CONSTRAINT_LAYOUT
     implementation Dependencies.Dagger.DAGGER
+    implementation Dependencies.Retrofit.RETROFIT
     kapt Dependencies.Dagger.DAGGER_COMPILER
     testImplementation Dependencies.Test.JUNIT
     androidTestImplementation Dependencies.AndroidTest.ESPRESSO_CORE

@@ -50,6 +50,7 @@ dependencies {
     implementation(Dependencies.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependencies.Navigation.NAVIGATION_UI)
     implementation(Dependencies.YandexAuth.YANDEX_AUTH)
+    implementation(Dependencies.AppCompat.APP_COMPAT)
     testImplementation(Dependencies.Test.JUNIT)
     androidTestImplementation(Dependencies.AndroidTest.ANDROID_JUNIT)
 }

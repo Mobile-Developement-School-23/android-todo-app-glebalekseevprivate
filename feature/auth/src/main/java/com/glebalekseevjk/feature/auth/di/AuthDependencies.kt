@@ -2,14 +2,24 @@ package com.glebalekseevjk.feature.auth.di
 
 import android.content.Context
 import android.content.Intent
-import com.glebalekseevjk.domain.auth.AuthRepository
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.core.utils.di.Dependencies
+import com.glebalekseevjk.domain.auth.AuthRepository
 import javax.inject.Qualifier
 
-interface AuthDependencies: Dependencies {
+/**
+ * Этот интерфейс определяет список необходимых модулю :feature:auth зависимостей.
+ *
+ */
+interface AuthDependencies : Dependencies {
     val authRepository: AuthRepository
-    val playIntent: PlayIntent
-    val context: Context
+
+    @PlayIntent
+    fun playIntent(): Intent
+
+    @ApplicationContext
+    fun getContext(): Context
 }
 
-data class PlayIntent(val intent: Intent)
+@Qualifier
+annotation class PlayIntent

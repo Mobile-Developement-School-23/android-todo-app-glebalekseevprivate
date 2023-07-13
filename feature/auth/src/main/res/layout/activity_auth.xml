@@ -1,34 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/back_primary"
+    android:theme="@style/Theme.ToDoApp.Auth"
     tools:context="com.glebalekseevjk.feature.auth.presentation.AuthActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/auth_card"
+        android:elevation="2dp"
+        android:padding="24dp">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/yandex_auth_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/auth_round_border"
+            android:elevation="0dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
+            android:stateListAnimator="@animator/mtrl_btn_unelevated_state_list_anim"
+            android:text="@string/auth_slogan"
+            android:textAppearance="@style/TextAppearance.ToDo.Body"
+            android:textColor="?attr/auth_button_text"
+            app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/materialDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:background="?attr/divider"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toStartOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:text="или"
+            android:textAppearance="@style/TextAppearance.ToDo.Body"
+            android:textColor="?attr/divider_text"
+            app:layout_constraintBottom_toTopOf="@+id/auth_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yandex_auth_btn" />
+
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:background="?attr/divider"
+            app:layout_constraintBottom_toBottomOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toTopOf="@+id/textView" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/auth_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/yandex_round_border"
             android:drawableStart="@drawable/yandex_logo"
             android:drawablePadding="12dp"
             android:elevation="0dp"
             android:paddingHorizontal="24dp"
             android:paddingVertical="16dp"
-            android:background="@drawable/yandex_round_border"
+            android:stateListAnimator="@animator/mtrl_btn_unelevated_state_list_anim"
             android:text="@string/yandex_auth_slogan"
             android:textAppearance="@style/TextAppearance.ToDo.Body"
             android:textColor="?attr/yandex_auth_button_text"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guest_auth_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/guest_auth_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/auth_round_border"
+            android:elevation="0dp"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="16dp"
             android:stateListAnimator="@animator/mtrl_btn_unelevated_state_list_anim"
-            app:elevation="0dp" />
+            android:text="@string/guest_auth_slogan"
+            android:textAppearance="@style/TextAppearance.ToDo.Body"
+            android:textColor="?attr/auth_button_text"
+            app:elevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

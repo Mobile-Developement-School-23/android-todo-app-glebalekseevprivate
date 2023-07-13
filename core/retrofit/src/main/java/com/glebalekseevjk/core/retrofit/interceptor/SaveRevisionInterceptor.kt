@@ -2,10 +2,7 @@ package com.glebalekseevjk.core.retrofit.interceptor
 
 import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
 import okhttp3.Interceptor
-import okhttp3.OkHttp
-import okhttp3.OkHttpClient
 import okhttp3.Response
-import retrofit2.http.HTTP
 import java.net.HttpURLConnection
 import javax.inject.Inject
 

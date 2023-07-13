@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="yandex_auth_button" format="color|reference"/>
+    <attr name="yandex_auth_button_text" format="color|reference"/>
+    <attr name="auth_button" format="color|reference"/>
+    <attr name="auth_button_text" format="color|reference"/>
+    <attr name="divider_text" format="color|reference"/>
+</resources>

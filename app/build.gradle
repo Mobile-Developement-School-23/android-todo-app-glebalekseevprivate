@@ -11,13 +11,19 @@ android {
     namespace Config.APPLICATION_ID
     compileSdk Config.COMPILE_SDK
 
+    def localPropertiesFile = rootProject.file("local.properties")
+    def localProperties = new Properties()
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.newDataInputStream())
+    }
+
     defaultConfig {
         applicationId Config.APPLICATION_ID
         minSdk Config.MIN_SDK
         targetSdk Config.TARGET_SDK
         versionCode Build.VERSION_CODE
         versionName Build.VERSION_NAME
-        manifestPlaceholders = [YANDEX_CLIENT_ID: System.getenv("YANDEX_CLIENT_ID")]
+        manifestPlaceholders = [YANDEX_CLIENT_ID: localProperties.getProperty("yandex_client_id", "")]
         testInstrumentationRunner Config.TEST_INSTRUMENTATION_RUNNER
     }
 

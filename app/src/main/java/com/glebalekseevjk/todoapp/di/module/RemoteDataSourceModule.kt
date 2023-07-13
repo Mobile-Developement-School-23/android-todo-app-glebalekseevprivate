@@ -11,6 +11,7 @@ import com.glebalekseevjk.core.utils.Constants
 import com.glebalekseevjk.core.utils.Constants.CONNECT_TIMEOUT
 import com.glebalekseevjk.core.utils.Constants.READ_TIMEOUT
 import com.glebalekseevjk.core.utils.Constants.WRITE_TIMEOUT
+import com.glebalekseevjk.core.utils.withDisabledCertificates
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Module
 import dagger.Provides
@@ -19,6 +20,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
+import javax.net.ssl.TrustManager
+import javax.net.ssl.X509TrustManager
 
 @Module
 interface RemoteDataSourceModule {
@@ -46,10 +50,11 @@ interface RemoteDataSourceModule {
             authorizationFailedInterceptor: AuthorizationFailedInterceptor,
             revisionInterceptor: RevisionInterceptor,
             saveRevisionInterceptor: SaveRevisionInterceptor,
-            generateFailsInterceptor: GenerateFailsInterceptor,
+//            generateFailsInterceptor: GenerateFailsInterceptor,
             loggingInterceptor: HttpLoggingInterceptor,
         ): OkHttpClient {
             return OkHttpClient.Builder()
+                .withDisabledCertificates()
                 .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)

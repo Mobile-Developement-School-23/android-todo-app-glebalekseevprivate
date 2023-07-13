@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.design.R
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemBinding
 import com.glebalekseevjk.feature.todoitem.di.scope.TodoItemFragmentViewSubcomponentScope
@@ -47,7 +48,7 @@ interface TodoItemFragmentViewSubcomponent {
 interface TodoItemFragmentModule {
     companion object {
         @Provides
-        fun provideSimpleDateFormat(context: Context): SimpleDateFormat {
+        fun provideSimpleDateFormat(@ApplicationContext context: Context): SimpleDateFormat {
             return SimpleDateFormat(
                 context.resources.getString(R.string.date_pattern),
                 Locale("ru")

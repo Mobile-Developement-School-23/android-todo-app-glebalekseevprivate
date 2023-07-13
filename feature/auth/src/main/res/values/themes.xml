@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.ToDoApp.Auth" parent="Theme.ToDoApp">
+        <item name="yandex_auth_button">@color/black</item>
+        <item name="yandex_auth_button_text">@color/white</item>
+        <item name="auth_button">@color/blue_200</item>
+        <item name="auth_button_text">@color/black</item>
+        <item name="divider">@color/blue_250</item>
+        <item name="divider_text">@color/blue_900</item>
+    </style>
+</resources>

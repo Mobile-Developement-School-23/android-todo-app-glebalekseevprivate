@@ -22,12 +22,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 
-/**
-Ответственность класса AuthActivity:
-Класс AuthActivity отвечает за управление процессом аутентификации пользователя.
-Он содержит логику и методы, связанные с инициализацией и настройкой компонентов аутентификации,
-запуском процесса аутентификации, обработкой результатов и авторизацией пользователя.
- */
+
 class AuthActivity : AppCompatActivity() {
     private var _binding: ActivityAuthBinding? = null
     private val binding: ActivityAuthBinding
@@ -43,7 +38,8 @@ class AuthActivity : AppCompatActivity() {
     lateinit var authRepository: Lazy<AuthRepository>
 
     @Inject
-    lateinit var playIntent: Lazy<PlayIntent>
+    @PlayIntent
+    lateinit var playIntent: Lazy<Intent>
 
     private val yandexAuthMutex = Mutex()
 
@@ -56,6 +52,12 @@ class AuthActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.yandexAuthBtn.setOnClickListener {
             startYandexAuth()
+        }
+        binding.authBtn.setOnClickListener {
+            // TODO
+        }
+        binding.guestAuthBtn.setOnClickListener {
+            // TODO
         }
     }
 
@@ -90,7 +92,7 @@ class AuthActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        val intent = playIntent.get().intent
+        val intent = playIntent.get()
         startActivity(intent)
         finishAffinity()
     }

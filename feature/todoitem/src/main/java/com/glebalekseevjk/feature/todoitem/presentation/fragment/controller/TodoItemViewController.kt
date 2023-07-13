@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.core.utils.getColorFromTheme
 import com.glebalekseevjk.design.R
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
@@ -33,7 +34,7 @@ import javax.inject.Inject
 Управление отображением элемента списка задач.
  */
 class TodoItemViewController @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val activity: Activity,
     private val binding: FragmentTodoItemBinding,
     private val lifecycleOwner: LifecycleOwner,

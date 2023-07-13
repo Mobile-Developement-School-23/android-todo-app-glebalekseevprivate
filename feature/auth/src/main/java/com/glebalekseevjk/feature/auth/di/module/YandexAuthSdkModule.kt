@@ -1,6 +1,7 @@
 package com.glebalekseevjk.feature.auth.di.module
 
 import android.content.Context
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthOptions
 import com.yandex.authsdk.YandexAuthSdk
@@ -12,7 +13,7 @@ interface YandexAuthSdkModule {
     companion object {
         @Provides
         fun provideYandexAuthSdk(
-            context: Context,
+            @ApplicationContext context: Context,
             yandexAuthOptions: YandexAuthOptions
         ): YandexAuthSdk {
             return YandexAuthSdk(context, yandexAuthOptions)
@@ -20,7 +21,7 @@ interface YandexAuthSdkModule {
 
         @Provides
         fun provideYandexAuthOptions(
-            context: Context
+            @ApplicationContext context: Context
         ): YandexAuthOptions {
             return YandexAuthOptions(context, loggingEnabled = true)
         }
