@@ -3,6 +3,8 @@ package com.glebalekseevjk.todoapp.di.module//package com.glebalekseevjk.todoapp
 import android.content.Context
 import androidx.room.Room
 import com.glebalekseevjk.common.Mapper
+import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.retrofit.mapper.TodoElementMapperImpl
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.room.AppDatabase
@@ -19,6 +21,11 @@ import dagger.Provides
 
 @Module
 interface LocalDataSourceModule {
+    @Binds
+    fun bindPersonalStorage(
+        personalSharedPreferences: PersonalSharedPreferences
+    ): PersonalStorage
+
     @Binds
     fun bindTodoElementMapperImpl(
         todoElementMapperImpl: TodoElementMapperImpl

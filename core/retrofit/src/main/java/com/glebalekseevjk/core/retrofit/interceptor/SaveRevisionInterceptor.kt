@@ -1,6 +1,6 @@
 package com.glebalekseevjk.core.retrofit.interceptor
 
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.HttpURLConnection
@@ -13,7 +13,7 @@ import javax.inject.Inject
 и сохраняет ее в локальное хранилище PersonalSharedPreferences.
  */
 class SaveRevisionInterceptor @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences
+    private val personalStorage: PersonalStorage
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(chain.request())
@@ -22,7 +22,7 @@ class SaveRevisionInterceptor @Inject constructor(
             val revision: String? = responseBody.let {
                 regex.find(it)?.groupValues?.get(1)
             }
-            revision?.let { personalSharedPreferences.revision = it }
+            revision?.let { personalStorage.revision = it }
         }
         return response
     }

@@ -1,6 +1,6 @@
 package com.glebalekseevjk.core.retrofit.interceptor
 
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -13,7 +13,7 @@ import javax.inject.Inject
 то заголовок "X-Last-Known-Revision" будет добавлен к запросу.
  */
 class RevisionInterceptor @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences
+    private val personalStorage: PersonalStorage
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = chain.request()
         .let {
@@ -24,7 +24,7 @@ class RevisionInterceptor @Inject constructor(
 
     private fun Request.addRevisionHeader(): Request? {
         val revisionHeaderName = "X-Last-Known-Revision"
-        val revision = personalSharedPreferences.revision ?: return null
+        val revision = personalStorage.revision ?: return null
         return newBuilder()
             .apply {
                 header(revisionHeaderName, revision)

@@ -1,7 +1,7 @@
 package com.glebalekseevjk.core.retrofit.mapper
 
 import com.glebalekseevjk.common.Mapper
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import java.util.Date
@@ -18,7 +18,7 @@ mapItemToAnotherItem для преобразования TodoItem в TodoElement
 информации о последнем обновлении на устройстве.
  */
 class TodoElementMapperImpl @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences
+    private val personalStorage: PersonalStorage
 ) : Mapper<TodoItem, TodoElement> {
     override fun mapItemToAnotherItem(item: TodoItem): TodoElement {
         return TodoElement(
@@ -28,7 +28,7 @@ class TodoElementMapperImpl @Inject constructor(
             done = item.isDone,
             deadline = item.deadline?.time?.let { (it / DATE_CORRECT_VALUE).toInt() },
             color = COLOR_MOCK,
-            lastUpdatedBy = personalSharedPreferences.deviceId,
+            lastUpdatedBy = personalStorage.deviceId,
             changedAt = item.changedAt.time.let { (it / DATE_CORRECT_VALUE).toInt() },
             createdAt = item.createdAt.time.let { (it / DATE_CORRECT_VALUE).toInt() },
         )

@@ -1,6 +1,6 @@
 package com.glebalekseevjk.data.auth
 
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.domain.auth.AuthRepository
@@ -22,16 +22,16 @@ import javax.inject.Inject
 а также в обновлении состояния авторизации в соответствии с выполненными операциями.
  */
 class AuthRepositoryImpl @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences,
+    private val personalStorage: PersonalStorage,
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
 ) : AuthRepository {
-    private val _isAuth = MutableStateFlow(!personalSharedPreferences.token.isNullOrEmpty())
+    private val _isAuth = MutableStateFlow(!personalStorage.token.isNullOrEmpty())
     override val isAuth: Flow<Boolean> get() = _isAuth
     override suspend fun authorize(token: String) {
         withContext(Dispatchers.Default) {
-            personalSharedPreferences.token = token
-            personalSharedPreferences.deviceId = UUID.randomUUID().toString()
+            personalStorage.token = token
+            personalStorage.deviceId = UUID.randomUUID().toString()
             _isAuth.emit(true)
         }
     }
@@ -40,7 +40,7 @@ class AuthRepositoryImpl @Inject constructor(
         withContext(Dispatchers.Default) {
             _isAuth.emit(false)
             delay(200)
-            personalSharedPreferences.clear()
+            personalStorage.clear()
             todoItemDao.deleteAll()
             toRemoveTodoItemDao.deleteAll()
         }

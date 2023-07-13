@@ -18,37 +18,43 @@ import javax.inject.Inject
 Класс имеет единственную ответственность, связанную
 с управлением персональными настройками и данными пользователей.
  */
-class PersonalSharedPreferences @Inject constructor(@ApplicationContext private val context: Context) {
+class PersonalSharedPreferences @Inject constructor(@ApplicationContext private val context: Context) :
+    PersonalStorage {
     private val personalPreferences: SharedPreferences =
         context.getSharedPreferences(PREF_PACKAGE_NAME, Context.MODE_PRIVATE)
 
-    var revision: String?
+    override var revision: String?
         get() = personalPreferences.getString(PREF_KEY_REVISION, null)
         set(value) {
             personalPreferences.edit().putString(PREF_KEY_REVISION, value).apply()
         }
 
-    var token: String?
+    override var token: String?
         get() = personalPreferences.getString(PREF_KEY_TOKEN, null)
         set(value) {
             personalPreferences.edit().putString(PREF_KEY_TOKEN, value).apply()
         }
 
-    var lastSynchronizationDate: Date
-        get() = Date(personalPreferences.getLong(PREF_KEY_LAST_SYNCHRONIZATION_DATE, Calendar.getInstance().time.time))
+    override var lastSynchronizationDate: Date
+        get() = Date(
+            personalPreferences.getLong(
+                PREF_KEY_LAST_SYNCHRONIZATION_DATE,
+                Calendar.getInstance().time.time
+            )
+        )
         set(value) {
             personalPreferences.edit().putLong(PREF_KEY_LAST_SYNCHRONIZATION_DATE, value.time)
                 .apply()
         }
 
-    var deviceId: String
+    override var deviceId: String
         get() = personalPreferences.getString(PREF_KEY_DEVICE_ID, null)
             ?: throw UnknownDeviceIdException()
         set(value) {
             personalPreferences.edit().putString(PREF_KEY_DEVICE_ID, value).apply()
         }
 
-    fun clear() {
+    override fun clear() {
         personalPreferences.edit().remove(PREF_KEY_REVISION).apply()
         personalPreferences.edit().remove(PREF_KEY_TOKEN).apply()
         personalPreferences.edit().remove(PREF_KEY_LAST_SYNCHRONIZATION_DATE).apply()

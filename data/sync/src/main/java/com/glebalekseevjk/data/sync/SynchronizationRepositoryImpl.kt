@@ -3,7 +3,7 @@ package com.glebalekseevjk.data.sync
 import android.content.Context
 import android.net.ConnectivityManager
 import com.glebalekseevjk.common.Mapper
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.retrofit.TodoItemService
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.retrofit.model.TodoElementRequest
@@ -37,7 +37,7 @@ import javax.inject.Inject
 и отправку данных, а также контролирует состояние синхронизации.
  */
 class SynchronizationRepositoryImpl @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences,
+    private val personalStorage: PersonalStorage,
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
     private val todoItemService: TodoItemService,
@@ -59,7 +59,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
         SimpleDateFormat(context.getString(R.string.date_pattern_2), Locale("ru"))
 
     override val lastSyncDate: String
-        get() = personalSharedPreferences.lastSynchronizationDate.let {
+        get() = personalStorage.lastSynchronizationDate.let {
             formatter.format(
                 it
             )
@@ -114,7 +114,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
     }
 
     private fun updateLastSynchronizationDate() {
-        personalSharedPreferences.lastSynchronizationDate = Calendar.getInstance().time
+        personalStorage.lastSynchronizationDate = Calendar.getInstance().time
     }
 
     override suspend fun getSynchronizeState(): SynchronizeStateImpl {
@@ -151,7 +151,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
 
         private fun getToRemoveToUpdateToAdd():
                 Triple<List<ToRemoveTodoItemDbModel>, List<TodoItemDbModel>, List<TodoItemDbModel>> {
-            val lastSyncDate = personalSharedPreferences.lastSynchronizationDate
+            val lastSyncDate = personalStorage.lastSynchronizationDate
             val listChangedAfterDate = todoItemDao.getAll().filter { it.changedAt >= lastSyncDate }
             val toRemove = toRemoveTodoItemDao.getAllBeforeDate(lastSyncDate.time)
             val toUpdate = listChangedAfterDate.filter { it.createdAt < lastSyncDate }
