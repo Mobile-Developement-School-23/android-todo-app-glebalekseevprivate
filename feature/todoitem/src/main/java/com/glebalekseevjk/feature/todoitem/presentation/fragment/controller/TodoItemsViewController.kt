@@ -22,6 +22,8 @@ import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.NotificationTy
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -75,7 +77,7 @@ class TodoItemsViewController @Inject constructor(
             }
         }
         binding.toolbar.setNavigationOnClickListener {
-            lifecycleScope.launch {
+            CoroutineScope(Dispatchers.Default).launch {
                 todoItemsViewModel.dispatch(TodoItemsAction.Quit)
             }
         }

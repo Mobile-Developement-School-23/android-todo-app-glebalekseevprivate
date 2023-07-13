@@ -5,6 +5,7 @@ import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.domain.auth.AuthRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
@@ -37,10 +38,11 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun quit() {
         withContext(Dispatchers.Default) {
+            _isAuth.emit(false)
+            delay(200)
             personalSharedPreferences.clear()
             todoItemDao.deleteAll()
             toRemoveTodoItemDao.deleteAll()
-            _isAuth.emit(false)
         }
     }
 }

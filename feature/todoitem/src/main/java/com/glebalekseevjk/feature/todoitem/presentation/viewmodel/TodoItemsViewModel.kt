@@ -115,8 +115,11 @@ class TodoItemsViewModel @Inject constructor(
             }
     }
 
-    private suspend fun synchronize() {
-        synchronizationRepository.getSynchronizeState().synchronize()
+    private suspend fun synchronize(isAlreadySynchronized: suspend () -> Unit = {}) {
+        val state = synchronizationRepository.getSynchronizeState()
+        val isSync = state.isSynchronized
+        if (isSync) isAlreadySynchronized.invoke()
+        else state.synchronize()
     }
 
     override fun onCleared() {
@@ -293,8 +296,11 @@ class TodoItemsViewModel @Inject constructor(
                 }
 
                 pullToRefreshMutex.withLock {
-                    synchronize()
-                    pull()
+                    synchronize(
+                        isAlreadySynchronized = {
+                            pull()
+                        }
+                    )
                     stopLoading()
                 }
             }

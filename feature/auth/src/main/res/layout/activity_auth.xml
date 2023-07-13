@@ -17,7 +17,7 @@
         android:padding="24dp">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/yandex_auth_btn"
+            android:id="@+id/auth_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/auth_round_border"
@@ -53,10 +53,10 @@
             android:text="или"
             android:textAppearance="@style/TextAppearance.ToDo.Body"
             android:textColor="?attr/divider_text"
-            app:layout_constraintBottom_toTopOf="@+id/auth_btn"
+            app:layout_constraintBottom_toTopOf="@+id/yandex_auth_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/yandex_auth_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/auth_btn" />
 
 
         <com.google.android.material.divider.MaterialDivider
@@ -70,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/auth_btn"
+            android:id="@+id/yandex_auth_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"

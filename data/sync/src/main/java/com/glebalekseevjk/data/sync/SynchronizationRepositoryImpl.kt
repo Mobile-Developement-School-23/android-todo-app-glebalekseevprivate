@@ -80,6 +80,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
                             val list = it.list.map(::toDbModel)
                             todoItemDao.replaceAll(list)
                         }
+                        updateLastSynchronizationDate()
                     }
                 )
             }
@@ -105,11 +106,15 @@ class SynchronizationRepositoryImpl @Inject constructor(
                     onBadRequest = { patch() },
                     isInternetAvailable = { connectivityManager.isInternetAvailable() },
                     onSuccessful = {
-
+                        updateLastSynchronizationDate()
                     }
                 )
             }
         }
+    }
+
+    private fun updateLastSynchronizationDate() {
+        personalSharedPreferences.lastSynchronizationDate = Calendar.getInstance().time
     }
 
     override suspend fun getSynchronizeState(): SynchronizeStateImpl {
@@ -185,7 +190,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
                         },
                         onNotFound = { throw ClientException() }
                     )
-                    personalSharedPreferences.lastSynchronizationDate = Calendar.getInstance().time
+                    updateLastSynchronizationDate()
                     toRemoveTodoItemDao.deleteList(*toRemove.toTypedArray())
                 }
             }
