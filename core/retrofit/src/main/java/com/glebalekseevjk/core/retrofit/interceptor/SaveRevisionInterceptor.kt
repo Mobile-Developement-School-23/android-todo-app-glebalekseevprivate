@@ -1,6 +1,7 @@
 package com.glebalekseevjk.core.retrofit.interceptor
 
 import com.glebalekseevjk.core.preferences.PersonalStorage
+import com.google.gson.Gson
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.net.HttpURLConnection
@@ -19,16 +20,17 @@ class SaveRevisionInterceptor @Inject constructor(
         val response = chain.proceed(chain.request())
         if (response.code == HttpURLConnection.HTTP_OK) {
             val responseBody = response.peekBody(BYTE_COUNT).string()
-            val revision: String? = responseBody.let {
-                regex.find(it)?.groupValues?.get(1)
-            }
-            revision?.let { personalStorage.revision = it }
+            val revision = Gson().fromJson(responseBody, RevisionCatcher::class.java).revision
+            revision?.let { personalStorage.revision = revision }
         }
         return response
     }
 
     companion object {
-        private val regex = Regex("""\s*"revision"\s*:\s*(\d+).*""")
         private const val BYTE_COUNT = 2048L
     }
 }
+
+private data class RevisionCatcher(
+    val revision: String?
+)
