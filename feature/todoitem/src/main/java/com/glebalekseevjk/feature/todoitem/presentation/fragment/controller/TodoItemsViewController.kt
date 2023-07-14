@@ -1,11 +1,21 @@
 package com.glebalekseevjk.feature.todoitem.presentation.fragment.controller
 
 import android.animation.LayoutTransition
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -17,7 +27,10 @@ import com.glebalekseevjk.core.utils.getColorFromTheme
 import com.glebalekseevjk.core.utils.showSnackbar
 import com.glebalekseevjk.core.utils.showToast
 import com.glebalekseevjk.design.R
+import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.feature.todoitem.databinding.DeletionSnackbarBinding
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemsBinding
+import com.glebalekseevjk.feature.todoitem.databinding.NotificationSnackbarBinding
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.TodoItemsFragment
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.TodoItemsFragmentDirections
 import com.glebalekseevjk.feature.todoitem.presentation.rv.adapter.TodoItemsAdapter
@@ -28,6 +41,8 @@ import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsActio
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -58,6 +73,7 @@ class TodoItemsViewController @Inject constructor(
     private val todoItemsViewModel: TodoItemsViewModel,
     private val todoItemsAdapter: TodoItemsAdapter,
     private val navController: NavController,
+    private val todoItemRepository: TodoItemRepository
 ) : LifecycleOwner by viewLifecycleOwner {
     private val resources = context.resources
     private var isShowDoneMutex = Mutex()
@@ -73,6 +89,7 @@ class TodoItemsViewController @Inject constructor(
         observeModalBottomSheetState()
         initTodoItemsState()
         observeNotifications()
+        observeDeletionNotification()
     }
 
     private fun initListeners() {
@@ -340,15 +357,74 @@ class TodoItemsViewController @Inject constructor(
         lifecycleScope.launch {
             for (notification in todoItemsViewModel.notificationChannel) {
                 when (notification) {
-                    NotificationType.Unknown -> rootView.showSnackbar(resources.getString(R.string.unknown_exception))
-                    NotificationType.Client -> rootView.showSnackbar(resources.getString(R.string.client_exception))
-                    NotificationType.Connection -> rootView.showSnackbar(resources.getString(R.string.connection_exception))
-                    NotificationType.Server -> rootView.showSnackbar(resources.getString(R.string.server_exception))
+                    NotificationType.Unknown -> rootView.showNotificationSnackBar(resources.getString(R.string.unknown_exception))
+                    NotificationType.Client -> rootView.showNotificationSnackBar(resources.getString(R.string.client_exception))
+                    NotificationType.Connection -> rootView.showNotificationSnackBar(resources.getString(R.string.connection_exception))
+                    NotificationType.Server -> rootView.showNotificationSnackBar(resources.getString(R.string.server_exception))
                     NotificationType.Unauthorized -> context.showToast(
                         resources.getString(
                             R.string.unauthorized_exception
                         )
                     )
+                }
+            }
+        }
+    }
+
+    private fun View.showNotificationSnackBar(message: String) {
+        val snackBar = Snackbar.make(this, "", BaseTransientBottomBar.LENGTH_SHORT)
+        val layoutParams = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.setMargins(
+            layoutParams.leftMargin,
+            layoutParams.topMargin,
+            layoutParams.rightMargin,
+            layoutParams.bottomMargin + 40
+        )
+        snackBar.view.layoutParams = layoutParams
+        val inflater = LayoutInflater.from(snackBar.context)
+        val binding = NotificationSnackbarBinding.inflate(inflater)
+        binding.messageTv.text = message
+        (snackBar.view as Snackbar.SnackbarLayout).addView(binding.root, 0)
+        snackBar.show()
+    }
+
+    private fun observeDeletionNotification() {
+        lifecycleScope.launch {
+            for (name in todoItemRepository.deletionNotification){
+                val message = String.format(resources.getString(R.string.cancel_deletion), name)
+
+                val snackBar = Snackbar.make(rootView, "", 5000)
+                val layoutParams = snackBar.view.layoutParams as CoordinatorLayout.LayoutParams
+                layoutParams.setMargins(
+                    layoutParams.leftMargin,
+                    layoutParams.topMargin,
+                    layoutParams.rightMargin,
+                    layoutParams.bottomMargin + 40
+                )
+                snackBar.view.layoutParams = layoutParams
+                val inflater = LayoutInflater.from(snackBar.context)
+                val binding = DeletionSnackbarBinding.inflate(inflater)
+
+                binding.cancelBtn.setOnClickListener {
+                    lifecycleScope.launch {
+                        todoItemRepository.cancelDeletionTodoItem()
+                        snackBar.dismiss()
+                    }
+                }
+                binding.messageTv.text = message
+                (snackBar.view as Snackbar.SnackbarLayout).addView(binding.root, 0)
+                snackBar.show()
+                lifecycleScope.launch {
+                    val constraintSet = ConstraintSet()
+                    constraintSet.clone(binding.progressConstraintLayout)
+                    val animator = ValueAnimator.ofFloat(0f, 1f)
+                    animator.duration = 5000
+                    animator.addUpdateListener { animation ->
+                        val value = animation.animatedValue as Float
+                        constraintSet.constrainPercentWidth(binding.progressView.id, value)
+                        constraintSet.applyTo(binding.progressConstraintLayout)
+                    }
+                    animator.start()
                 }
             }
         }

@@ -8,6 +8,8 @@ import com.glebalekseevjk.core.room.model.TodoItemDbModel
 import com.glebalekseevjk.domain.todoitem.TodoItemRepository
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -29,6 +31,8 @@ class TodoItemRepositoryImpl @Inject constructor(
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
     private val mapperTodoItemDbModel: Mapper<TodoItem, TodoItemDbModel>,
 ) : TodoItemRepository {
+    override val deletionNotification = Channel<String>()
+
     override suspend fun getTodoItemByIdOrNull(id: String): TodoItem? {
         return withContext(Dispatchers.Default) {
             return@withContext todoItemDao.getById(id)
@@ -74,6 +78,7 @@ class TodoItemRepositoryImpl @Inject constructor(
         }
     }
 
+    private var lastRemovedTodoItem: TodoItemDbModel? = null
     override suspend fun deleteTodoItem(id: String) {
         withContext(Dispatchers.Default) {
             val item = todoItemDao.getById(id) ?: throw NoSuchElementException()
@@ -84,8 +89,23 @@ class TodoItemRepositoryImpl @Inject constructor(
                     item.createdAt
                 )
             )
+            lastRemovedTodoItem = item
+            deletionNotification.send(item.text)
         }
     }
+
+    override suspend fun cancelDeletionTodoItem() {
+        withContext(Dispatchers.Default) {
+            val lastRemovedItem = lastRemovedTodoItem
+            lastRemovedItem ?: return@withContext
+            toRemoveTodoItemDao.getById(lastRemovedItem.id)?.let {
+                toRemoveTodoItemDao.deleteById(it.id)
+            }
+            todoItemDao.getById(lastRemovedItem.id)?.let { return@withContext }
+            todoItemDao.insertOrReplace(lastRemovedItem)
+        }
+    }
+
 
     override suspend fun updateTodoItem(todoItem: TodoItem) {
         withContext(Dispatchers.Default) {

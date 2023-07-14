@@ -25,6 +25,7 @@
         <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
         <item name="switchStyle">@style/Style.ToDo.Switch</item>
         <item name="android:datePickerDialogTheme">@style/Style.ToDo.DatePicker</item>
+        <item name="snackbarStyle">@style/Style.ToDo.SnackBar</item>
     </style>
 
     <style name="Theme.ToDoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -53,6 +54,7 @@
         <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
         <item name="switchStyle">@style/Style.ToDo.Switch</item>
         <item name="android:datePickerDialogTheme">@style/Style.ToDo.DatePicker</item>
+        <item name="snackbarStyle">@style/Style.ToDo.SnackBar</item>
     </style>
     <style name="Theme.ToDoApp.Night" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
 

@@ -32,4 +32,6 @@
     <string name="night_theme">Всегда темная</string>
     <string name="system_theme">Как в системе</string>
     <string name="apply">Применить</string>
+    <string name="cancel_deletion">Удалить %s</string>
+    <string name="cancel">Отмена</string>
 </resources>

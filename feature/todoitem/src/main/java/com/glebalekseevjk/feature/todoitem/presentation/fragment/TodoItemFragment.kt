@@ -39,7 +39,8 @@ class TodoItemFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentComponent =
-            TodoItemsViewModel.fragmentComponent!!.createTodoItemFragmentSubcomponent()
+            TodoItemsViewModel.fragmentComponent!!
+                .createTodoItemFragmentSubcomponent()
                 .apply {
                     inject(this@TodoItemFragment)
                 }

@@ -41,6 +41,11 @@
     <style name="Style.ToDo.DatePicker.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">?attr/color_blue</item>
     </style>
+
+    <style name="Style.ToDo.SnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
 </resources>
 
 
