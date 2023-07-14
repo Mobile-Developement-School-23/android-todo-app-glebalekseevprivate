@@ -1,4 +1,4 @@
-package com.glebalekseevjk.feature.todoitem.di//package com.glebalekseevjk.todoapp.ioc_old
+package com.glebalekseevjk.feature.todoitem.di
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

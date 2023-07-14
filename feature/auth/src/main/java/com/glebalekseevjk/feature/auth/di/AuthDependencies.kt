@@ -2,6 +2,7 @@ package com.glebalekseevjk.feature.auth.di
 
 import android.content.Context
 import android.content.Intent
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.core.utils.di.Dependencies
 import com.glebalekseevjk.domain.auth.AuthRepository
@@ -13,6 +14,7 @@ import javax.inject.Qualifier
  */
 interface AuthDependencies : Dependencies {
     val authRepository: AuthRepository
+    val personalStorage: PersonalStorage
 
     @PlayIntent
     fun playIntent(): Intent

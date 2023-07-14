@@ -5,11 +5,22 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.glebalekseevjk.core.preferences.PersonalStorage
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.DAY
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.NIGHT
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.SYSTEM
 import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.feature.auth.presentation.AuthActivity
 import com.glebalekseevjk.todoapp.utils.appComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 /**
@@ -19,16 +30,40 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var authRepository: AuthRepository
 
+    @Inject
+    lateinit var personalStorage: PersonalStorage
+
     override fun onCreate(savedInstanceState: Bundle?) {
         appComponent.inject(this)
+        runBlocking {
+            val theme = when (personalStorage.nightMode.first()) {
+                NIGHT -> com.glebalekseevjk.design.R.style.Theme_ToDoApp_Night
+                DAY -> com.glebalekseevjk.design.R.style.Theme_ToDoApp_Day
+                SYSTEM -> null
+            }
+            theme?.let {
+                setTheme(it)
+            }
+        }
         super.onCreate(savedInstanceState)
         observeIsAuth()
+        observeNightMode()
     }
 
     private fun observeIsAuth() {
         lifecycleScope.launch {
             authRepository.isAuth.collectLatest {
                 if (!it) startAuthActivity() else setContentView(R.layout.activity_main)
+            }
+        }
+    }
+
+    private fun observeNightMode() {
+        lifecycleScope.launch {
+            var counter = 1
+            personalStorage.nightMode.collectLatest {
+                if (counter == 0) recreate()
+                else counter--
             }
         }
     }

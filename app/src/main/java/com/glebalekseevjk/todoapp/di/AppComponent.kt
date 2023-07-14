@@ -4,8 +4,6 @@ import android.content.Context
 import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.feature.auth.di.AuthDependencies
 import com.glebalekseevjk.feature.todoitem.di.TodoItemDependencies
-//import com.glebalekseevjk.feature.auth.di.AuthDependencies
-//import com.glebalekseevjk.feature.todoitem.di.TodoItemDependencies
 import com.glebalekseevjk.todoapp.App
 import com.glebalekseevjk.todoapp.MainActivity
 import com.glebalekseevjk.todoapp.di.module.AuthDependenciesModule
@@ -13,9 +11,6 @@ import com.glebalekseevjk.todoapp.di.module.LocalDataSourceModule
 import com.glebalekseevjk.todoapp.di.module.RemoteDataSourceModule
 import com.glebalekseevjk.todoapp.di.module.RepositoryModule
 import com.glebalekseevjk.todoapp.di.module.TodoItemDependenciesModule
-//import com.glebalekseevjk.todoapp.di.module.AuthDependenciesModule
-//import com.glebalekseevjk.todoapp.di.module.RepositoryModule
-//import com.glebalekseevjk.todoapp.di.module.TodoItemDependenciesModule
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import com.glebalekseevjk.todoapp.worker.SynchronizeWorker
 import dagger.BindsInstance

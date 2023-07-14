@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/back_primary"
-    android:theme="@style/Theme.ToDoApp.Auth"
+    android:theme="@style/ThemeOverlay.ToDoApp.Auth"
     tools:context="com.glebalekseevjk.feature.auth.presentation.AuthActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -2,8 +2,11 @@ package com.glebalekseevjk.core.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode
 import com.glebalekseevjk.core.preferences.exception.UnknownDeviceIdException
 import com.glebalekseevjk.core.utils.di.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
@@ -54,6 +57,21 @@ class PersonalSharedPreferences @Inject constructor(@ApplicationContext private 
             personalPreferences.edit().putString(PREF_KEY_DEVICE_ID, value).apply()
         }
 
+    private val _isNightMode: MutableStateFlow<NightMode> = MutableStateFlow(
+        personalPreferences.let {
+            val nightMode = it.getString(PREF_KEY_NIGHT_MODE, null)
+            nightMode ?:
+                personalPreferences.edit().putString(PREF_KEY_NIGHT_MODE, NightMode.SYSTEM.name).apply()
+            nightMode ?: return@let NightMode.SYSTEM
+            NightMode.valueOf(nightMode)
+        }
+    )
+    override val nightMode: Flow<NightMode> get() = _isNightMode
+    override suspend fun setNightMode(isNightMode: NightMode) {
+        personalPreferences.edit().putString(PREF_KEY_NIGHT_MODE, isNightMode.name).apply()
+        _isNightMode.emit(isNightMode)
+    }
+
     override fun clear() {
         personalPreferences.edit().remove(PREF_KEY_REVISION).apply()
         personalPreferences.edit().remove(PREF_KEY_TOKEN).apply()
@@ -67,5 +85,6 @@ class PersonalSharedPreferences @Inject constructor(@ApplicationContext private 
         private const val PREF_KEY_TOKEN = "token"
         private const val PREF_KEY_LAST_SYNCHRONIZATION_DATE = "last_sync_date"
         private const val PREF_KEY_DEVICE_ID = "device_id"
+        private const val PREF_KEY_NIGHT_MODE = "night_mode"
     }
 }

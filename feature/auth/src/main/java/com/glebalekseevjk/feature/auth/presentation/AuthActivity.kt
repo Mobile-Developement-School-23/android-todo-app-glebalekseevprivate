@@ -6,8 +6,11 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
+import com.glebalekseevjk.core.preferences.PersonalStorage
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.*
 import com.glebalekseevjk.core.utils.di.findDependencies
 import com.glebalekseevjk.domain.auth.AuthRepository
+import com.glebalekseevjk.feature.auth.R
 import com.glebalekseevjk.feature.auth.databinding.ActivityAuthBinding
 import com.glebalekseevjk.feature.auth.di.DaggerAuthComponent
 import com.glebalekseevjk.feature.auth.di.PlayIntent
@@ -17,7 +20,10 @@ import com.yandex.authsdk.YandexAuthSdk
 import com.yandex.authsdk.internal.AuthSdkActivity
 import dagger.Lazy
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
@@ -38,6 +44,10 @@ class AuthActivity : AppCompatActivity() {
     lateinit var authRepository: Lazy<AuthRepository>
 
     @Inject
+    lateinit var personalStorage: PersonalStorage
+
+
+    @Inject
     @PlayIntent
     lateinit var playIntent: Lazy<Intent>
 
@@ -48,6 +58,17 @@ class AuthActivity : AppCompatActivity() {
             .create(findDependencies())
             .inject(this)
         super.onCreate(savedInstanceState)
+        runBlocking {
+            val theme = when(personalStorage.nightMode.first()){
+                NIGHT -> com.glebalekseevjk.design.R.style.Theme_ToDoApp_Night
+                DAY -> com.glebalekseevjk.design.R.style.Theme_ToDoApp_Day
+                SYSTEM -> null
+            }
+            theme?.let {
+                setTheme(it)
+            }
+        }
+
         _binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.yandexAuthBtn.setOnClickListener {

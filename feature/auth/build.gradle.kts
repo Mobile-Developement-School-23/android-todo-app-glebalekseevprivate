@@ -41,6 +41,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:preferences"))
     implementation(project(":core:utils"))
     implementation(project(":domain:auth"))
     implementation(project(":design"))

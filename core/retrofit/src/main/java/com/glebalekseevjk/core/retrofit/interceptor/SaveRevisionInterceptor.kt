@@ -27,7 +27,7 @@ class SaveRevisionInterceptor @Inject constructor(
     }
 
     companion object {
-        private const val BYTE_COUNT = 2048L
+        private const val BYTE_COUNT = 1048576L // 1 MiB
     }
 }
 

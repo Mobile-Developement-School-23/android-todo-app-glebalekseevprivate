@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":core:room"))
     implementation(project(":common"))
     implementation(project(":core:retrofit"))
+    implementation(project(":core:preferences"))
     implementation(project(":domain:auth"))
     implementation(project(":data:todoitem"))
     implementation(project(":domain:sync"))

@@ -34,8 +34,7 @@ import javax.inject.Inject
 Управление отображением элемента списка задач.
  */
 class TodoItemViewController @Inject constructor(
-    @ApplicationContext private val context: Context,
-    private val activity: Activity,
+    private val context: Context,
     private val binding: FragmentTodoItemBinding,
     private val lifecycleOwner: LifecycleOwner,
     private val todoViewModel: TodoItemViewModel,
@@ -53,7 +52,7 @@ class TodoItemViewController @Inject constructor(
     }
 
     private fun initDatePicker() {
-        datePickerDialog = DatePickerDialog(activity)
+        datePickerDialog = DatePickerDialog(context)
         datePickerDialog.setButton(
             DatePickerDialog.BUTTON_POSITIVE, resources.getString(R.string.ready),
             datePickerDialog

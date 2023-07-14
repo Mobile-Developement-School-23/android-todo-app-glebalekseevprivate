@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.ToDoApp.Auth" parent="Theme.ToDoApp">
+    <style name="ThemeOverlay.ToDoApp.Auth" parent="">
         <item name="yandex_auth_button">@color/white</item>
         <item name="yandex_auth_button_text">@color/black</item>
         <item name="auth_button">@color/blue_200</item>

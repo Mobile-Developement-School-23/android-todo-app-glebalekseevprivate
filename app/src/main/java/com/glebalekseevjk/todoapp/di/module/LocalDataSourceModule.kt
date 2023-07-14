@@ -21,6 +21,7 @@ import dagger.Provides
 
 @Module
 interface LocalDataSourceModule {
+    @AppComponentScope
     @Binds
     fun bindPersonalStorage(
         personalSharedPreferences: PersonalSharedPreferences

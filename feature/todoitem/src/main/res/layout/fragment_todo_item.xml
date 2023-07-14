@@ -23,7 +23,7 @@
             android:background="@android:color/transparent"
             android:clickable="true"
             android:focusable="true"
-            android:theme="@style/Theme.ToDoApp.Save"
+            android:theme="@style/ThemeOverlay.ToDoApp.Save"
             app:menu="@menu/todo_fragment_menu"
             app:navigationIcon="@drawable/close"
             app:navigationIconTint="?attr/label_primary"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="name"
-                    android:background="@android:color/transparent"
+                    android:background="?attr/back_secondary"
                     android:gravity="start|top"
                     android:hint="@string/example_todo_hint"
                     android:inputType="textMultiLine"
@@ -68,7 +68,8 @@
                     android:textAppearance="@style/TextAppearance.ToDo.Body"
                     android:textColor="?attr/label_primary"
                     android:textColorHint="?attr/label_tertiary"
-                    android:textCursorDrawable="@drawable/cursor" />
+                    android:textCursorDrawable="@drawable/cursor"
+                    />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView

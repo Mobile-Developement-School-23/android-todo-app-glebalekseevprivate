@@ -65,11 +65,11 @@ class TodoItemFragment : Fragment() {
         postponeEnterTransition()
         fragmentViewComponent = fragmentComponent!!
             .todoItemFragmentViewSubcomponentBuilder()
-            .activity(requireActivity())
             .binding(binding)
             .navController(findNavController())
             .todoItemViewModel(todoItemViewModel)
             .lifecycleOwner(viewLifecycleOwner)
+            .context(requireContext())
             .build()
         super.onViewCreated(view, savedInstanceState)
         fragmentViewComponent!!.viewController.setupViews()

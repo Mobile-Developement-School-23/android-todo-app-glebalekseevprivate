@@ -27,9 +27,6 @@ interface TodoItemFragmentViewSubcomponent {
     @Subcomponent.Builder
     interface Builder {
         @BindsInstance
-        fun activity(activity: Activity): Builder
-
-        @BindsInstance
         fun binding(binding: FragmentTodoItemBinding): Builder
 
         @BindsInstance
@@ -40,6 +37,8 @@ interface TodoItemFragmentViewSubcomponent {
 
         @BindsInstance
         fun navController(navController: NavController): Builder
+        @BindsInstance
+        fun context(context: Context): Builder
         fun build(): TodoItemFragmentViewSubcomponent
     }
 }

@@ -26,4 +26,10 @@
     <string name="server_exception">Ошибка сервера</string>
     <string name="connection_exception">Нет интернета</string>
     <string name="unauthorized_exception">Не авторизован</string>
+    <string name="settings">Настройки</string>
+    <string name="choose_theme">Выбор темы приложения</string>
+    <string name="day_theme">Всегда светлая</string>
+    <string name="night_theme">Всегда темная</string>
+    <string name="system_theme">Как в системе</string>
+    <string name="apply">Применить</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.glebalekseevjk.feature.todoitem.di.module//package com.glebalekseevjk.todoapp.ioc_old.module
+package com.glebalekseevjk.feature.todoitem.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

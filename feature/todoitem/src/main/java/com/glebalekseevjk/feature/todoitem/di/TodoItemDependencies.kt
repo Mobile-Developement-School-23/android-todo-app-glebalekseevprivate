@@ -2,6 +2,7 @@ package com.glebalekseevjk.feature.todoitem.di
 
 import android.content.Context
 import com.glebalekseevjk.common.Mapper
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
@@ -21,5 +22,6 @@ interface TodoItemDependencies : Dependencies {
     fun getContext(): Context
     val todoItemDao: TodoItemDao
     val todRemoveTodoItemDao: ToRemoveTodoItemDao
+    val personalStorage: PersonalStorage
     val mapper: Mapper<TodoItem, TodoItemDbModel>
 }

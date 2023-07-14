@@ -105,8 +105,8 @@ class SwipeCallback constructor(private val scrollConstraintOffset: Float) : Cal
             valueAnimator?.let { if (it.isRunning) return }
 
             if (isCurrentlyActive) {
-                val item =
-                    (recyclerView.adapter!! as TodoItemsAdapter).currentList.get(viewHolder.adapterPosition)
+                val item = (recyclerView.adapter!! as TodoItemsAdapter).currentList
+                    .getOrNull(viewHolder.adapterPosition) ?: return
                 if (!(item.isDone && (startScrollX - dX) < 0)) {
                     viewHolder.itemView.scrollTo((startScrollX - dX).toInt(), 0)
                 }

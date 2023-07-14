@@ -3,6 +3,8 @@ package com.glebalekseevjk.feature.todoitem.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.glebalekseevjk.core.preferences.PersonalStorage
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode
 import com.glebalekseevjk.core.utils.Constants.SYNCHRONIZATION_TIMEOUT
 import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.domain.sync.SynchronizationRepository
@@ -43,6 +45,7 @@ class TodoItemsViewModel @Inject constructor(
     private val synchronizationRepository: SynchronizationRepository,
     private val todoItemRepository: TodoItemRepository,
     private val synchronizationSchedulerManager: SynchronizationSchedulerManager,
+    private val personalStorage: PersonalStorage,
     val fragmentComponent: TodoItemsComponent
 ) : ViewModel() {
     init {
@@ -51,7 +54,12 @@ class TodoItemsViewModel @Inject constructor(
 
     private val _todoItemsState =
         MutableStateFlow<TodoItemsState>(Init(synchronizationRepository.lastSyncDate))
+
+    private val _modalBottomSheetState =
+        MutableStateFlow<ModalBottomSheetState>(ModalBottomSheetState.Hidden)
+
     val todoItemsState get(): StateFlow<TodoItemsState> = _todoItemsState
+    val modalBottomSheetState get(): StateFlow<ModalBottomSheetState> = _modalBottomSheetState
 
     val notificationChannel = Channel<NotificationType>()
 
@@ -137,6 +145,11 @@ class TodoItemsViewModel @Inject constructor(
             is TodoItemsAction.SetDoneStatus -> setDoneStatus(action.todoId)
             TodoItemsAction.Quit -> quit()
             TodoItemsAction.PullToRefresh -> pullToRefresh()
+
+            TodoItemsAction.HideModalBottomSheet -> hideModalBottomSheet()
+            is TodoItemsAction.SaveNightMode -> saveNightMode(action.beforeSave)
+            is TodoItemsAction.SetNightMode -> setNightMode(action.nightMode)
+            TodoItemsAction.ShowSettingsModalBottomSheet -> showSettingsModalBottomSheet()
         }
     }
 
@@ -319,10 +332,52 @@ class TodoItemsViewModel @Inject constructor(
     private fun CoroutineScope.withSupervisorJob(): CoroutineScope =
         CoroutineScope(this.coroutineContext + SupervisorJob())
 
+    private fun hideModalBottomSheet() {
+        _modalBottomSheetState.tryEmit(ModalBottomSheetState.Hidden)
+    }
+
+    private fun saveNightMode(beforeSave: () -> Unit) {
+      viewModelScope.launch {
+          val state = modalBottomSheetState.value
+          beforeSave.invoke()
+          when(state){
+              ModalBottomSheetState.Hidden -> return@launch
+              is ModalBottomSheetState.ShownSettings -> personalStorage.setNightMode(state.nightMode)
+          }
+      }
+    }
+
+    private fun setNightMode(nightMode: NightMode) {
+        viewModelScope.launch {
+            _modalBottomSheetState.emit(
+                ModalBottomSheetState.ShownSettings(
+                    nightMode
+                )
+            )
+        }
+    }
+
+    private fun showSettingsModalBottomSheet() {
+        viewModelScope.launch {
+            _modalBottomSheetState.emit(
+                ModalBottomSheetState.ShownSettings(
+                    personalStorage.nightMode.first()
+                )
+            )
+        }
+    }
+
     companion object {
         @Volatile
         var fragmentComponent: TodoItemsComponent? = null
     }
+}
+
+sealed class ModalBottomSheetState {
+    object Hidden : ModalBottomSheetState()
+    data class ShownSettings(
+        val nightMode: NightMode
+    ): ModalBottomSheetState()
 }
 
 sealed class TodoItemsState(
@@ -355,6 +410,10 @@ sealed class TodoItemsAction {
     data class SetDoneStatus(val todoId: String, val context: Context) : TodoItemsAction()
     object PullToRefresh : TodoItemsAction()
     object Quit : TodoItemsAction()
+    object ShowSettingsModalBottomSheet : TodoItemsAction()
+    object HideModalBottomSheet : TodoItemsAction()
+    data class SetNightMode(val nightMode: NightMode) : TodoItemsAction()
+    data class SaveNightMode(val beforeSave: ()-> Unit) : TodoItemsAction()
 }
 
 sealed class NotificationType {

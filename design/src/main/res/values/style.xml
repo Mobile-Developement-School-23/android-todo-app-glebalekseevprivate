@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Style.ToDo.RoundedFloatingActionButton" parent="@style/Widget.MaterialComponents.FloatingActionButton">
         <item name="shapeAppearanceOverlay">@style/RoundedShapeAppearanceOverlay</item>
     </style>
@@ -22,6 +23,23 @@
     <style name="Style.ToDo.Switch" parent="Widget.MaterialComponents.CompoundButton.Switch">
         <item name="thumbTint">@color/switch_thumb_selector</item>
         <item name="trackTint">@color/switch_track_selector</item>
+    </style>
+
+
+    <style name="Style.ToDo.DatePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">?attr/color_blue</item>
+        <item name="colorAccent">?attr/color_blue</item>
+        <item name="android:windowBackground">?attr/back_secondary</item>
+        <item name="android:textColorSecondary">?attr/label_tertiary</item>
+        <item name="android:textColorPrimary">?attr/label_primary</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/Style.ToDo.DatePicker.Button
+        </item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/Style.ToDo.DatePicker.Button
+        </item>
+    </style>
+
+    <style name="Style.ToDo.DatePicker.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/color_blue</item>
     </style>
 </resources>
 
