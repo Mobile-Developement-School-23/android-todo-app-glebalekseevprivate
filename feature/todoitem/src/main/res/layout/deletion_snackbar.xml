@@ -17,7 +17,7 @@
         <View
             android:id="@+id/progress_view"
             android:layout_width="0dp"
-            android:layout_height="5dp"
+            android:layout_height="4dp"
             android:layout_gravity="center"
             android:background="?attr/label_secondary"
             app:layout_constraintWidth_percent="1.0"
@@ -30,8 +30,9 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:paddingVertical="16dp"
-        android:paddingHorizontal="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:paddingHorizontal="8dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -53,9 +54,11 @@
             android:id="@+id/cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/color_blue"
+            android:background="@drawable/blue_rounded_corners"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:text="@string/cancel"
+            android:layout_margin="4dp"
+            android:elevation="2dp"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.ToDo.Button" />
             />

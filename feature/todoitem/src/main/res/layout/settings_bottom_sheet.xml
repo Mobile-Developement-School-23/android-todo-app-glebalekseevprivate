@@ -60,7 +60,7 @@
         android:id="@+id/apply_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/color_blue"
+        android:background="@drawable/blue_rounded_corners"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:text="@string/apply"
         android:textColor="@color/white"

@@ -1,13 +1,14 @@
 package com.glebalekseevjk.feature.todoitem.presentation.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.glebalekseevjk.domain.todoitem.TodoItemRepository
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Date
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class TodoItemViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
 ) : ViewModel() {
-    private val _todoItemState = MutableStateFlow<TodoItemState>(
+    var viewStates by mutableStateOf<TodoItemState>(
         TodoItemState.Init(
             TodoItem(
                 id = "0",
@@ -35,7 +36,7 @@ class TodoItemViewModel @Inject constructor(
             )
         )
     )
-    val todoItemState get(): StateFlow<TodoItemState> = _todoItemState
+        private set
 
     fun dispatch(action: TodoItemAction) {
         when (action) {
@@ -52,12 +53,12 @@ class TodoItemViewModel @Inject constructor(
     private fun init(todoId: String) {
         viewModelScope.launch {
             val todoItem = todoItemRepository.getTodoItemByIdOrNull(todoId)
-            when (val todoItemState = todoItemState.value) {
+            when (val todoItemState = viewStates) {
                 is TodoItemState.Init -> {
                     if (todoItem != null) {
-                        _todoItemState.emit(TodoItemState.Loaded(todoItem, true))
+                        viewStates = TodoItemState.Loaded(todoItem, true)
                     } else {
-                        _todoItemState.emit(TodoItemState.Loaded(todoItemState.todoItem, false))
+                        viewStates = TodoItemState.Loaded(todoItemState.todoItem, false)
                     }
                 }
 
@@ -67,7 +68,7 @@ class TodoItemViewModel @Inject constructor(
     }
 
     private fun deleteTodoItem() {
-        when (val todoItemState = todoItemState.value) {
+        when (val todoItemState = viewStates) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 if (!todoItemState.isEdit) return
@@ -79,7 +80,7 @@ class TodoItemViewModel @Inject constructor(
     }
 
     private fun saveTodoItem() {
-        when (val todoItemState = todoItemState.value) {
+        when (val todoItemState = viewStates) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -94,47 +95,42 @@ class TodoItemViewModel @Inject constructor(
     }
 
     private fun setDeadLine(deadline: Date?) {
-        when (val todoItemState = todoItemState.value) {
+        when (val todoItemState = viewStates) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {
-                    _todoItemState.emit(
+                    viewStates =
                         todoItemState.copy(
                             todoItem = todoItemState.todoItem.copy(deadline = deadline)
                         )
-                    )
                 }
-
             }
         }
     }
 
     private fun setImportance(importance: TodoItem.Companion.Importance) {
-        when (val todoItemState = todoItemState.value) {
+        when (val todoItemState = viewStates) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {
-                    _todoItemState.emit(
+                    viewStates =
                         todoItemState.copy(
                             todoItem = todoItemState.todoItem.copy(importance = importance)
                         )
-                    )
                 }
-
             }
         }
     }
 
     private fun setText(text: String) {
-        when (val todoItemState = todoItemState.value) {
+        when (val todoItemState = viewStates) {
             is TodoItemState.Init -> return
             is TodoItemState.Loaded -> {
                 viewModelScope.launch {
-                    _todoItemState.emit(
+                    viewStates =
                         todoItemState.copy(
                             todoItem = todoItemState.todoItem.copy(text = text)
                         )
-                    )
                 }
             }
         }

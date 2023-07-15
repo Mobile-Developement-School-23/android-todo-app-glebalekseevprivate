@@ -34,4 +34,6 @@
     <string name="apply">Применить</string>
     <string name="cancel_deletion">Удалить %s</string>
     <string name="cancel">Отмена</string>
+    <string name="close">Закрыть</string>
+    <string name="choose_importance">Выбор важности</string>
 </resources>

@@ -30,10 +30,14 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.6"
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -41,6 +45,15 @@ android {
 }
 
 dependencies {
+    implementation ("androidx.compose.ui:ui:1.4.3")
+    implementation ("androidx.compose.ui:ui-tooling-preview:1.4.3")
+    implementation("androidx.compose.foundation:foundation:1.4.3")
+//    implementation ("androidx.activity:activity-compose:$compose_version")
+    implementation ("androidx.compose.material:material:1.4.3")
+    implementation ("androidx.compose.material3:material3:1.1.1")
+//    implementation ("androidx.compose.material3:material3:1.1.0-beta02")
+//    implementation ("androidx.navigation:navigation-compose:2.6.0-alpha09")
+
     implementation(project(":core:utils"))
     implementation(project(":core:room"))
     implementation(project(":common"))
