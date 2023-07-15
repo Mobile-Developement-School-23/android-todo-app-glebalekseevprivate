@@ -39,6 +39,8 @@ android {
 dependencies {
     implementation(project(":domain:todoitem"))
     implementation(project(":core:room"))
+    implementation(project(":core:utils"))
+    implementation(project(":core:alarmscheduler"))
     implementation(project(":common"))
 
     implementation(Dependencies.Dagger.DAGGER)

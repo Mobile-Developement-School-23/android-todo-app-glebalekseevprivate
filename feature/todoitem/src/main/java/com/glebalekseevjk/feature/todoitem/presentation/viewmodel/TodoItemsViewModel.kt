@@ -9,7 +9,7 @@ import com.glebalekseevjk.core.utils.Constants.SYNCHRONIZATION_TIMEOUT
 import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.domain.sync.SynchronizationRepository
 import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
-import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import com.glebalekseevjk.domain.todoitem.exception.AuthorizationException
 import com.glebalekseevjk.domain.todoitem.exception.ClientException

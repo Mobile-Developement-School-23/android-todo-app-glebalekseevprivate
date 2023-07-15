@@ -1,4 +1,4 @@
-package com.glebalekseevjk.domain.todoitem
+package com.glebalekseevjk.domain.todoitem.repository
 
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import kotlinx.coroutines.channels.Channel

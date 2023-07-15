@@ -17,6 +17,7 @@ import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.compone
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.component.TodoModalBottomSheetLayout
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.AppTheme
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
+import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -26,6 +27,7 @@ import java.text.SimpleDateFormat
 fun TodoItemPage(
     viewModel: TodoItemViewModel,
     dateFormatter: SimpleDateFormat,
+    timeFormatter: SimpleDateFormat,
     onBackPressed: () -> Unit,
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -56,6 +58,7 @@ fun TodoItemPage(
                         onBackPressed = onBackPressed,
                         viewModel = viewModel,
                         dateFormatter = dateFormatter,
+                        timeFormatter = timeFormatter,
                         listState = listState,
                         onOpenImportanceBottomSheet = {
                             scope.launch {
@@ -68,11 +71,13 @@ fun TodoItemPage(
         },
         bottomSheetState = modalBottomSheetState,
         sheetContent = {
-            ChooseImportanceModalBottomSheet(
-                initValue = viewModel.viewStates.todoItem.importance,
-                onItemSelected = {
-                    viewModel.dispatch(TodoItemAction.SetImportance(it))
-                })
+            if (viewModel.viewStates is TodoItemState.Loaded){
+                ChooseImportanceModalBottomSheet(
+                    initValue = viewModel.viewStates.todoItem.importance,
+                    onItemSelected = {
+                        viewModel.dispatch(TodoItemAction.SetImportance(it))
+                    })
+            }
         },
     )
 }

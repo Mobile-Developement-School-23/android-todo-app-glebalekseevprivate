@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -16,7 +18,9 @@ import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +35,8 @@ import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.A
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.typography
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.Calendar
 import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,10 +46,14 @@ fun TodoDatePickerField(
     onInitDeadline: () -> Unit,
     onDisableDeadline: () -> Unit,
     onSetDeadline: (Date) -> Unit,
-    dateFormatter: SimpleDateFormat
+    dateFormatter: SimpleDateFormat,
+    timeFormatter: SimpleDateFormat,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var openDatePickerDialog by remember {
+        mutableStateOf(false)
+    }
+    var openTimePickerDialog by remember {
         mutableStateOf(false)
     }
     val scope = rememberCoroutineScope()
@@ -80,6 +90,56 @@ fun TodoDatePickerField(
         }
     }
 
+    if (openTimePickerDialog && date != null){
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        val month = calendar.get(Calendar.MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val hours = calendar.get(Calendar.HOUR_OF_DAY)
+        val minutes = calendar.get(Calendar.MINUTE)
+        val timePickerState = rememberTimePickerState(
+            initialHour = hours,
+            initialMinute = minutes,
+        )
+        DatePickerDialog(
+            onDismissRequest = { openTimePickerDialog = false },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            val newHour = timePickerState.hour
+                            val newMinute = timePickerState.minute
+                            val date = Calendar.getInstance().apply {
+                                set(Calendar.DAY_OF_MONTH, day)
+                                set(Calendar.MONTH, month)
+                                set(Calendar.YEAR, year)
+                                set(Calendar.HOUR_OF_DAY, newHour)
+                                set(Calendar.MINUTE, newMinute)
+                            }.time
+                            onSetDeadline.invoke(date)
+                            openTimePickerDialog = false
+                        }
+                    }
+                ) {
+                    Text("ГОТОВО")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        openTimePickerDialog = false
+                    }
+                ) {
+                    Text("ОТМЕНА")
+                }
+            },
+        ) {
+            TimePicker(state = timePickerState)
+        }
+
+    }
+
 
     Row(
         modifier = Modifier
@@ -94,21 +154,40 @@ fun TodoDatePickerField(
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             date?.let {
-                Button(
-                    onClick = { openDatePickerDialog = true },
-                    elevation = null,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = AppTheme.colors.colorBlue,
-                        contentColor = AppTheme.colors.colorWhite,
-                    ),
-                    shape = RoundedCornerShape(12.dp),
-                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
-                ) {
-                    Text(
-                        text = dateFormatter.format(it),
-                        style = typography.subhead,
-                        modifier = Modifier,
-                    )
+                Row(modifier = Modifier) {
+                    Button(
+                        onClick = { openDatePickerDialog = true },
+                        elevation = null,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppTheme.colors.colorBlue,
+                            contentColor = AppTheme.colors.colorWhite,
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                    ) {
+                        Text(
+                            text = dateFormatter.format(it),
+                            style = typography.subhead,
+                            modifier = Modifier,
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Button(
+                        onClick = { openTimePickerDialog = true },
+                        elevation = null,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = AppTheme.colors.colorBlue,
+                            contentColor = AppTheme.colors.colorWhite,
+                        ),
+                        shape = RoundedCornerShape(12.dp),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp)
+                    ) {
+                        Text(
+                            text = timeFormatter.format(it),
+                            style = typography.subhead,
+                            modifier = Modifier,
+                        )
+                    }
                 }
             }
         }

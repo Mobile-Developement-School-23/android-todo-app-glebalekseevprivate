@@ -12,6 +12,8 @@
         <item><font fgcolor="#FF453A">!! Высокий</font></item>
     </string-array>
     <string name="date_pattern">dd MMMM yyyy</string>
+    <string name="time_pattern">HH:mm</string>
+    <string name="date_time_pattern">dd MMMM yyyy, HH:mm</string>
     <string name="date_pattern_2">d MMMM, HH:mm</string>
     <string name="ready">готово</string>
     <string name="edit">Редактирование</string>

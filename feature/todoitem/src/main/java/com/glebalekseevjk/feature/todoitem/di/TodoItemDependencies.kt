@@ -11,13 +11,18 @@ import com.glebalekseevjk.core.utils.di.Dependencies
 import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.domain.sync.SynchronizationRepository
 import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
+import com.glebalekseevjk.domain.todoitem.repository.EventNotificationRepository
+import com.glebalekseevjk.domain.todoitem.repository.EventNotificationSchedulerRepository
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
-import dagger.Module
+import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
 
 interface TodoItemDependencies : Dependencies {
     val authRepository: AuthRepository
     val schedulerManager: SynchronizationSchedulerManager
     val synchronizationRepository: SynchronizationRepository
+    val todoItemRepository: TodoItemRepository
+    val eventNotificationRepository: EventNotificationRepository
+    val eventNotificationSchedulerRepository: EventNotificationSchedulerRepository
     @ApplicationContext
     fun getContext(): Context
     val todoItemDao: TodoItemDao

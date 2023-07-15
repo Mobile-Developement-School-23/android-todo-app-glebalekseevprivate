@@ -8,11 +8,15 @@ import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.retrofit.mapper.TodoElementMapperImpl
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.room.AppDatabase
+import com.glebalekseevjk.core.room.dao.EventNotificationDao
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
+import com.glebalekseevjk.core.room.mapper.EventNotificationMapperImpl
 import com.glebalekseevjk.core.room.mapper.TodoItemDbModelMapperImpl
+import com.glebalekseevjk.core.room.model.EventNotificationDbModel
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
 import com.glebalekseevjk.core.utils.di.ApplicationContext
+import com.glebalekseevjk.domain.todoitem.entity.EventNotification
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Binds
@@ -31,6 +35,11 @@ interface LocalDataSourceModule {
     fun bindTodoElementMapperImpl(
         todoElementMapperImpl: TodoElementMapperImpl
     ): Mapper<TodoItem, TodoElement>
+
+    @Binds
+    fun bindEventNotificationMapperImpl(
+        eventNotificationMapperImpl: EventNotificationMapperImpl
+    ): Mapper<EventNotification, EventNotificationDbModel>
 
     @Binds
     fun bindTodoItemDbModelMapperImpl(
@@ -58,6 +67,12 @@ interface LocalDataSourceModule {
         @Provides
         fun provideToRemoveTodoItemDao(appDatabase: AppDatabase): ToRemoveTodoItemDao {
             return appDatabase.toRemoveTodoItemDao()
+        }
+
+        @AppComponentScope
+        @Provides
+        fun provideEventNotificationDao(appDatabase: AppDatabase): EventNotificationDao {
+            return appDatabase.eventNotificationDao()
         }
     }
 }

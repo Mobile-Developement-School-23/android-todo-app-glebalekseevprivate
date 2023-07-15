@@ -183,11 +183,12 @@ class TodoItemsAdapter @Inject constructor() :
         if (todoItem.deadline == null) {
             binding.deadlineTv.visibility = View.GONE
         } else {
-            val formatter = SimpleDateFormat(
-                binding.root.context.resources.getString(R.string.date_pattern),
+            val dateTimeFormatter = SimpleDateFormat(
+                binding.root.context.resources.getString(R.string.date_time_pattern),
                 Locale("ru")
             )
-            binding.deadlineTv.text = formatter.format(todoItem.deadline)
+
+            binding.deadlineTv.text = dateTimeFormatter.format(todoItem.deadline)
             binding.deadlineTv.visibility = View.VISIBLE
         }
     }

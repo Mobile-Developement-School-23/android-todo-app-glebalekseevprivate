@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.glebalekseevjk.feature.todoitem.di.TodoItemFragmentSubcomponent
+import com.glebalekseevjk.feature.todoitem.di.module.DateFormatter
+import com.glebalekseevjk.feature.todoitem.di.module.TimeFormatter
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.TodoItemPage
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.AppTheme
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
@@ -35,7 +37,12 @@ class TodoItemFragment : Fragment() {
     private val args: TodoItemFragmentArgs by navArgs()
 
     @Inject
-    lateinit var formatter: SimpleDateFormat
+    @DateFormatter
+    lateinit var dateFormatter: SimpleDateFormat
+
+    @Inject
+    @TimeFormatter
+    lateinit var timeFormatter: SimpleDateFormat
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -64,7 +71,8 @@ class TodoItemFragment : Fragment() {
                 AppTheme(requireContext()) {
                     TodoItemPage(
                         viewModel = todoItemViewModel,
-                        dateFormatter = formatter,
+                        dateFormatter = dateFormatter,
+                        timeFormatter = timeFormatter,
                         onBackPressed = { findNavController().popBackStack() },
                     )
                 }

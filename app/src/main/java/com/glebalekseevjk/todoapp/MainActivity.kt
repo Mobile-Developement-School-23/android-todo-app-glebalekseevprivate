@@ -1,24 +1,30 @@
 package com.glebalekseevjk.todoapp
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentContainer
+import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.DAY
 import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.NIGHT
 import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.SYSTEM
 import com.glebalekseevjk.domain.auth.AuthRepository
 import com.glebalekseevjk.feature.auth.presentation.AuthActivity
+import com.glebalekseevjk.feature.todoitem.presentation.fragment.TodoItemsFragmentDirections
+import com.glebalekseevjk.todoapp.broadcastreceiver.NotificationReceiver.Companion.TODOITEM_ID
 import com.glebalekseevjk.todoapp.utils.appComponent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -50,10 +56,49 @@ class MainActivity : AppCompatActivity() {
         observeNightMode()
     }
 
+    override fun onStart() {
+        super.onStart()
+        checkPermissions()
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        val id = intent?.getStringExtra(TODOITEM_ID)
+
+        println("----------- fun onPostCreate(savedInstanceState: Bundle?) { id=$id")
+        id?.let {
+            val fragmentContainer = findViewById<FragmentContainerView>(R.id.fragment_container_view)
+            val navController =fragmentContainer.findNavController()
+//            val navController =
+//                findNavController(com.glebalekseevjk.feature.todoitem.R.id.app_navigation)
+            val action =
+                TodoItemsFragmentDirections.actionTodoItemsFragmentToTodoItemFragment(it)
+            navController.navigate(action)
+        }
+    }
+
+    private fun checkPermissions() {
+        if (Build.VERSION.SDK_INT >= 33) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+            }
+        }
+    }
+
     private fun observeIsAuth() {
         lifecycleScope.launch {
             authRepository.isAuth.collectLatest {
-                if (!it) startAuthActivity() else setContentView(R.layout.activity_main)
+                if (!it) startAuthActivity() else {
+                    setContentView(R.layout.activity_main)
+                }
             }
         }
     }

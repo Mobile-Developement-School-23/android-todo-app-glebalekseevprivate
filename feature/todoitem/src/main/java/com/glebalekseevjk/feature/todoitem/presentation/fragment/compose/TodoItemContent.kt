@@ -28,6 +28,7 @@ fun TodoItemContent(
     listState: LazyListState,
     viewModel: TodoItemViewModel,
     dateFormatter: SimpleDateFormat,
+    timeFormatter: SimpleDateFormat,
     onBackPressed: () -> Unit,
     onOpenImportanceBottomSheet: () -> Unit,
 ) {
@@ -79,6 +80,7 @@ fun TodoItemContent(
                     viewModel.dispatch(TodoItemAction.SetDeadline(null))
                 },
                 dateFormatter = dateFormatter,
+                timeFormatter = timeFormatter,
                 onSetDeadline = {
                     viewModel.dispatch(
                         TodoItemAction.SetDeadline(

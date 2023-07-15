@@ -6,14 +6,8 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.LifecycleOwner
@@ -24,10 +18,9 @@ import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.D
 import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.NIGHT
 import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.SYSTEM
 import com.glebalekseevjk.core.utils.getColorFromTheme
-import com.glebalekseevjk.core.utils.showSnackbar
 import com.glebalekseevjk.core.utils.showToast
 import com.glebalekseevjk.design.R
-import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
 import com.glebalekseevjk.feature.todoitem.databinding.DeletionSnackbarBinding
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemsBinding
 import com.glebalekseevjk.feature.todoitem.databinding.NotificationSnackbarBinding
