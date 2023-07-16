@@ -280,7 +280,6 @@ class TodoItemsViewController @Inject constructor(
                         )
                         binding.srl.isRefreshing = false
                         checkVisibilityButton(todoItemsState.visibility)
-                        binding.todoListRv.scrollToPosition(0)
                     }
 
                     is TodoItemsState.Init -> {
