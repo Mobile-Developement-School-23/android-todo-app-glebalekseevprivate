@@ -22,8 +22,8 @@ import javax.inject.Inject
  */
 class TodoItemViewModel @Inject constructor(
     private val todoItemRepository: TodoItemRepository
-) : ViewModel() {
-    var viewStates by mutableStateOf<TodoItemState>(
+) : ViewModel(), ITodoItemViewModel {
+    override var viewStates by mutableStateOf<TodoItemState>(
         TodoItemState.Init(
             TodoItem(
                 id = "0",
@@ -38,7 +38,7 @@ class TodoItemViewModel @Inject constructor(
     )
         private set
 
-    fun dispatch(action: TodoItemAction) {
+    override fun dispatch(action: TodoItemAction) {
         when (action) {
             is TodoItemAction.Init -> init(action.todoId)
             TodoItemAction.DeleteTodoItem -> deleteTodoItem()

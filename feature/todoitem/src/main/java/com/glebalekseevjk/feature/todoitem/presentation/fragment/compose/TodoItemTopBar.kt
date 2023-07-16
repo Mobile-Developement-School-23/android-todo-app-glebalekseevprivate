@@ -26,17 +26,18 @@ import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.A
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.SmallIconSize
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.transparent
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.typography
+import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.ITodoItemViewModel
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
 
 @Composable
 fun TodoItemTopBar(
-    viewModel: TodoItemViewModel,
+    viewModel: ITodoItemViewModel,
     topBarElevation: Dp,
     onBackPressed: () -> Unit,
 
-) {
+    ) {
     val viewStates = viewModel.viewStates
 
     Row(
@@ -81,8 +82,5 @@ fun TodoItemTopBar(
                 modifier = Modifier
             )
         }
-
-
-
     }
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.component.ChooseImportanceModalBottomSheet
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.component.TodoModalBottomSheetLayout
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.AppTheme
+import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.ITodoItemViewModel
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
@@ -25,7 +26,7 @@ import java.text.SimpleDateFormat
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TodoItemPage(
-    viewModel: TodoItemViewModel,
+    viewModel: ITodoItemViewModel,
     dateFormatter: SimpleDateFormat,
     timeFormatter: SimpleDateFormat,
     onBackPressed: () -> Unit,

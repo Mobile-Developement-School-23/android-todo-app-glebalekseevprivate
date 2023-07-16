@@ -1,13 +1,16 @@
 package com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme
 
-import android.content.Context
-import android.util.TypedValue
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import com.glebalekseevjk.design.R
+import com.glebalekseevjk.core.preferences.PersonalStorage
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.DAY
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.NIGHT
+import com.glebalekseevjk.core.preferences.PersonalStorage.Companion.NightMode.SYSTEM
 
 val transparent = Color(0x00000000)
 
@@ -35,56 +38,65 @@ data class AppColors(
 
 @Composable
 fun AppTheme(
-    context: Context,
+    nightMode: PersonalStorage.Companion.NightMode = SYSTEM,
     content: @Composable () -> Unit
 ) {
-    val appColors = AppColors(
-        supportSeparatorColor = context.resolveColorAttr(R.attr.support_separator),
-        supportOverlayColor = context.resolveColorAttr(R.attr.support_overlay),
-        labelPrimaryColor = context.resolveColorAttr(R.attr.label_primary),
-        labelSecondaryColor = context.resolveColorAttr(R.attr.label_secondary),
-        labelTertiaryColor = context.resolveColorAttr(R.attr.label_tertiary),
-        labelDisableColor = context.resolveColorAttr(R.attr.label_disable),
-        colorRed = context.resolveColorAttr(R.attr.color_red),
-        colorRed20 = context.resolveColorAttr(R.attr.color_red_20),
-        colorGreen = context.resolveColorAttr(R.attr.color_green),
-        colorBlue = context.resolveColorAttr(R.attr.color_blue),
-        colorBlue30 = context.resolveColorAttr(R.attr.color_blue_30),
-        colorGray = context.resolveColorAttr(R.attr.color_gray),
-        colorGrayLight = context.resolveColorAttr(R.attr.color_gray_light),
-        colorWhite = context.resolveColorAttr(R.attr.color_white),
-        backPrimaryColor = context.resolveColorAttr(R.attr.back_primary),
-        backSecondaryColor = context.resolveColorAttr(R.attr.back_secondary),
-        backElevatedColor = context.resolveColorAttr(R.attr.back_elevated),
-        colorAccent = context.resolveColorAttr(R.attr.color_blue),
-        colorPrimary = context.resolveColorAttr(R.attr.color_blue)
-    )
+
+    val appColors = when (nightMode) {
+        NIGHT -> nightAppColors
+        DAY -> dayAppColors
+        SYSTEM -> if (isSystemInDarkTheme()) nightAppColors else dayAppColors
+    }
 
     CompositionLocalProvider(LocalAppColors provides appColors, content = content)
 }
 
+val dayAppColors = AppColors(
+    supportSeparatorColor = Color(0x33000000),
+    supportOverlayColor = Color(0x0F000000),
+    labelPrimaryColor = Color(0xFF000000),
+    labelSecondaryColor = Color(0x99000000),
+    labelTertiaryColor = Color(0x4D000000),
+    labelDisableColor = Color(0x26000000),
+    colorRed = Color(0xFFFF3B30),
+    colorRed20 = Color(0x33FF3B30),
+    colorGreen = Color(0xFF34C759),
+    colorBlue = Color(0xFF007AFF),
+    colorBlue30 = Color(0x50007AFF),
+    colorGray = Color(0xFF8E8E93),
+    colorGrayLight = Color(0xFFD1D1D6),
+    colorWhite = Color(0xFFFFFFFF),
+    backPrimaryColor = Color(0xFFF7F6F2),
+    backSecondaryColor = Color(0xFFFFFFFF),
+    backElevatedColor = Color(0xFFFFFFFF),
+    colorAccent = Color(0xFF007AFF),
+    colorPrimary = Color(0xFF007AFF)
+)
+
+val nightAppColors = AppColors(
+    supportSeparatorColor = Color(0x33FFFFFF),
+    supportOverlayColor = Color(0x52000000),
+    labelPrimaryColor = Color(0xFFFFFFFF),
+    labelSecondaryColor = Color(0x99FFFFFF),
+    labelTertiaryColor = Color(0x66FFFFFF),
+    labelDisableColor = Color(0x26FFFFFF),
+    colorRed = Color(0xFFFF453A),
+    colorRed20 = Color(0x33FF453A),
+    colorGreen = Color(0xFF32D74B),
+    colorBlue = Color(0xFF0A84FF),
+    colorBlue30 = Color(0x500A84FF),
+    colorGray = Color(0xFF8E8E93),
+    colorGrayLight = Color(0xFF48484A),
+    colorWhite = Color(0xFFFFFFFF),
+    backPrimaryColor = Color(0xFF161618),
+    backSecondaryColor = Color(0xFF252528),
+    backElevatedColor = Color(0xFF3C3C3F),
+    colorAccent = Color(0xFF0A84FF),
+    colorPrimary = Color(0xFF0A84FF)
+)
+
 var LocalAppColors = compositionLocalOf {
-    AppColors(
-        supportSeparatorColor = Color(0xffe0e0e0),
-        supportOverlayColor = Color(0x1f000000),
-        labelPrimaryColor = Color(0xff000000),
-        labelSecondaryColor = Color(0x8a000000),
-        labelTertiaryColor = Color(0x61000000),
-        labelDisableColor = Color(0x42000000),
-        colorRed = Color(0xffe53935),
-        colorRed20 = Color(0x33e53935),
-        colorGreen = Color(0xff43a047),
-        colorBlue = Color(0xff1e88e5),
-        colorBlue30 = Color(0x4d1e88e5),
-        colorGray = Color(0xff9e9e9e),
-        colorGrayLight = Color(0xffbdbdbd),
-        colorWhite = Color(0xffffffff),
-        backPrimaryColor = Color(0xffffffff),
-        backSecondaryColor = Color(0xfff5f5f5),
-        backElevatedColor = Color(0xffffffff),
-        colorAccent = Color(0xff1e88e5),
-        colorPrimary = Color(0xff1e88e5)
-    )
+    dayAppColors
 }
 
 @Stable
@@ -92,10 +104,4 @@ object AppTheme {
     val colors: AppColors
         @Composable
         get() = LocalAppColors.current
-}
-
-fun Context.resolveColorAttr(attr: Int): Color {
-    val typedValue = TypedValue()
-    this.theme.resolveAttribute(attr, typedValue, true)
-    return Color(typedValue.data)
 }

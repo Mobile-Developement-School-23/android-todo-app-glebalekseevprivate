@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.feature.todoitem.di.TodoItemFragmentSubcomponent
 import com.glebalekseevjk.feature.todoitem.di.module.DateFormatter
 import com.glebalekseevjk.feature.todoitem.di.module.TimeFormatter
@@ -19,7 +20,9 @@ import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.A
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemsViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -44,6 +47,9 @@ class TodoItemFragment : Fragment() {
     @TimeFormatter
     lateinit var timeFormatter: SimpleDateFormat
 
+    @Inject
+    lateinit var personalStorage: PersonalStorage
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentComponent =
@@ -66,9 +72,12 @@ class TodoItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val nightMode = runBlocking { personalStorage.nightMode.first() }
         return ComposeView(requireContext()).apply {
             setContent {
-                AppTheme(requireContext()) {
+                AppTheme(
+                    nightMode
+                ) {
                     TodoItemPage(
                         viewModel = todoItemViewModel,
                         dateFormatter = dateFormatter,

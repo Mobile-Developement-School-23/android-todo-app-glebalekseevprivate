@@ -16,6 +16,7 @@ import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.compone
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.component.TodoImportanceField
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.component.TodoRemoveImageButton
 import com.glebalekseevjk.feature.todoitem.presentation.fragment.compose.theme.AppTheme
+import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.ITodoItemViewModel
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemAction
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemState
 import com.glebalekseevjk.feature.todoitem.presentation.viewmodel.TodoItemViewModel
@@ -26,7 +27,7 @@ import java.util.Calendar
 fun TodoItemContent(
     modifier: Modifier,
     listState: LazyListState,
-    viewModel: TodoItemViewModel,
+    viewModel: ITodoItemViewModel,
     dateFormatter: SimpleDateFormat,
     timeFormatter: SimpleDateFormat,
     onBackPressed: () -> Unit,
