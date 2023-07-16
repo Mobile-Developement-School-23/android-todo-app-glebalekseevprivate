@@ -64,13 +64,9 @@ class MainActivity : AppCompatActivity() {
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         val id = intent?.getStringExtra(TODOITEM_ID)
-
-        println("----------- fun onPostCreate(savedInstanceState: Bundle?) { id=$id")
         id?.let {
             val fragmentContainer = findViewById<FragmentContainerView>(R.id.fragment_container_view)
             val navController =fragmentContainer.findNavController()
-//            val navController =
-//                findNavController(com.glebalekseevjk.feature.todoitem.R.id.app_navigation)
             val action =
                 TodoItemsFragmentDirections.actionTodoItemsFragmentToTodoItemFragment(it)
             navController.navigate(action)

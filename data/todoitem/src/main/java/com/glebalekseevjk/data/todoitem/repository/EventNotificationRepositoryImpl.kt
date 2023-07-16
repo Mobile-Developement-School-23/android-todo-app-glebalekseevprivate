@@ -22,11 +22,7 @@ class EventNotificationRepositoryImpl @Inject constructor(
 
     override suspend fun removeEventNotification(eventNotificationId: Int) =
         withContext(Dispatchers.IO) {
-            try {
-                eventNotificationDao.delete(eventNotificationId)
-            } catch (e: Exception) {
-                throw NoSuchElementException()
-            }
+            eventNotificationDao.delete(eventNotificationId)
         }
 
     override suspend fun getEventNotification(eventNotificationId: Int): EventNotification =

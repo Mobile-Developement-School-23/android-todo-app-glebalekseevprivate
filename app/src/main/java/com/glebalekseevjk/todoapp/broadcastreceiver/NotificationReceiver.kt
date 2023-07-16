@@ -56,8 +56,11 @@ class NotificationReceiver : BroadcastReceiver() {
         if (eventNotificationId == -1) throw NoSuchElementException("Bad eventNotificationId from extra")
 
         CoroutineScope(Dispatchers.Default).launch {
-            val eventNotification =
+            val eventNotification = try {
                 eventNotificationRepository.getEventNotification(eventNotificationId)
+            }catch (e: Exception){
+                return@launch
+            }
             val todoItem = todoItemRepository.getTodoItemByIdOrNull(eventNotification.todoId)
                 ?: throw NoSuchElementException("Bad todoId from eventNotification")
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -86,7 +89,7 @@ class NotificationReceiver : BroadcastReceiver() {
                             0,
                             minOf(todoItem.text.length, 10)
                         )
-                    }...}"
+                    }..."
                 )
                 .setContentText(todoItem.text)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
