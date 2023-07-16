@@ -1,4 +1,5 @@
 import dependencies.Dependencies
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     id("com.android.library")
@@ -7,7 +8,14 @@ plugins {
     id("kotlin-kapt")
 }
 
+
 android {
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
     namespace = "com.glebalekseevjk.feature.auth"
     compileSdk = Config.COMPILE_SDK
 
@@ -17,7 +25,12 @@ android {
 
         testInstrumentationRunner = Config.TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "YANDEX_BEARER_TOKEN",
+            "\"${localProperties.getProperty("yandex_bearer_token", "")}\""
+        )
     }
+
 
     buildTypes {
         release {
@@ -30,6 +43,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

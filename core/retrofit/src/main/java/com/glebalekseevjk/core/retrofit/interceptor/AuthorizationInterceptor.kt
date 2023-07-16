@@ -23,10 +23,16 @@ class AuthorizationInterceptor @Inject constructor(
 
     private fun Request.addTokenHeader(): Request? {
         val authHeaderName = "Authorization"
-        val token = personalStorage.token ?: return null
+        val bearerToken = personalStorage.bearerToken
+        val oauthToken = personalStorage.oauthToken
+
+        if (bearerToken == null && oauthToken == null) return null
+        if (bearerToken != null && oauthToken != null) return null
+
         return newBuilder()
             .apply {
-                header(authHeaderName, token.withOAuth())
+                bearerToken?.let { header(authHeaderName, bearerToken.withBearer()) }
+                oauthToken?.let { header(authHeaderName, oauthToken.withOAuth()) }
             }
             .build()
     }

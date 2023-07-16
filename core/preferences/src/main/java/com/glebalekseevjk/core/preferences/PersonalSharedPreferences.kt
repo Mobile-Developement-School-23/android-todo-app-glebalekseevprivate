@@ -32,10 +32,16 @@ class PersonalSharedPreferences @Inject constructor(@ApplicationContext private 
             personalPreferences.edit().putString(PREF_KEY_REVISION, value).apply()
         }
 
-    override var token: String?
-        get() = personalPreferences.getString(PREF_KEY_TOKEN, null)
+    override var oauthToken: String?
+        get() = personalPreferences.getString(PREF_KEY_OAUTH_TOKEN, null)
         set(value) {
-            personalPreferences.edit().putString(PREF_KEY_TOKEN, value).apply()
+            personalPreferences.edit().putString(PREF_KEY_OAUTH_TOKEN, value).apply()
+        }
+
+    override var bearerToken: String?
+        get() = personalPreferences.getString(PREF_KEY_BEARER_TOKEN, null)
+        set(value) {
+            personalPreferences.edit().putString(PREF_KEY_BEARER_TOKEN, value).apply()
         }
 
     override var lastSynchronizationDate: Date
@@ -74,7 +80,8 @@ class PersonalSharedPreferences @Inject constructor(@ApplicationContext private 
 
     override fun clear() {
         personalPreferences.edit().remove(PREF_KEY_REVISION).apply()
-        personalPreferences.edit().remove(PREF_KEY_TOKEN).apply()
+        personalPreferences.edit().remove(PREF_KEY_OAUTH_TOKEN).apply()
+        personalPreferences.edit().remove(PREF_KEY_BEARER_TOKEN).apply()
         personalPreferences.edit().remove(PREF_KEY_LAST_SYNCHRONIZATION_DATE).apply()
         personalPreferences.edit().remove(PREF_KEY_DEVICE_ID).apply()
     }
@@ -82,7 +89,8 @@ class PersonalSharedPreferences @Inject constructor(@ApplicationContext private 
     companion object {
         private const val PREF_PACKAGE_NAME = "com.glebalekseevjk.todoapp"
         private const val PREF_KEY_REVISION = "revision"
-        private const val PREF_KEY_TOKEN = "token"
+        private const val PREF_KEY_OAUTH_TOKEN = "oauth_token"
+        private const val PREF_KEY_BEARER_TOKEN = "bearer_token"
         private const val PREF_KEY_LAST_SYNCHRONIZATION_DATE = "last_sync_date"
         private const val PREF_KEY_DEVICE_ID = "device_id"
         private const val PREF_KEY_NIGHT_MODE = "night_mode"

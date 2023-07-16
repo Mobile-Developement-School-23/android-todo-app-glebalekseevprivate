@@ -5,7 +5,8 @@ import java.util.Date
 
 interface PersonalStorage {
     var revision: String?
-    var token: String?
+    var oauthToken: String?
+    var bearerToken: String?
     var lastSynchronizationDate: Date
     var deviceId: String
     val nightMode: Flow<NightMode>

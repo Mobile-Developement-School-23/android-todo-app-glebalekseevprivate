@@ -2,6 +2,7 @@ package com.glebalekseevjk.feature.auth.presentation
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -14,6 +15,7 @@ import com.glebalekseevjk.feature.auth.R
 import com.glebalekseevjk.feature.auth.databinding.ActivityAuthBinding
 import com.glebalekseevjk.feature.auth.di.DaggerAuthComponent
 import com.glebalekseevjk.feature.auth.di.PlayIntent
+import com.yandex.authsdk.BuildConfig
 import com.yandex.authsdk.YandexAuthException
 import com.yandex.authsdk.YandexAuthLoginOptions
 import com.yandex.authsdk.YandexAuthSdk
@@ -75,7 +77,12 @@ class AuthActivity : AppCompatActivity() {
             startYandexAuth()
         }
         binding.authBtn.setOnClickListener {
-            // TODO
+            lifecycleScope.launch {
+                authRepository.get()
+                    .bearerAuthorization(com.glebalekseevjk.feature.auth.BuildConfig.YANDEX_BEARER_TOKEN)
+                startMainActivity()
+
+            }
         }
         binding.guestAuthBtn.setOnClickListener {
             // TODO
@@ -122,7 +129,7 @@ class AuthActivity : AppCompatActivity() {
         val yandexAuthToken = yandexAuthSdk.get().extractToken(resultCode, data)
         if (yandexAuthToken != null) {
             lifecycleScope.launch {
-                authRepository.get().authorize(yandexAuthToken.value)
+                authRepository.get().oauthAuthorization(yandexAuthToken.value)
                 startMainActivity()
             }
         }

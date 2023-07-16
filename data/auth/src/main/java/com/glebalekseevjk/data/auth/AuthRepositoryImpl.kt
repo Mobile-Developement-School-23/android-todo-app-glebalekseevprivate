@@ -25,12 +25,24 @@ class AuthRepositoryImpl @Inject constructor(
     private val personalStorage: PersonalStorage,
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
-) : AuthRepository {
-    private val _isAuth = MutableStateFlow(!personalStorage.token.isNullOrEmpty())
+
+    ) : AuthRepository {
+    private val _isAuth = MutableStateFlow(
+        !(personalStorage.bearerToken != null && personalStorage.oauthToken != null ||
+                personalStorage.bearerToken == null && personalStorage.oauthToken == null)
+    )
     override val isAuth: Flow<Boolean> get() = _isAuth
-    override suspend fun authorize(token: String) {
+    override suspend fun oauthAuthorization(oauthToken: String) {
         withContext(Dispatchers.Default) {
-            personalStorage.token = token
+            personalStorage.oauthToken = oauthToken
+            personalStorage.deviceId = UUID.randomUUID().toString()
+            _isAuth.emit(true)
+        }
+    }
+
+    override suspend fun bearerAuthorization(bearerToken: String) {
+        withContext(Dispatchers.Default) {
+            personalStorage.bearerToken = bearerToken
             personalStorage.deviceId = UUID.randomUUID().toString()
             _isAuth.emit(true)
         }
