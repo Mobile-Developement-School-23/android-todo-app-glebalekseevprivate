@@ -41,6 +41,7 @@ dependencies {
 
     implementation(Dependencies.Dagger.DAGGER)
     implementation(Dependencies.Room.ROOM)
+    implementation(Dependencies.Room.ROOM_KTX)
     implementation(Dependencies.Room.ROOM_RUNTIME)
     kapt(Dependencies.Room.ROOM_COMPILER)
     testImplementation(Dependencies.Test.JUNIT)

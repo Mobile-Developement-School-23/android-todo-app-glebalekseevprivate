@@ -1,6 +1,8 @@
-package com.glebalekseevjk.feature.todoitem.di//package com.glebalekseevjk.todoapp.ioc_old
+package com.glebalekseevjk.feature.todoitem.di
 
+import android.content.Context
 import android.view.View
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemsBinding
@@ -34,6 +36,16 @@ interface TodoItemsFragmentViewSubcomponent {
 
         @BindsInstance
         fun navController(navController: NavController): Builder
+
+        @BindsInstance
+        fun fragmentManager(fragmentManager: FragmentManager): Builder
+
+        @BindsInstance
+        fun todoItemsFragment(fragment: TodoItemsFragment): Builder
+
+        @BindsInstance
+        fun context(context: Context): Builder
+
         fun build(): TodoItemsFragmentViewSubcomponent
     }
 }

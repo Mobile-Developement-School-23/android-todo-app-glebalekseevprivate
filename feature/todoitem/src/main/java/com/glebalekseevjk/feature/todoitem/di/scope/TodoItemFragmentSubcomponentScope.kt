@@ -1,4 +1,4 @@
-package com.glebalekseevjk.feature.todoitem.di.scope//package com.glebalekseevjk.todoapp.ioc_old.scope
+package com.glebalekseevjk.feature.todoitem.di.scope
 
 import javax.inject.Scope
 

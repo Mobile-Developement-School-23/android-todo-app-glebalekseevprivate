@@ -42,6 +42,7 @@ dependencies {
     implementation(project(":core:preferences"))
     implementation(project(":core:room"))
     implementation(project(":core:retrofit"))
+    implementation(project(":core:utils"))
     implementation(project(":design"))
 
     implementation(Dependencies.Dagger.DAGGER)

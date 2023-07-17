@@ -19,6 +19,7 @@ import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.I
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.LOW
 import com.glebalekseevjk.feature.todoitem.databinding.NewTodoItemRvBinding
 import com.glebalekseevjk.feature.todoitem.databinding.TodoItemRvBinding
+import com.glebalekseevjk.feature.todoitem.di.scope.TodoItemsComponentScope
 import com.glebalekseevjk.feature.todoitem.presentation.rv.callback.TodoItemDiffCallBack
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -34,6 +35,7 @@ import javax.inject.Inject
 и выполняет соответствующие действия в зависимости от типа представления.
  */
 
+@TodoItemsComponentScope
 class TodoItemsAdapter @Inject constructor() :
     ListAdapter<TodoItem, ViewHolder>(TodoItemDiffCallBack()) {
     var editClickListener: ((todoId: String) -> Unit)? = null
@@ -183,11 +185,12 @@ class TodoItemsAdapter @Inject constructor() :
         if (todoItem.deadline == null) {
             binding.deadlineTv.visibility = View.GONE
         } else {
-            val formatter = SimpleDateFormat(
-                binding.root.context.resources.getString(R.string.date_pattern),
+            val dateTimeFormatter = SimpleDateFormat(
+                binding.root.context.resources.getString(R.string.date_time_pattern),
                 Locale("ru")
             )
-            binding.deadlineTv.text = formatter.format(todoItem.deadline)
+
+            binding.deadlineTv.text = dateTimeFormatter.format(todoItem.deadline)
             binding.deadlineTv.visibility = View.VISIBLE
         }
     }

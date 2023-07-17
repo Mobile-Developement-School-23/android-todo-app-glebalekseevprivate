@@ -3,7 +3,7 @@ package com.glebalekseevjk.data.sync
 import android.content.Context
 import android.net.ConnectivityManager
 import com.glebalekseevjk.common.Mapper
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.retrofit.TodoItemService
 import com.glebalekseevjk.core.retrofit.model.TodoElement
 import com.glebalekseevjk.core.retrofit.model.TodoElementRequest
@@ -13,6 +13,7 @@ import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.ToRemoveTodoItemDbModel
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
+import com.glebalekseevjk.core.utils.di.ApplicationContext
 import com.glebalekseevjk.data.sync.utils.handleResponse
 import com.glebalekseevjk.data.sync.utils.isInternetAvailable
 import com.glebalekseevjk.design.R
@@ -36,13 +37,13 @@ import javax.inject.Inject
 и отправку данных, а также контролирует состояние синхронизации.
  */
 class SynchronizationRepositoryImpl @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences,
+    private val personalStorage: PersonalStorage,
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
     private val todoItemService: TodoItemService,
     private val mapperTodoItemDbModel: Mapper<TodoItem, TodoItemDbModel>,
     private val mapperTodoElement: Mapper<TodoItem, TodoElement>,
-    context: Context
+    @ApplicationContext context: Context
 ) : SynchronizationRepository {
     private val connectivityManager by lazy {
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -58,7 +59,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
         SimpleDateFormat(context.getString(R.string.date_pattern_2), Locale("ru"))
 
     override val lastSyncDate: String
-        get() = personalSharedPreferences.lastSynchronizationDate.let {
+        get() = personalStorage.lastSynchronizationDate.let {
             formatter.format(
                 it
             )
@@ -79,6 +80,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
                             val list = it.list.map(::toDbModel)
                             todoItemDao.replaceAll(list)
                         }
+                        updateLastSynchronizationDate()
                     }
                 )
             }
@@ -104,11 +106,15 @@ class SynchronizationRepositoryImpl @Inject constructor(
                     onBadRequest = { patch() },
                     isInternetAvailable = { connectivityManager.isInternetAvailable() },
                     onSuccessful = {
-
+                        updateLastSynchronizationDate()
                     }
                 )
             }
         }
+    }
+
+    private fun updateLastSynchronizationDate() {
+        personalStorage.lastSynchronizationDate = Calendar.getInstance().time
     }
 
     override suspend fun getSynchronizeState(): SynchronizeStateImpl {
@@ -145,7 +151,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
 
         private fun getToRemoveToUpdateToAdd():
                 Triple<List<ToRemoveTodoItemDbModel>, List<TodoItemDbModel>, List<TodoItemDbModel>> {
-            val lastSyncDate = personalSharedPreferences.lastSynchronizationDate
+            val lastSyncDate = personalStorage.lastSynchronizationDate
             val listChangedAfterDate = todoItemDao.getAll().filter { it.changedAt >= lastSyncDate }
             val toRemove = toRemoveTodoItemDao.getAllBeforeDate(lastSyncDate.time)
             val toUpdate = listChangedAfterDate.filter { it.createdAt < lastSyncDate }
@@ -184,7 +190,7 @@ class SynchronizationRepositoryImpl @Inject constructor(
                         },
                         onNotFound = { throw ClientException() }
                     )
-                    personalSharedPreferences.lastSynchronizationDate = Calendar.getInstance().time
+                    updateLastSynchronizationDate()
                     toRemoveTodoItemDao.deleteList(*toRemove.toTypedArray())
                 }
             }

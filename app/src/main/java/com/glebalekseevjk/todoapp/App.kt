@@ -10,8 +10,12 @@ import javax.inject.Inject
 
 
 /**
- * Ответственность класса App: инициализации и настройке графа зависимостей приложения,
- * а также настройка периодической синхронизации через внедрение зависимостей
+ * Этот класс символизирует период жизни приложения.
+ *
+ * Устанавливает периодическую синхронизацию с помощью [SynchronizationSchedulerManager]
+ *
+ * @property appComponent ссылка на компонент Dagger 2 [AppComponent].
+ * @property depsMap словарь зависимостей предоставляемых текущим классом.
  */
 class App : Application(), HasDependencies {
     val appComponent: AppComponent by lazy {

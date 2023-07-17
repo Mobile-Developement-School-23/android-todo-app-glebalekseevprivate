@@ -1,5 +1,7 @@
 <resources>
-    <style name="Theme.ToDoApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ToDoApp.Basic" parent="Theme.MaterialComponents.DayNight.NoActionBar"/>
+
+    <style name="Theme.ToDoApp" parent="Theme.ToDoApp.Basic">
         <item name="android:statusBarColor">?attr/back_primary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="support_separator">@color/gray_500</item>
@@ -19,16 +21,46 @@
         <item name="back_primary">@color/light_500</item>
         <item name="back_secondary">@color/white</item>
         <item name="back_elevated">@color/white</item>
-        <item name="yandex_auth_button">@color/black</item>
-        <item name="yandex_auth_button_text">@color/white</item>
 
         <item name="colorAccent">?attr/color_blue</item>
         <item name="colorPrimary">?attr/color_blue</item>
         <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
         <item name="switchStyle">@style/Style.ToDo.Switch</item>
+        <item name="android:datePickerDialogTheme">@style/Style.ToDo.DatePicker</item>
+        <item name="snackbarStyle">@style/Style.ToDo.SnackBar</item>
+    </style>
+    <style name="Theme.ToDoApp.Day"/>
+
+    <style name="Theme.ToDoApp.Night" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/back_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="support_separator">@color/light_300</item>
+        <item name="support_overlay">@color/gray_700</item>
+        <item name="label_primary">@color/white</item>
+        <item name="label_secondary">@color/light_200</item>
+        <item name="label_tertiary">@color/light_400</item>
+        <item name="label_disable">@color/gray_250</item>
+        <item name="color_red">@color/red_400</item>
+        <item name="color_red_20">@color/red_400_20</item>
+        <item name="color_green">@color/green_400</item>
+        <item name="color_blue">@color/blue_400</item>
+        <item name="color_blue_30">@color/blue_400_30</item>
+        <item name="color_gray">@color/gray_800</item>
+        <item name="color_gray_light">@color/dark_500</item>
+        <item name="color_white">@color/white</item>
+        <item name="back_primary">@color/dark_700</item>
+        <item name="back_secondary">@color/dark_800</item>
+        <item name="back_elevated">@color/dark_600</item>
+
+        <item name="colorAccent">?attr/color_blue</item>
+        <item name="colorPrimary">?attr/color_blue</item>
+        <item name="android:spinnerItemStyle">@style/Style.ToDo.SpinnerItem</item>
+        <item name="switchStyle">@style/Style.ToDo.Switch</item>
+        <item name="android:datePickerDialogTheme">@style/Style.ToDo.DatePicker</item>
+        <item name="snackbarStyle">@style/Style.ToDo.SnackBar</item>
     </style>
 
-    <style name="Theme.ToDoApp.Save">
+    <style name="ThemeOverlay.ToDoApp.Save" parent="">
         <item name="android:actionMenuTextAppearance">@style/TextAppearance.ToDo.Button</item>
         <item name="android:textColorPrimary">?attr/color_blue</item>
     </style>

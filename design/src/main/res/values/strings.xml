@@ -6,13 +6,14 @@
     <string name="new_text">Новое</string>
     <string name="save_text">СОХРАНИТЬ</string>
     <string name="delete_text">Удалить</string>
-    <string name="yandex_auth_slogan">Войти с Яндекс ID</string>
     <string-array name="importance_array">
         <item>Нет</item>
         <item>Низкий</item>
         <item><font fgcolor="#FF453A">!! Высокий</font></item>
     </string-array>
     <string name="date_pattern">dd MMMM yyyy</string>
+    <string name="time_pattern">HH:mm</string>
+    <string name="date_time_pattern">dd MMMM yyyy, HH:mm</string>
     <string name="date_pattern_2">d MMMM, HH:mm</string>
     <string name="ready">готово</string>
     <string name="edit">Редактирование</string>
@@ -27,4 +28,14 @@
     <string name="server_exception">Ошибка сервера</string>
     <string name="connection_exception">Нет интернета</string>
     <string name="unauthorized_exception">Не авторизован</string>
+    <string name="settings">Настройки</string>
+    <string name="choose_theme">Выбор темы приложения</string>
+    <string name="day_theme">Всегда светлая</string>
+    <string name="night_theme">Всегда темная</string>
+    <string name="system_theme">Как в системе</string>
+    <string name="apply">Применить</string>
+    <string name="cancel_deletion">Удалить %s</string>
+    <string name="cancel">Отмена</string>
+    <string name="close">Закрыть</string>
+    <string name="choose_importance">Выбор важности</string>
 </resources>

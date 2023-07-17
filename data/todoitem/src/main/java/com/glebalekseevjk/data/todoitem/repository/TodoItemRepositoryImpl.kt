@@ -1,16 +1,24 @@
-package com.glebalekseevjk.data.todoitem
+package com.glebalekseevjk.data.todoitem.repository
 
 import com.glebalekseevjk.common.Mapper
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.core.room.model.ToRemoveTodoItemDbModel
 import com.glebalekseevjk.core.room.model.TodoItemDbModel
-import com.glebalekseevjk.domain.todoitem.TodoItemRepository
+import com.glebalekseevjk.domain.todoitem.entity.EventNotification
 import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.domain.todoitem.repository.EventNotificationRepository
+import com.glebalekseevjk.domain.todoitem.repository.EventNotificationSchedulerRepository
+import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.UUID
@@ -24,11 +32,49 @@ import javax.inject.Inject
 Он содержит методы для получения задачи по идентификатору, добавления новой задачи,
 изменения статуса выполнения, удаления задачи и обновления информации о задаче в базе данных.
  */
+@OptIn(InternalCoroutinesApi::class)
 class TodoItemRepositoryImpl @Inject constructor(
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
     private val mapperTodoItemDbModel: Mapper<TodoItem, TodoItemDbModel>,
+    private val eventNotificationRepository: EventNotificationRepository,
+    private val eventNotificationSchedulerRepository: EventNotificationSchedulerRepository
 ) : TodoItemRepository {
+    override val deletionNotification = Channel<String>()
+
+    init {
+        CoroutineScope(Dispatchers.Default).launch {
+            todoItemDao.getAllAsFlow().collectLatest {
+                val eventNotificationList =
+                    eventNotificationRepository.getEventNotificationList()
+                eventNotificationSchedulerRepository.cancelNotificationEvent(
+                    eventNotificationList
+                )
+                eventNotificationList.onEach {
+                    eventNotificationRepository.removeEventNotification(
+                        it.id
+                    )
+                }
+                it
+                    .filter { !it.isDone }
+                    .filter { it.deadline != null }
+                    .filter { it.deadline!! >= Calendar.getInstance().time }
+                    .map {
+                        EventNotification(
+                            todoId = it.id,
+                            date = it.deadline!!,
+                        )
+                    }.onEach { eventNotificationRepository.addEventNotification(it) }
+
+                val newEventNotificationList =
+                    eventNotificationRepository.getEventNotificationList()
+                eventNotificationSchedulerRepository.scheduleNotificationEvent(
+                    newEventNotificationList
+                )
+            }
+        }
+    }
+
     override suspend fun getTodoItemByIdOrNull(id: String): TodoItem? {
         return withContext(Dispatchers.Default) {
             return@withContext todoItemDao.getById(id)
@@ -74,6 +120,7 @@ class TodoItemRepositoryImpl @Inject constructor(
         }
     }
 
+    private var lastRemovedTodoItem: TodoItemDbModel? = null
     override suspend fun deleteTodoItem(id: String) {
         withContext(Dispatchers.Default) {
             val item = todoItemDao.getById(id) ?: throw NoSuchElementException()
@@ -84,8 +131,23 @@ class TodoItemRepositoryImpl @Inject constructor(
                     item.createdAt
                 )
             )
+            lastRemovedTodoItem = item
+            deletionNotification.send(item.text)
         }
     }
+
+    override suspend fun cancelDeletionTodoItem() {
+        withContext(Dispatchers.Default) {
+            val lastRemovedItem = lastRemovedTodoItem
+            lastRemovedItem ?: return@withContext
+            toRemoveTodoItemDao.getById(lastRemovedItem.id)?.let {
+                toRemoveTodoItemDao.deleteById(it.id)
+            }
+            todoItemDao.getById(lastRemovedItem.id)?.let { return@withContext }
+            todoItemDao.insertOrReplace(lastRemovedItem)
+        }
+    }
+
 
     override suspend fun updateTodoItem(todoItem: TodoItem) {
         withContext(Dispatchers.Default) {

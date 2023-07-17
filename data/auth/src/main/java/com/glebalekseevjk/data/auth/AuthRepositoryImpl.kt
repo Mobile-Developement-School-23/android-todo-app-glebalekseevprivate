@@ -1,10 +1,11 @@
 package com.glebalekseevjk.data.auth
 
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
 import com.glebalekseevjk.core.room.dao.TodoItemDao
 import com.glebalekseevjk.domain.auth.AuthRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
@@ -21,26 +22,39 @@ import javax.inject.Inject
 а также в обновлении состояния авторизации в соответствии с выполненными операциями.
  */
 class AuthRepositoryImpl @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences,
+    private val personalStorage: PersonalStorage,
     private val todoItemDao: TodoItemDao,
     private val toRemoveTodoItemDao: ToRemoveTodoItemDao,
-) : AuthRepository {
-    private val _isAuth = MutableStateFlow(!personalSharedPreferences.token.isNullOrEmpty())
+
+    ) : AuthRepository {
+    private val _isAuth = MutableStateFlow(
+        !(personalStorage.bearerToken != null && personalStorage.oauthToken != null ||
+                personalStorage.bearerToken == null && personalStorage.oauthToken == null)
+    )
     override val isAuth: Flow<Boolean> get() = _isAuth
-    override suspend fun authorize(token: String) {
+    override suspend fun oauthAuthorization(oauthToken: String) {
         withContext(Dispatchers.Default) {
-            personalSharedPreferences.token = token
-            personalSharedPreferences.deviceId = UUID.randomUUID().toString()
+            personalStorage.oauthToken = oauthToken
+            personalStorage.deviceId = UUID.randomUUID().toString()
+            _isAuth.emit(true)
+        }
+    }
+
+    override suspend fun bearerAuthorization(bearerToken: String) {
+        withContext(Dispatchers.Default) {
+            personalStorage.bearerToken = bearerToken
+            personalStorage.deviceId = UUID.randomUUID().toString()
             _isAuth.emit(true)
         }
     }
 
     override suspend fun quit() {
         withContext(Dispatchers.Default) {
-            personalSharedPreferences.clear()
+            _isAuth.emit(false)
+            delay(200)
+            personalStorage.clear()
             todoItemDao.deleteAll()
             toRemoveTodoItemDao.deleteAll()
-            _isAuth.emit(false)
         }
     }
 }

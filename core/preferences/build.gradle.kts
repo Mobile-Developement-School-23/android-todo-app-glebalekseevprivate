@@ -35,7 +35,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:utils"))
+
     implementation(Dependencies.Dagger.DAGGER)
+    implementation(Dependencies.Lifecycle.LIFECYCLE_RUNTIME)
     testImplementation(Dependencies.Test.JUNIT)
     androidTestImplementation(Dependencies.AndroidTest.ANDROID_JUNIT)
 }

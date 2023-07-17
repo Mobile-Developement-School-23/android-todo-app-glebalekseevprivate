@@ -1,6 +1,6 @@
 package com.glebalekseevjk.core.retrofit.interceptor
 
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
+import com.glebalekseevjk.core.preferences.PersonalStorage
 import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.Response
@@ -13,7 +13,7 @@ import javax.inject.Inject
 токена авторизации к заголовкам запроса, используя SharedPreferences для получения токена.
  */
 class AuthorizationInterceptor @Inject constructor(
-    private val personalSharedPreferences: PersonalSharedPreferences,
+    private val personalStorage: PersonalStorage,
 ) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response = chain.request()
         .let {
@@ -23,10 +23,16 @@ class AuthorizationInterceptor @Inject constructor(
 
     private fun Request.addTokenHeader(): Request? {
         val authHeaderName = "Authorization"
-        val token = personalSharedPreferences.token ?: return null
+        val bearerToken = personalStorage.bearerToken
+        val oauthToken = personalStorage.oauthToken
+
+        if (bearerToken == null && oauthToken == null) return null
+        if (bearerToken != null && oauthToken != null) return null
+
         return newBuilder()
             .apply {
-                header(authHeaderName, token.withOAuth())
+                bearerToken?.let { header(authHeaderName, bearerToken.withBearer()) }
+                oauthToken?.let { header(authHeaderName, oauthToken.withOAuth()) }
             }
             .build()
     }

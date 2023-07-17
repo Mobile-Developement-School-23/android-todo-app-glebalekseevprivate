@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.glebalekseevjk.core.utils.di.findDependencies
+import com.glebalekseevjk.feature.todoitem.R
 import com.glebalekseevjk.feature.todoitem.databinding.FragmentTodoItemsBinding
 import com.glebalekseevjk.feature.todoitem.di.DaggerTodoItemsComponent
 import com.glebalekseevjk.feature.todoitem.di.TodoItemsFragmentViewSubcomponent
@@ -58,7 +59,10 @@ class TodoItemsFragment : Fragment() {
             .binding(binding)
             .navController(findNavController())
             .todoItemsViewModel(todoItemsViewModel)
+            .fragmentManager(parentFragmentManager)
             .lifecycleOwner(viewLifecycleOwner)
+            .todoItemsFragment(this)
+            .context(requireContext())
             .build()
         super.onViewCreated(view, savedInstanceState)
         fragmentViewComponent!!.viewController.setupViews()

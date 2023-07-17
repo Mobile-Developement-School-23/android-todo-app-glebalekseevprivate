@@ -15,6 +15,7 @@ object Dependencies {
     object Room {
         const val ROOM = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
         const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.AndroidX.ROOM}"
+        const val ROOM_KTX = "androidx.room:room-ktx:${Versions.AndroidX.ROOM}"
         const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.AndroidX.ROOM}"
     }
 

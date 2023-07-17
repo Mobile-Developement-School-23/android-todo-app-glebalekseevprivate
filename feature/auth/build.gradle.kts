@@ -1,4 +1,5 @@
 import dependencies.Dependencies
+import org.jetbrains.kotlin.konan.properties.Properties
 
 plugins {
     id("com.android.library")
@@ -7,7 +8,14 @@ plugins {
     id("kotlin-kapt")
 }
 
+
 android {
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
     namespace = "com.glebalekseevjk.feature.auth"
     compileSdk = Config.COMPILE_SDK
 
@@ -17,7 +25,12 @@ android {
 
         testInstrumentationRunner = Config.TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "YANDEX_BEARER_TOKEN",
+            "\"${localProperties.getProperty("yandex_bearer_token", "")}\""
+        )
     }
+
 
     buildTypes {
         release {
@@ -30,6 +43,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -41,6 +55,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:preferences"))
     implementation(project(":core:utils"))
     implementation(project(":domain:auth"))
     implementation(project(":design"))
@@ -50,6 +65,7 @@ dependencies {
     implementation(Dependencies.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dependencies.Navigation.NAVIGATION_UI)
     implementation(Dependencies.YandexAuth.YANDEX_AUTH)
+    implementation(Dependencies.AppCompat.APP_COMPAT)
     testImplementation(Dependencies.Test.JUNIT)
     androidTestImplementation(Dependencies.AndroidTest.ANDROID_JUNIT)
 }

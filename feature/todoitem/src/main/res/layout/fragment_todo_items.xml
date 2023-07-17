@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:theme="@style/Theme.ToDoApp"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,9 +38,11 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:layout_marginRight="17dp"
                 android:background="?attr/back_primary"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:menu="@menu/todo_items_fragment_menu"
                 app:navigationIcon="@drawable/arrow_back"
                 app:navigationIconTint="?attr/label_primary"
                 app:title="@string/app_name" />
@@ -63,15 +63,14 @@
 
             <TextView
                 android:id="@+id/last_sync_date_tv"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="65dp"
                 android:layout_marginBottom="20dp"
                 android:textAppearance="@style/TextAppearance.ToDo.Subhead"
                 android:textColor="?attr/label_tertiary"
-                tools:text="1 июля, 22:31"
-                />
+                tools:text="1 июля, 22:31" />
 
             <ImageButton
                 android:id="@+id/is_show_done"
@@ -79,10 +78,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="25dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="14dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/show_all_hide_done"
                 android:padding="4dp"
-                android:background="@drawable/visibility"
+                android:src="@drawable/visibility"
                 app:tint="?attr/color_blue" />
 
 
@@ -96,18 +96,18 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
-            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true">
 
             <com.google.android.material.card.MaterialCardView
-                android:visibility="invisible"
                 android:id="@+id/material_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
                 android:animateLayoutChanges="true"
                 android:paddingBottom="48dp"
+                android:visibility="invisible"
                 app:cardBackgroundColor="?attr/back_secondary"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp"
@@ -130,14 +130,14 @@
 
     <TextView
         android:id="@+id/items_not_found_tv"
-        android:textAppearance="@style/TextAppearance.ToDo.LargeTitle"
-        android:textSize="64dp"
-        android:textColor="?attr/label_tertiary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
         android:layout_marginTop="200dp"
-        android:text="@string/items_not_found" />
+        android:text="@string/items_not_found"
+        android:textAppearance="@style/TextAppearance.ToDo.LargeTitle"
+        android:textColor="?attr/label_tertiary"
+        android:textSize="64dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_todo_btn"
@@ -153,10 +153,41 @@
         android:focusable="true"
         android:src="@drawable/add"
         app:backgroundTint="?attr/color_blue"
+        app:layout_behavior="com.glebalekseevjk.feature.todoitem.presentation.behavior.FloatingActionButtonBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_behavior="com.glebalekseevjk.feature.todoitem.presentation.behavior.FloatingActionButtonBehavior"
+        android:translationZ="-1000dp"
         app:tint="?attr/color_white" />
+
+    <View
+        android:id="@+id/dark_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:clickable="true"
+        android:translationZ="1000dp"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:behavior_peekHeight="0dp"
+        android:translationZ="2000dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:clipToOutline="false"
+        android:clickable="true"
+        android:paddingTop="20dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:layout_insetEdge="bottom">
+
+        <include
+            android:id="@+id/bottom_sheet_include"
+            layout="@layout/settings_bottom_sheet" />
+
+    </FrameLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

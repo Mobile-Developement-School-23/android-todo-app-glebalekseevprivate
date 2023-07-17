@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yandex_auth_slogan">Войти с Яндекс ID</string>
+    <string name="auth_slogan">Войти по логину</string>
+    <string name="guest_auth_slogan">Войти как гость</string>
+</resources>
