@@ -1,17 +1,16 @@
 package com.glebalekseevjk.todoapp.di.module
 
 import android.util.Log
-import com.glebalekseevjk.core.retrofit.TodoItemService
-import com.glebalekseevjk.core.retrofit.interceptor.AuthorizationFailedInterceptor
-import com.glebalekseevjk.core.retrofit.interceptor.AuthorizationInterceptor
-import com.glebalekseevjk.core.retrofit.interceptor.GenerateFailsInterceptor
-import com.glebalekseevjk.core.retrofit.interceptor.RevisionInterceptor
-import com.glebalekseevjk.core.retrofit.interceptor.SaveRevisionInterceptor
 import com.glebalekseevjk.core.utils.Constants
 import com.glebalekseevjk.core.utils.Constants.CONNECT_TIMEOUT
 import com.glebalekseevjk.core.utils.Constants.READ_TIMEOUT
 import com.glebalekseevjk.core.utils.Constants.WRITE_TIMEOUT
 import com.glebalekseevjk.core.utils.withDisabledCertificates
+import com.glebalekseevjk.todo.data.retrofit.TodoItemService
+import com.glebalekseevjk.todo.data.retrofit.interceptor.AuthorizationFailedInterceptor
+import com.glebalekseevjk.todo.data.retrofit.interceptor.AuthorizationInterceptor
+import com.glebalekseevjk.todo.data.retrofit.interceptor.RevisionInterceptor
+import com.glebalekseevjk.todo.data.retrofit.interceptor.SaveRevisionInterceptor
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Module
 import dagger.Provides
@@ -20,9 +19,6 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-import javax.net.ssl.SSLContext
-import javax.net.ssl.TrustManager
-import javax.net.ssl.X509TrustManager
 
 @Module
 interface RemoteDataSourceModule {

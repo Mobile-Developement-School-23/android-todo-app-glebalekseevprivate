@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/todoedit_navigation"
+    app:startDestination="@id/todoItemFragment"
+    >
+
+    <fragment
+        android:id="@+id/todoItemFragment"
+        android:name="com.glebalekseevjk.todo.todoedit.presentation.fragment.TodoItemFragment"
+        android:label="TodoItemFragment" >
+        <argument
+            android:name="todo_id"
+            app:argType="string" />
+    </fragment>
+</navigation>

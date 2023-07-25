@@ -4,6 +4,7 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    includeBuild("build-logic")
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -12,25 +13,22 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url 'https://jitpack.io' }
     }
+    versionCatalogs {
+        create("libs") {
+            from(files("libs.toml"))
+        }
+    }
 }
 rootProject.name = "ToDoApp"
+
 include ':app'
-include ':common'
-include ':domain'
 include ':design'
-include ':data'
-include ':feature'
-include ':feature:auth'
-include ':feature:todoitem'
 include ':core'
-include ':core:utils'
-include ':core:room'
-include ':core:retrofit'
-include ':core:preferences'
-include ':data:auth'
-include ':data:sync'
-include ':data:todoitem'
-include ':domain:auth'
-include ':domain:sync'
-include ':domain:todoitem'
-include ':core:alarmscheduler'
+include ':auth:domain'
+include ':auth:data'
+include ':auth:presentation'
+include ':todo:domain'
+include ':todo:data'
+include ':todo:presentation'
+include ':todo:todolist:presentation'
+include ':todo:todoedit:presentation'

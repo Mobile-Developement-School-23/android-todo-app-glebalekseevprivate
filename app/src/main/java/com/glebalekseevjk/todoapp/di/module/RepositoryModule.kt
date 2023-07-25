@@ -1,19 +1,18 @@
 package com.glebalekseevjk.todoapp.di.module
 
-import com.glebalekseevjk.data.auth.AuthRepositoryImpl
-import com.glebalekseevjk.data.sync.SynchronizationRepositoryImpl
-import com.glebalekseevjk.data.todoitem.repository.EventNotificationRepositoryImpl
-import com.glebalekseevjk.data.todoitem.repository.EventNotificationSchedulerRepositoryImpl
-import com.glebalekseevjk.data.todoitem.repository.TodoItemRepositoryImpl
-import com.glebalekseevjk.domain.auth.AuthRepository
-import com.glebalekseevjk.domain.sync.SynchronizationRepository
-import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
-import com.glebalekseevjk.domain.todoitem.repository.EventNotificationRepository
-import com.glebalekseevjk.domain.todoitem.repository.EventNotificationSchedulerRepository
-import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
-import com.glebalekseevjk.feature.todoitem.di.scope.TodoItemsComponentScope
+import com.glebalekseevjk.auth.data.repository.AuthRepositoryImpl
+import com.glebalekseevjk.auth.domain.repository.AuthRepository
+import com.glebalekseevjk.todo.data.repository.TodoEventNotificationRepositoryImpl
+import com.glebalekseevjk.todo.data.repository.TodoEventNotificationSchedulerRepositoryImpl
+import com.glebalekseevjk.todo.data.repository.TodoItemRepositoryImpl
+import com.glebalekseevjk.todo.data.repository.TodoSynchronizationRepositoryImpl
+import com.glebalekseevjk.todo.domain.repository.TodoEventNotificationRepository
+import com.glebalekseevjk.todo.domain.repository.TodoEventNotificationSchedulerRepository
+import com.glebalekseevjk.todo.domain.repository.TodoItemRepository
+import com.glebalekseevjk.todo.domain.repository.TodoSynchronizationRepository
+import com.glebalekseevjk.todo.domain.repository.TodoSynchronizationSchedulerManager
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
-import com.glebalekseevjk.todoapp.worker.SynchronizationSchedulerManagerImpl
+import com.glebalekseevjk.todoapp.worker.TodoSynchronizationSchedulerManagerImpl
 import dagger.Binds
 import dagger.Module
 
@@ -28,19 +27,20 @@ interface RepositoryModule {
     @AppComponentScope
     @Binds
     fun bindSynchronizationRepository(
-        synchronizationRepositoryImpl: SynchronizationRepositoryImpl
-    ): SynchronizationRepository
+        synchronizationRepositoryImpl: TodoSynchronizationRepositoryImpl
+    ): TodoSynchronizationRepository
+
     @AppComponentScope
     @Binds
     fun bindEventNotificationRepository(
-       eventNotificationRepositoryImpl: EventNotificationRepositoryImpl
-    ): EventNotificationRepository
+        eventNotificationRepositoryImpl: TodoEventNotificationRepositoryImpl
+    ): TodoEventNotificationRepository
 
     @AppComponentScope
     @Binds
     fun bindEventNotificationSchedulerRepository(
-        eventNotificationSchedulerRepositoryImpl: EventNotificationSchedulerRepositoryImpl
-    ): EventNotificationSchedulerRepository
+        eventNotificationSchedulerRepositoryImpl: TodoEventNotificationSchedulerRepositoryImpl
+    ): TodoEventNotificationSchedulerRepository
 
     @AppComponentScope
     @Binds
@@ -49,6 +49,6 @@ interface RepositoryModule {
     @AppComponentScope
     @Binds
     fun bindSynchronizationSchedulerManager(
-        synchronizationSchedulerManagerImpl: SynchronizationSchedulerManagerImpl
-    ): SynchronizationSchedulerManager
+        todoSynchronizationSchedulerManagerImpl: TodoSynchronizationSchedulerManagerImpl
+    ): TodoSynchronizationSchedulerManager
 }

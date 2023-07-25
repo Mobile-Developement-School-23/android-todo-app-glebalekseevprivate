@@ -1,23 +1,23 @@
-package com.glebalekseevjk.todoapp.di.module//package com.glebalekseevjk.todoapp.ioc_old.module
+package com.glebalekseevjk.todoapp.di.module
 
 import android.content.Context
 import androidx.room.Room
-import com.glebalekseevjk.common.Mapper
-import com.glebalekseevjk.core.preferences.PersonalSharedPreferences
-import com.glebalekseevjk.core.preferences.PersonalStorage
-import com.glebalekseevjk.core.retrofit.mapper.TodoElementMapperImpl
-import com.glebalekseevjk.core.retrofit.model.TodoElement
-import com.glebalekseevjk.core.room.AppDatabase
-import com.glebalekseevjk.core.room.dao.EventNotificationDao
-import com.glebalekseevjk.core.room.dao.ToRemoveTodoItemDao
-import com.glebalekseevjk.core.room.dao.TodoItemDao
-import com.glebalekseevjk.core.room.mapper.EventNotificationMapperImpl
-import com.glebalekseevjk.core.room.mapper.TodoItemDbModelMapperImpl
-import com.glebalekseevjk.core.room.model.EventNotificationDbModel
-import com.glebalekseevjk.core.room.model.TodoItemDbModel
+import com.glebalekseevjk.auth.data.repository.PersonalRepositoryImpl
+import com.glebalekseevjk.auth.domain.repository.PersonalRepository
+import com.glebalekseevjk.core.utils.Mapper
 import com.glebalekseevjk.core.utils.di.ApplicationContext
-import com.glebalekseevjk.domain.todoitem.entity.EventNotification
-import com.glebalekseevjk.domain.todoitem.entity.TodoItem
+import com.glebalekseevjk.todo.data.AppDatabase
+import com.glebalekseevjk.todo.data.retrofit.mapper.TodoElementMapperImpl
+import com.glebalekseevjk.todo.data.retrofit.model.TodoElement
+import com.glebalekseevjk.todo.data.room.dao.ToRemoveTodoItemDao
+import com.glebalekseevjk.todo.data.room.dao.TodoEventNotificationDao
+import com.glebalekseevjk.todo.data.room.dao.TodoItemDao
+import com.glebalekseevjk.todo.data.room.mapper.TodoEventNotificationMapperImpl
+import com.glebalekseevjk.todo.data.room.mapper.TodoItemDbModelMapperImpl
+import com.glebalekseevjk.todo.data.room.model.TodoEventNotificationDbModel
+import com.glebalekseevjk.todo.data.room.model.TodoItemDbModel
+import com.glebalekseevjk.todo.domain.entity.TodoEventNotification
+import com.glebalekseevjk.todo.domain.entity.TodoItem
 import com.glebalekseevjk.todoapp.di.scope.AppComponentScope
 import dagger.Binds
 import dagger.Module
@@ -28,8 +28,8 @@ interface LocalDataSourceModule {
     @AppComponentScope
     @Binds
     fun bindPersonalStorage(
-        personalSharedPreferences: PersonalSharedPreferences
-    ): PersonalStorage
+        personalSharedPreferences: PersonalRepositoryImpl
+    ): PersonalRepository
 
     @Binds
     fun bindTodoElementMapperImpl(
@@ -38,8 +38,8 @@ interface LocalDataSourceModule {
 
     @Binds
     fun bindEventNotificationMapperImpl(
-        eventNotificationMapperImpl: EventNotificationMapperImpl
-    ): Mapper<EventNotification, EventNotificationDbModel>
+        eventNotificationMapperImpl: TodoEventNotificationMapperImpl
+    ): Mapper<TodoEventNotification, TodoEventNotificationDbModel>
 
     @Binds
     fun bindTodoItemDbModelMapperImpl(
@@ -71,7 +71,7 @@ interface LocalDataSourceModule {
 
         @AppComponentScope
         @Provides
-        fun provideEventNotificationDao(appDatabase: AppDatabase): EventNotificationDao {
+        fun provideEventNotificationDao(appDatabase: AppDatabase): TodoEventNotificationDao {
             return appDatabase.eventNotificationDao()
         }
     }

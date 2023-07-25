@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.glebalekseevjk.core.utils.di.ApplicationContext
-import com.glebalekseevjk.domain.sync.SynchronizationRepository
+import com.glebalekseevjk.todo.domain.repository.TodoSynchronizationRepository
 import com.glebalekseevjk.todoapp.utils.appComponent
 import javax.inject.Inject
 
@@ -12,11 +12,15 @@ import javax.inject.Inject
 /**
  * Этот класс представляет [CoroutineWorker] для синхронизации данных.
  */
-class SynchronizeWorker(@ApplicationContext private val appContext: Context, params: WorkerParameters) :
+class SynchronizeWorker(
+    @ApplicationContext
+    private val appContext: Context,
+    params: WorkerParameters
+) :
     CoroutineWorker(appContext, params) {
 
     @Inject
-    lateinit var synchronizationRepository: SynchronizationRepository
+    lateinit var synchronizationRepository: TodoSynchronizationRepository
 
     override suspend fun doWork(): Result {
         return try {

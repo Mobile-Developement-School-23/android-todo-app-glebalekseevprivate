@@ -1,13 +1,13 @@
 package com.glebalekseevjk.todoapp
 
 import android.app.Application
+import android.content.Intent
 import com.glebalekseevjk.core.utils.di.DepsMap
 import com.glebalekseevjk.core.utils.di.HasDependencies
-import com.glebalekseevjk.domain.sync.SynchronizationSchedulerManager
+import com.glebalekseevjk.todo.domain.repository.TodoSynchronizationSchedulerManager
 import com.glebalekseevjk.todoapp.di.AppComponent
 import com.glebalekseevjk.todoapp.di.DaggerAppComponent
 import javax.inject.Inject
-
 
 /**
  * Этот класс символизирует период жизни приложения.
@@ -32,7 +32,7 @@ class App : Application(), HasDependencies {
     }
 
     @Inject
-    fun setupWorkers(synchronizationSchedulerManager: SynchronizationSchedulerManager) {
+    fun setupWorkers(synchronizationSchedulerManager: TodoSynchronizationSchedulerManager) {
         synchronizationSchedulerManager.setupPeriodicSynchronize()
     }
 }

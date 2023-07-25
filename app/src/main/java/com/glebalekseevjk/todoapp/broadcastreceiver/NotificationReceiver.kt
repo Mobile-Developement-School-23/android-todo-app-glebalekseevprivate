@@ -12,15 +12,15 @@ import android.os.Build
 import android.util.TypedValue
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.glebalekseevjk.core.alarmscheduler.AlarmScheduler.Companion.NOTIFICATION_ID
 import com.glebalekseevjk.design.R
-import com.glebalekseevjk.domain.todoitem.entity.TodoItem
-import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.BASIC
-import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.IMPORTANT
-import com.glebalekseevjk.domain.todoitem.entity.TodoItem.Companion.Importance.LOW
-import com.glebalekseevjk.domain.todoitem.repository.EventNotificationRepository
-import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
-import com.glebalekseevjk.todoapp.MainActivity
+import com.glebalekseevjk.todo.domain.entity.TodoItem
+import com.glebalekseevjk.todo.domain.entity.TodoItem.Companion.Importance.BASIC
+import com.glebalekseevjk.todo.domain.entity.TodoItem.Companion.Importance.IMPORTANT
+import com.glebalekseevjk.todo.domain.entity.TodoItem.Companion.Importance.LOW
+import com.glebalekseevjk.todo.domain.repository.AlarmScheduler.Companion.NOTIFICATION_ID
+import com.glebalekseevjk.todo.domain.repository.TodoEventNotificationRepository
+import com.glebalekseevjk.todo.domain.repository.TodoItemRepository
+import com.glebalekseevjk.todo.todoedit.presentation.activity.TodoEditActivity
 import com.glebalekseevjk.todoapp.utils.appComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,17 +29,10 @@ import javax.inject.Inject
 import kotlin.math.absoluteValue
 import kotlin.random.Random
 
-
-fun Context.resolveArgbAttr(attr: Int): Int {
-    val typedValue = TypedValue()
-    this.theme.resolveAttribute(attr, typedValue, true)
-    return typedValue.data.absoluteValue
-}
-
 class NotificationReceiver : BroadcastReceiver() {
 
     @Inject
-    lateinit var eventNotificationRepository: EventNotificationRepository
+    lateinit var eventNotificationRepository: TodoEventNotificationRepository
 
     @Inject
     lateinit var todoItemRepository: TodoItemRepository
@@ -57,56 +50,65 @@ class NotificationReceiver : BroadcastReceiver() {
 
         CoroutineScope(Dispatchers.Default).launch {
             val eventNotification = try {
-                eventNotificationRepository.getEventNotification(eventNotificationId)
-            }catch (e: Exception){
+                eventNotificationRepository.getById(eventNotificationId)
+            } catch (e: Exception) {
                 return@launch
             }
-            val todoItem = todoItemRepository.getTodoItemByIdOrNull(eventNotification.todoId)
+            val todoItem = todoItemRepository.getByIdOrNull(eventNotification.todoItemId)
                 ?: throw NoSuchElementException("Bad todoId from eventNotification")
             val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
-                .apply {
-                    when (todoItem.importance) {
-                        LOW -> {
-                            setSmallIcon(R.drawable.low)
-                            setColor(context.resolveArgbAttr(R.attr.label_primary))
-                        }
-
-                        BASIC -> {
-                            setSmallIcon(R.drawable.green_check)
-                            setColor(context.resolveArgbAttr(R.attr.label_primary))
-                        }
-
-                        IMPORTANT -> {
-                            setSmallIcon(R.drawable.important)
-                            setColor(context.resolveArgbAttr(R.attr.color_red))
-                        }
-                    }
-                }
+                .configureIcon(todoItem, context)
                 .setChannelId(CHANNEL_ID)
-                .setContentTitle(
-                    "Дедлайн по делу: ${
-                        todoItem.text.substring(
-                            0,
-                            minOf(todoItem.text.length, 10)
-                        )
-                    }..."
-                )
+                .setContentTitle(context.getPreviewText(todoItem.text))
                 .setContentText(todoItem.text)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .addAction(context.getAsideADayReceiverAction(todoItem))
-                .setContentIntent(context.getMainActivityPendingIntentWithEditFragment(todoItem))
+                .setContentIntent(context.getTodoEditActivityPendingIntentWithEditFragment(todoItem))
 
             val notificationManager =
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Канал уведомлений о дедлайне",
+                context.resources.getString(R.string.deadline_notification_channel),
                 NotificationManager.IMPORTANCE_HIGH
             )
             channel.enableLights(true)
             notificationManager.createNotificationChannel(channel)
-            notificationManager.notify(Random(System.currentTimeMillis()).nextInt(), mBuilder.build())
+            notificationManager.notify(
+                Random(System.currentTimeMillis()).nextInt(),
+                mBuilder.build()
+            )
         }
+    }
+
+    private fun NotificationCompat.Builder.configureIcon(todoItem: TodoItem, context: Context) =
+        apply {
+            when (todoItem.importance) {
+                LOW -> {
+                    setSmallIcon(R.drawable.low)
+                    color = context.resolveArgbAttr(R.attr.label_primary)
+                }
+
+                BASIC -> {
+                    setSmallIcon(R.drawable.green_check)
+                    color = context.resolveArgbAttr(R.attr.label_primary)
+                }
+
+                IMPORTANT -> {
+                    setSmallIcon(R.drawable.important)
+                    color = context.resolveArgbAttr(R.attr.color_red)
+                }
+            }
+        }
+
+    private fun Context.getPreviewText(text: String): String {
+        val shortText = text.substring(
+            0,
+            minOf(text.length, 10)
+        )
+        val newValue =
+            resources.getString(R.string.deadline_notification).let { String.format(it, shortText) }
+        return if (shortText.length > 10) "$newValue..." else newValue
     }
 
     private fun Context.getAsideADayReceiverAction(todoItem: TodoItem): NotificationCompat.Action {
@@ -121,14 +123,14 @@ class NotificationReceiver : BroadcastReceiver() {
         )
 
         return NotificationCompat.Action.Builder(
-            com.glebalekseevjk.feature.todoitem.R.drawable.blue_rounded_corners,
-            "Отложить на день",
+            R.drawable.blue_rounded_corners,
+            resources.getString(R.string.postpone_for_a_day),
             pendingIntent
         ).build()
     }
 
-    private fun Context.getMainActivityPendingIntentWithEditFragment(todoItem: TodoItem): PendingIntent {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun Context.getTodoEditActivityPendingIntentWithEditFragment(todoItem: TodoItem): PendingIntent {
+        val intent = Intent(this, TodoEditActivity::class.java)
         intent.putExtra(TODOITEM_ID, todoItem.id)
         return PendingIntent.getActivity(
             this,
@@ -143,4 +145,10 @@ class NotificationReceiver : BroadcastReceiver() {
         const val CHANNEL_ID = "com.glebalekseevjk.todoapp.event"
         const val TODOITEM_ID = "todoitem_id"
     }
+}
+
+fun Context.resolveArgbAttr(attr: Int): Int {
+    val typedValue = TypedValue()
+    this.theme.resolveAttribute(attr, typedValue, true)
+    return typedValue.data.absoluteValue
 }

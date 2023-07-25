@@ -3,7 +3,7 @@ package com.glebalekseevjk.todoapp.broadcastreceiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.glebalekseevjk.domain.todoitem.repository.TodoItemRepository
+import com.glebalekseevjk.todo.domain.repository.TodoItemRepository
 import com.glebalekseevjk.todoapp.broadcastreceiver.NotificationReceiver.Companion.TODOITEM_ID
 import com.glebalekseevjk.todoapp.utils.appComponent
 import kotlinx.coroutines.CoroutineScope
@@ -23,9 +23,9 @@ class SetAsideADayReceiver : BroadcastReceiver() {
         val todoItemId = intent.getStringExtra(TODOITEM_ID)
         todoItemId ?: throw NoSuchElementException("Bad todoItemId from extra")
         CoroutineScope(Dispatchers.Default).launch {
-            val todoItem = todoItemRepository.getTodoItemByIdOrNull(todoItemId)
+            val todoItem = todoItemRepository.getByIdOrNull(todoItemId)
             todoItem ?: throw NoSuchElementException()
-            todoItemRepository.updateTodoItem(
+            todoItemRepository.update(
                 todoItem.copy(
                     deadline = todoItem.deadline.let {
                         val calendar = Calendar.getInstance()

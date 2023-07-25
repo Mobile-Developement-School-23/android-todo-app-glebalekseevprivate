@@ -2,13 +2,13 @@ package com.glebalekseevjk.todoapp.di.module
 
 import android.content.Context
 import android.content.Intent
+import com.glebalekseevjk.auth.domain.di.PlayIntent
+import com.glebalekseevjk.auth.presentation.di.AuthDependencies
 import com.glebalekseevjk.core.utils.di.ApplicationContext
-import com.glebalekseevjk.todoapp.MainActivity
-import com.glebalekseevjk.todoapp.di.AppComponent
 import com.glebalekseevjk.core.utils.di.Dependencies
 import com.glebalekseevjk.core.utils.di.DependenciesKey
-import com.glebalekseevjk.feature.auth.di.AuthDependencies
-import com.glebalekseevjk.feature.auth.di.PlayIntent
+import com.glebalekseevjk.todoapp.MainActivity
+import com.glebalekseevjk.todoapp.di.AppComponent
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
