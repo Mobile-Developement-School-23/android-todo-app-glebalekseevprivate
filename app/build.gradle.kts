@@ -5,6 +5,25 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safe.args)
     alias(libs.plugins.kotlin.kapt)
+    id("upload-to-telegram-plugin")
+}
+
+uploadToTelegramConfig {
+    val localPropertiesFile = rootProject.file("local.properties")
+    val localProperties = Properties()
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+
+    isValidateApkSizeEnabled = true
+    isAPKAnalysisEnabled = true
+    maxApkSize = 13*1024
+
+    telegramBotToken = localProperties.getProperty("telegram_bot_token", "")
+    proxyHost = localProperties.getProperty("proxy_host", "")
+    proxyPort = localProperties.getProperty("proxy_port", "").toInt()
+    proxyLogin = localProperties.getProperty("proxy_login", "")
+    proxyPassword = localProperties.getProperty("proxy_password", "")
 }
 
 android {

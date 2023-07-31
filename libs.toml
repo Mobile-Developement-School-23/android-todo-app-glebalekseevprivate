@@ -21,6 +21,9 @@ coordinatorlayout = "1.2.0"
 kotlin = "1.8.20"
 agp = "8.0.2"
 
+ktor = "2.2.3"
+coroutines = "1.7.2"
+
 [libraries]
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
 dagger_compiler = { group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger" }
@@ -56,6 +59,15 @@ coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorl
 kotlin_gradle_plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 agp = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 data_binding = { group = "androidx.databinding", name = "viewbinding", version.ref = "agp" }
+
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core-jvm", version.ref = "coroutines" }
+
+[bundles]
+ktor = ["ktor-okhttp", "ktor-negotiation", "ktor-serialization", "ktor-logging"]
 
 [plugins]
 kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
